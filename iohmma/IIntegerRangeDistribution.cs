@@ -1,5 +1,5 @@
 //
-//  IFiniteDistribution.cs
+//  IIntegerRangeDistribution.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -20,9 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace iohmma {
 	/// <summary>
-	/// An interface specifying a distribution that has a finite set of possible states.
+	/// An interface describing a distribution over a finite set of integers.
 	/// </summary>
-	/// <typeparam name='TData'>The data on which the distribution is spanned.</typeparam>
-	public interface IFiniteDistribution<TData> : IDistribution<TData>, IFinite<TData> {
+	public interface IIntegerRangeDistribution : IFiniteDistribution<int>, IRange<int> {
 	}
 }
