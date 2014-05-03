@@ -36,6 +36,7 @@
     <Compile Include="IIohmm.cs" />
     <Compile Include="IMealyIohmm.cs" />
     <Compile Include="IMooreIohmm.cs" />
+    <Compile Include="IDistribution.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
