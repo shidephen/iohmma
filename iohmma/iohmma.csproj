@@ -41,6 +41,8 @@
     <Compile Include="IFinite.cs" />
     <Compile Include="IIntegerRangeDistribution.cs" />
     <Compile Include="IRange.cs" />
+    <Compile Include="IntegerRangeDistribution.cs" />
+    <Compile Include="ITransitionDistribution.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
