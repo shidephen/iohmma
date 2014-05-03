@@ -44,6 +44,7 @@
     <Compile Include="IRange.cs" />
     <Compile Include="IntegerRangeDistribution.cs" />
     <Compile Include="ITransitionDistribution.cs" />
+    <Compile Include="StaticRandom.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

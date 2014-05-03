@@ -1,5 +1,5 @@
 //
-//  IMooreIohmm.cs
+//  StaticRandom.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -22,10 +22,19 @@ using System;
 
 namespace iohmma {
 	/// <summary>
-	/// An interface specifying an <see cref="T:IIohmm`2"/> using the Moore flavor.
+	/// A utility class to generate random numbers.
 	/// </summary>
-	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
-	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
-	public interface IMooreIohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
+	public static class StaticRandom {
+
+		private static readonly Random random = new Random ();
+
+		/// <summary>
+		/// Generate a next random value between zero (inclusive) and one (exclusive).
+		/// </summary>
+		/// <returns>The next random value.</returns>
+		public static double NextDouble () {
+			return random.NextDouble ();
+		}
 	}
 }
+

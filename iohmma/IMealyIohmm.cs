@@ -22,7 +22,7 @@ using System;
 
 namespace iohmma {
 	/// <summary>
-	/// An interface of a <see cref="IIohmm"/> using the Mealy flavor.
+	/// An interface of a <see cref="T:IIohmm`2"/> using the Mealy flavor.
 	/// </summary>
 	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>

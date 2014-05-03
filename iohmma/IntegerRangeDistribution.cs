@@ -131,7 +131,13 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
 		public int Sample () {
-			throw new NotImplementedException ();
+			double[] cp = this.cprobs;
+			double x = StaticRandom.NextDouble ();
+			int value = Array.BinarySearch (cp, x);
+			if (value < 0x00) {
+				value = ~value;
+			}
+			return value;
 		}
 
 		/// <summary>
