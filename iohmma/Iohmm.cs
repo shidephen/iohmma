@@ -23,11 +23,11 @@ using System.Collections.Generic;
 
 namespace iohmma {
 	/// <summary>
-	/// A basic implementation of the <see cref="IIohmm"/> interface that represents an Input-Output Hidden Markov Model (IOHMM).
+	/// A basic implementation of the <see cref="T:IIohmm`2"/> interface that represents an Input-Output Hidden Markov Model (IOHMM).
 	/// </summary>
 	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
-	public class Iohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
+	public abstract class Iohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
 
 		private readonly double[] pi;
 		#region IIohmm implementation
@@ -50,14 +50,14 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		public Iohmm (int numberOfHiddenStates) {
+		protected Iohmm (int numberOfHiddenStates) {
 			if (numberOfHiddenStates <= 0x00) {
 				throw new ArgumentException ("The number of hidden states must be greater than zero.");
 			}
 			double[] ps = new double[numberOfHiddenStates];
-			double pi = 1.0d / numberOfHiddenStates;
+			double psi = 1.0d / numberOfHiddenStates;
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
-				ps [i] = pi;
+				ps [i] = psi;
 			}
 			this.pi = ps;
 		}
@@ -74,25 +74,45 @@ namespace iohmma {
 			return this.pi [index];
 		}
 
-		public double GetA (TInput input, int statei, int statej) {
-			throw new NotImplementedException ();
-		}
+		/// <summary>
+		/// Gets the probability of migrating from state <paramref name="statei"/> to <paramref name="statej"/> given
+		/// the <paramref name="input"/>.
+		/// </summary>
+		/// <returns>The probability of the transition from the first index to the second given the index.</returns>
+		/// <param name="input">The given input for the transition.</param>
+		/// <param name="statei">The origin hidden state.</param>
+		/// <param name="statej">The target hidden state.</param>
+		public abstract double GetA (TInput input, int statei, int statej);
 
-		public double GetB (TInput input, int state, TOutput output) {
-			throw new NotImplementedException ();
-		}
+		/// <summary>
+		/// Gets the probability of exhaust of <paramref name="output"/> given <paramref name="input"/> and
+		/// current <paramref name="state"/>
+		/// </summary>
+		/// <returns>The probability of the output given the input and state.</returns>
+		/// <param name="input">The input for this time stamp.</param>
+		/// <param name="state">The current state of the hidden Markov model.</param>
+		/// <param name="output">The assumed output for this time stamp.</param>
+		public abstract double GetB (TInput input, int state, TOutput output);
 
-		public double Probability (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
-			throw new NotImplementedException ();
-		}
+		/// <summary>
+		/// Calculates the probability of the output sequence given the input sequence for this hidden Markov model.
+		/// </summary>
+		/// <returns>The probability of the sequence of outputs given the sequence of inputs.</returns>
+		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
+		public abstract double Probability (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
 
-		public void Train (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
-			throw new NotImplementedException ();
-		}
+		/// <summary>
+		/// Train this hidden Markov model with the given sequence of inputs and outputs.
+		/// </summary>
+		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
+		public abstract void Train (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
 
-		public IEnumerable<int> MostLikelyHiddenStateSequence (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
-			throw new NotImplementedException ();
-		}
+		/// <summary>
+		/// Returns the most likely sequence of the hidden state of sequences for the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>The most likely sequence of hidden states.</returns>
+		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
+		public abstract IEnumerable<int> MostLikelyHiddenStateSequence (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
 		#endregion
 	}
 }

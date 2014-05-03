@@ -22,6 +22,7 @@ namespace iohmma {
 	/// <summary>
 	/// An interface that specifies a distribution for state transitions depending on an input.
 	/// </summary>
-	public interface ITransitionDistribution {
+	/// <typeparam name='TData'>The type of data on which the transition distribution depends.</typeparam>
+	public interface ITransitionDistribution<TData> {
 	}
 }
