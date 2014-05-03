@@ -25,6 +25,10 @@ namespace iohmma {
 	/// <summary>
 	/// An implementation of the <see cref="IIntegerRangeDistribution"/> interface.
 	/// </summary>
+	/// <remarks>
+	/// <para>The implementation uses cummulative probability to make the <see cref="Sample"/> method faster.
+	/// Updating probabilities requires linear time.</para>
+	/// </remarks>
 	public class IntegerRangeDistribution : IIntegerRangeDistribution {
 
 		private readonly double[] cprobs;
@@ -52,6 +56,7 @@ namespace iohmma {
 			get;
 			private set;
 		}
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeDistribution"/> class with a given upper bound for the integer range.
@@ -108,22 +113,33 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The probability density of the given element.</returns>
 		/// <param name="x">The given element to compute the probability density from.</param>
+		/// <exception cref="ArgumentException">If the given <paramref name="x"/> is not in the integer range.</exception>
 		public double GetPdf (int x) {
-			int low = this.Lower;
-			if (x == low) {
-
+			int index = x - this.Lower;
+			double[] cp = this.cprobs;
+			if (index == 0x00) {
+				return cp [0x00];
+			} else if (index > 0x00 && index < this.cprobs.Length) {
+				return cp [index] - cp [index - 0x01];
+			} else {
+				throw new ArgumentException ("The given value is not within the range.");
 			}
-			return this.cprobs [x - this.Lower];
 		}
 
+		/// <summary>
+		/// Generate a random element based on the density of the distribution.
+		/// </summary>
+		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
 		public int Sample () {
 			throw new NotImplementedException ();
 		}
 
+		/// <summary>
+		/// Fit the distribution using the data and their frequency.
+		/// </summary>
 		public void Fit () {
 			throw new NotImplementedException ();
 		}
-		#endregion
 		#endregion
 	}
 }
