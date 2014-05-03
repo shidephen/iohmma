@@ -24,7 +24,9 @@ namespace iohmma {
 	/// <summary>
 	/// An interface specifying an Input-output Hidden Markov Model (IOHMM).
 	/// </summary>
-	public interface IIohmm {
+	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
+	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
+	public interface IIohmm<TInput,TOutput> {
 
 	}
 }

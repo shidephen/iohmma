@@ -1,5 +1,5 @@
 //
-//  IMealyIohmm.cs
+//  IMooreIohmm.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -22,10 +22,10 @@ using System;
 
 namespace iohmma {
 	/// <summary>
-	/// An interface of a <see cref="IIohmm"/> using the Mealy flavor.
+	/// An interface specifying an <see cref="IIohmm"/> using the Moore flavor.
 	/// </summary>
 	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
-	public interface IMealyIohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
+	public interface IMooreIohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
 	}
 }
