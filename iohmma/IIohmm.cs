@@ -33,6 +33,9 @@ namespace iohmma {
 		/// Gets the number of hidden states.
 		/// </summary>
 		/// <value>The number of hidden states.</value>
+		/// <remarks>
+		/// <para>The number of hidden states is always larger than zero.</para>
+		/// </remarks>
 		int NumberOfHiddenStates {
 			get;
 		}
@@ -42,6 +45,8 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The initial distribution for the given index of the hidden states.</returns>
 		/// <param name="index">The given state index.</param>
+		/// <exception cref="IndexOutOfRangeException">If the given index is smaller than zero (<c>0</c>).</exception>
+		/// <exception cref="IndexOutOfRangeException">If the given index is larger than or equal to the number of hidden states (<see cref="NumberOfHiddenStates"/>).</exception>
 		double GetPi (int index);
 
 		/// <summary>

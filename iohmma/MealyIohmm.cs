@@ -25,6 +25,8 @@ namespace iohmma {
 	/// An implementation of the <see cref="T:IMealyIohmm`2"/> interface. A hidden Markov model using the
 	/// Mealy flavor.
 	/// </summary>
-	public class MealyIohmm<TInput,TOutput> : IMealyIohmm<TInput,TOutput> {
+	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
+	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
+	public class MealyIohmm<TInput,TOutput> {
 	}
 }
