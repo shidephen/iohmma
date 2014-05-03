@@ -18,12 +18,14 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+
 namespace iohmma {
 	/// <summary>
 	/// An interface that specifies a distribution for state transitions depending on an input.
 	/// </summary>
 	/// <typeparam name='TData'>The type of data on which the transition distribution depends.</typeparam>
-	public interface ITransitionDistribution<TData> : IHiddenStates {
+	public interface ITransitionDistribution<TData> : IHiddenStates, IDistribution<Tuple<TData,int>> {
 
 		/// <summary>
 		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
