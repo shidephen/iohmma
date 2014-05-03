@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
 
 namespace iohmma {
 	/// <summary>
@@ -49,5 +50,25 @@ namespace iohmma {
 		/// <returns>The initial distribution for the given index of the hidden states.</returns>
 		/// <param name="index">The given state index.</param>
 		double GetPi (int index);
+
+		/// <summary>
+		/// Calculates the probability of the output sequence given the input sequence for this hidden Markov model.
+		/// </summary>
+		/// <returns>The probability of the sequence of outputs given the sequence of inputs.</returns>
+		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
+		double Probability (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
+
+		/// <summary>
+		/// Train this hidden Markov model with the given sequence of inputs and outputs.
+		/// </summary>
+		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
+		void Train (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
+
+		/// <summary>
+		/// Returns the most likely sequence of the hidden state of sequences for the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>The most likely sequence of hidden states.</returns>
+		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
+		IEnumerable<int> MostLikelyHiddenStateSequence (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
 	}
 }
