@@ -27,7 +27,67 @@ namespace iohmma {
 	/// </summary>
 	public class IntegerRangeDistribution : IIntegerRangeDistribution {
 
-		private double[] cprobs;
+		private readonly double[] cprobs;
+		#region IRange implementation
+		/// <summary>
+		/// Gets the lower value of the <see cref="T:IRange`1"/>.
+		/// </summary>
+		/// <value>The lower bound on the range.</value>
+		/// <remarks>
+		/// <para>The lower bound must be less than or equal to the <see cref="Upper"/> bound.</para>
+		/// </remarks>
+		public int Lower {
+			get;
+			private set;
+		}
+
+		/// <summary>
+		/// Gets the upper value of the <see cref="T:IRange`1"/>.
+		/// </summary>
+		/// <value>The upper bound on the range.</value>
+		/// <remarks>
+		/// <para>The upper bound must be greater than or equal to the <see cref="Lower"/> bound.</para>
+		/// </remarks>
+		public int Upper {
+			get;
+			private set;
+		}
+		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeDistribution"/> class with a given upper bound for the integer range.
+		/// </summary>
+		/// <param name="upper">The given upper bound for the integer range.</param>
+		/// <exception cref="ArgumentException">If the <paramref name="upper"/> bound is less than one.</exception>
+		/// <remarks>
+		/// <para>The lower bound of the integer range is set to one (<c>1</c>).</para>
+		/// </remarks>
+		public IntegerRangeDistribution (int upper) : this(0x01,upper) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeDistribution"/> class with a given
+		/// lower and upper bound for the integer range.
+		/// </summary>
+		/// <param name="lower">The given lower bound for the integer range.</param>
+		/// <param name="upper">The given upper bound for the integer range.</param>
+		/// <exception cref="ArgumentException">If <paramref name="lower"/> is greater than <paramref name="upper"/>.</exception>
+		public IntegerRangeDistribution (int lower, int upper) {
+			this.Lower = lower;
+			this.Upper = upper;
+			int n = upper - lower + 0x01;
+			if (n <= 0x00) {
+				throw new ArgumentException ("The upper bound must be larger than or equal to the lower bound.");
+			}
+			double[] cp = new double[n];
+			double pi = 1.0d / n;
+			double p = pi;
+			for (int i = 0x00; i < n; i++) {
+				cp [i] = p;
+				p += pi;
+			}
+			this.cprobs = cp;
+		}
+		#endregion
 		#region IFinite implementation
 		/// <summary>
 		/// Enumerates all the elements of this instance.
@@ -64,16 +124,6 @@ namespace iohmma {
 			throw new NotImplementedException ();
 		}
 		#endregion
-		#region IRange implementation
-		public int Lower {
-			get;
-			private set;
-		}
-
-		public int Upper {
-			get;
-			private set;
-		}
 		#endregion
 	}
 }
