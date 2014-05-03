@@ -137,7 +137,7 @@ namespace iohmma {
 			if (value < 0x00) {
 				value = ~value;
 			}
-			return value;
+			return value + this.Lower;
 		}
 
 		/// <summary>
