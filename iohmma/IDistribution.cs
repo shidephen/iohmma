@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
 
 namespace iohmma {
 	/// <summary>
@@ -49,6 +50,12 @@ namespace iohmma {
 		/// <summary>
 		/// Fit the distribution using the data and their frequency.
 		/// </summary>
-		void Fit ();
+		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
+		/// <param name="fitting">The fitting coefficient.</param>
+		/// <remarks>
+		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
+		/// If zero, only the old data.</para>
+		/// </remarks>
+		void Fit (IEnumerable<Tuple<TData,double>> probabilities, double fitting = 1.0d);
 	}
 }

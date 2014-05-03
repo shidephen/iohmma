@@ -143,7 +143,13 @@ namespace iohmma {
 		/// <summary>
 		/// Fit the distribution using the data and their frequency.
 		/// </summary>
-		public void Fit () {
+		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
+		/// <param name="fitting">The fitting coefficient.</param>
+		/// <remarks>
+		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
+		/// If zero, only the old data.</para>
+		/// </remarks>
+		public void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {
 			throw new NotImplementedException ();
 		}
 		#endregion
