@@ -1,5 +1,5 @@
 //
-//  ITransitionDistribution.cs
+//  IHiddenStates.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -18,19 +18,23 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
+
 namespace iohmma {
 	/// <summary>
-	/// An interface that specifies a distribution for state transitions depending on an input.
+	/// An interface that specifies that the instance stores or uses hidden states.
 	/// </summary>
-	/// <typeparam name='TData'>The type of data on which the transition distribution depends.</typeparam>
-	public interface ITransitionDistribution<TData> : IHiddenStates {
+	public interface IHiddenStates {
 
 		/// <summary>
-		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
+		/// Gets the number of hidden states.
 		/// </summary>
-		/// <returns>The probability density function for the given input and the given output state.</returns>
-		/// <param name="input">The given input to calculate the probability for.</param>
-		/// <param name="state">The given output state to calculate the probability for.</param>
-		double GetPdf (TData input, int state);
+		/// <value>The number of hidden states.</value>
+		/// <remarks>
+		/// <para>The number of hidden states is always larger than zero.</para>
+		/// </remarks>
+		int NumberOfHiddenStates {
+			get;
+		}
 	}
 }

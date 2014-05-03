@@ -27,18 +27,7 @@ namespace iohmma {
 	/// </summary>
 	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
-	public interface IIohmm<TInput,TOutput> {
-
-		/// <summary>
-		/// Gets the number of hidden states.
-		/// </summary>
-		/// <value>The number of hidden states.</value>
-		/// <remarks>
-		/// <para>The number of hidden states is always larger than zero.</para>
-		/// </remarks>
-		int NumberOfHiddenStates {
-			get;
-		}
+	public interface IIohmm<TInput,TOutput> : IHiddenStates {
 
 		/// <summary>
 		/// Gets the initial state distribution of the given state index.

@@ -47,6 +47,7 @@
     <Compile Include="StaticRandom.cs" />
     <Compile Include="MealyIohmm.cs" />
     <Compile Include="Iohmm.cs" />
+    <Compile Include="IHiddenStates.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
