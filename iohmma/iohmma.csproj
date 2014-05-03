@@ -37,6 +37,8 @@
     <Compile Include="IMealyIohmm.cs" />
     <Compile Include="IMooreIohmm.cs" />
     <Compile Include="IDistribution.cs" />
+    <Compile Include="IFiniteDistribution.cs" />
+    <Compile Include="IFinite.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
