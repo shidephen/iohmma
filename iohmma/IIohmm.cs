@@ -52,6 +52,26 @@ namespace iohmma {
 		double GetPi (int index);
 
 		/// <summary>
+		/// Gets the probability of migrating from state <paramref name="statei"/> to <paramref name="statej"/> given
+		/// the <paramref name="input"/>.
+		/// </summary>
+		/// <returns>The probability of the transition from the first index to the second given the index.</returns>
+		/// <param name="input">The given input for the transition.</param>
+		/// <param name="statei">The origin hidden state.</param>
+		/// <param name="statej">The target hidden state.</param>
+		double GetA (TInput input, int statei, int statej);
+
+		/// <summary>
+		/// Gets the probability of exhaust of <paramref name="output"/> given <paramref name="input"/> and
+		/// current <paramref name="state"/>
+		/// </summary>
+		/// <returns>The probability of the output given the input and state.</returns>
+		/// <param name="input">The input for this time stamp.</param>
+		/// <param name="state">The current state of the hidden Markov model.</param>
+		/// <param name="output">The assumed output for this time stamp.</param>
+		double GetB (TInput input, int state, TOutput output);
+
+		/// <summary>
 		/// Calculates the probability of the output sequence given the input sequence for this hidden Markov model.
 		/// </summary>
 		/// <returns>The probability of the sequence of outputs given the sequence of inputs.</returns>
