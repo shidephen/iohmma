@@ -27,7 +27,7 @@ namespace iohmma {
 	/// </summary>
 	public class IntegerRangeTransitionDistribution : TransitionDistribution<int>, IRange<int> {
 
-		private readonly double[,] probabilities;
+		private readonly IntegerRangeDistribution[] probabilities;
 		#region IRange implementation
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
@@ -99,14 +99,9 @@ namespace iohmma {
 			this.Upper = upper;
 			int m = upper - lower + 0x01;
 			int n = numberOfHiddenStates - 0x01;
-			double[,] ps = new double[m, n];
-			double pi = 1.0d / numberOfHiddenStates, p;
+			IntegerRangeDistribution[] ps = new IntegerRangeDistribution[m];
 			for (int i = 0x00; i < m; i++) {
-				p = pi;
-				for (int j = 0x00; j < n; j++) {
-					ps [i, j] = p;
-					p += pi;
-				}
+				ps [i] = new IntegerRangeDistribution (0x00, n);
 			}
 			this.probabilities = ps;
 		}
@@ -122,17 +117,10 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the given state is smaller than zero.</exception>
 		/// <exception cref="ArgumentException">If the given state is larger or equal to the number of hidden states.</exception>
 		public override double GetPdf (int input, int state) {
-			int i = input - this.Lower;
-			double[,] cp = this.probabilities;
-			int cpn = this.cprobs.Length;
-			if (index == 0x00) {
-				return cp [0x00];
-			} else if (index > 0x00 && index < cpn) {
-				return cp [index] - cp [index - 0x01];
-			} else if (index == cpn) {
-				return 1.0d - cp [index - 0x01];
-			} else {
-				throw new ArgumentException ("The given value is not within the range.");
+			int x = input - this.Lower;
+			IntegerRangeDistribution[] ps = this.probabilities;
+			if (x >= 0x00 && x < ps.Length) {
+				return ps [x].GetPdf (state);
 			}
 		}
 
