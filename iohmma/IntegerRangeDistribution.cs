@@ -114,6 +114,10 @@ namespace iohmma {
 		/// <returns>The probability density of the given element.</returns>
 		/// <param name="x">The given element to compute the probability density from.</param>
 		/// <exception cref="ArgumentException">If the given <paramref name="x"/> is not in the integer range.</exception>
+		/// <remarks>
+		/// <para>The probability density function of any element must always be larger than or equal to zero.</para>
+		/// <para>The sum of the probability densities of the range is equal to one.</para>
+		/// </remarks>
 		public double GetPdf (int x) {
 			int index = x - this.Lower;
 			double[] cp = this.cprobs;
