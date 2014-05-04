@@ -79,12 +79,12 @@ namespace iohmma {
 		public IntegerRangeDistribution (int lower, int upper) {
 			this.Lower = lower;
 			this.Upper = upper;
-			int n = upper - lower + 0x01;
-			if (n <= 0x00) {
+			int n = upper - lower;
+			if (n < 0x00) {
 				throw new ArgumentException ("The upper bound must be larger than or equal to the lower bound.");
 			}
 			double[] cp = new double[n];
-			double pi = 1.0d / n;
+			double pi = 1.0d / (n + 0x01);
 			double p = pi;
 			for (int i = 0x00; i < n; i++) {
 				cp [i] = p;
@@ -117,10 +117,13 @@ namespace iohmma {
 		public double GetPdf (int x) {
 			int index = x - this.Lower;
 			double[] cp = this.cprobs;
+			int cpn = this.cprobs.Length;
 			if (index == 0x00) {
 				return cp [0x00];
-			} else if (index > 0x00 && index < this.cprobs.Length) {
+			} else if (index > 0x00 && index < cpn) {
 				return cp [index] - cp [index - 0x01];
+			} else if (index == cpn) {
+				return 1.0d - cp [index - 0x01];
 			} else {
 				throw new ArgumentException ("The given value is not within the range.");
 			}
