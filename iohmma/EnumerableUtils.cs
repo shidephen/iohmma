@@ -27,8 +27,26 @@ namespace iohmma {
 	/// </summary>
 	public static class EnumerableUtils {
 
+		/// <summary>
+		/// Generate an infinite list by repeating the given least infinitely.
+		/// </summary>
+		/// <returns>An infinite <see cref="T:IEnumerable`1"/> that repeats all the elements in the given source.</returns>
+		/// <param name="source">The given list of items.</param>
+		/// <typeparam name="TItem">The type of items that will be enumerated.</typeparam>
+		/// <remarks>
+		/// <para>If the given source is empty, the result is empty as well. The system does not go into an infinite loop.</para>
+		/// </remarks>
 		public static IEnumerable<TItem> Cycle<TItem> (this IEnumerable<TItem> source) {
-
+			while (true) {
+				bool terminate = true;
+				foreach (TItem item in source) {
+					yield return item;
+					terminate = false;
+				}
+				if (terminate) {
+					yield break;
+				}
+			}
 		}
 	}
 }
