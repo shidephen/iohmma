@@ -121,6 +121,8 @@ namespace iohmma {
 			IntegerRangeDistribution[] ps = this.probabilities;
 			if (x >= 0x00 && x < ps.Length) {
 				return ps [x].GetPdf (state);
+			} else {
+				throw new ArgumentException ("The given input is not within range.");
 			}
 		}
 
