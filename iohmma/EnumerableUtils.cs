@@ -26,6 +26,10 @@ namespace iohmma {
 	/// A utility funcation for <see cref="T:IEnumerable`1"/> lists.
 	/// </summary>
 	public static class EnumerableUtils {
+
+		public static IEnumerable<TItem> Cycle<TItem> (this IEnumerable<TItem> source) {
+
+		}
 	}
 }
 
