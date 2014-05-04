@@ -65,10 +65,40 @@ namespace iohmma {
 		}
 		#endregion
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeTransitionDistribution"/> class with a given upper bound
+		/// for the input and the number of hidden states of the hidden Markov model.
+		/// </summary>
+		/// <param name="upper">The upper bound on the input.</param>
+		/// <param name="numberOfHiddenStates">The number of hidden states involved.</param>
+		/// <exception cref="ArgumentException">If <paramref name="upper"/> is less than or equal to one (<c>1</c>).</exception>
+		/// <exception cref="ArgumentException">If the number of hidden states is less than or equal to zero (<c>0</c>).</exception>
+		/// <remarks>
+		/// <para>The lower bound is set to one (<c>1</c>).</para>
+		/// </remarks>
 		public IntegerRangeTransitionDistribution (int upper, int numberOfHiddenStates) : this(0x01,upper,numberOfHiddenStates) {
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeTransitionDistribution"/> class with a given lower and
+		/// upper bound on the input and the number of hidden states of the hidden Markov model.
+		/// </summary>
+		/// <param name="lower">The lower bound on the input.</param>
+		/// <param name="upper">The upper bound on the input.</param>
+		/// <param name="numberOfHiddenStates">The number of hidden states involved.</param>
+		/// <exception cref="ArgumentException">If <paramref name="lower"/> is greater than <paramref name="upper"/>.</exception>
+		/// <exception cref="ArgumentException">If the number of hidden states is less than or equal to zero (<c>0</c>).</exception>
 		public IntegerRangeTransitionDistribution (int lower, int upper, int numberOfHiddenStates) {
+			if (lower > upper) {
+				throw new ArgumentException ("The lower bound must be less than or equal to the upper bound.");
+			}
+			if (numberOfHiddenStates <= 0x00) {
+				throw new ArgumentException ("The number of hidden states must be larger than zero.");
+			}
+			this.Lower = lower;
+			this.Upper = upper;
+			int m = upper - lower + 0x01;
+			double[,] ps = new double[m,numberOfHiddenStates];
 		}
 		#endregion
 		#region implemented abstract members of TransitionDistribution
