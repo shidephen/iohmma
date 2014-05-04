@@ -51,6 +51,7 @@
     <Compile Include="TransitionDistribution.cs" />
     <Compile Include="IntegerRangeTransitionDistribution.cs" />
     <Compile Include="TupleUtils.cs" />
+    <Compile Include="EnumerableUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
