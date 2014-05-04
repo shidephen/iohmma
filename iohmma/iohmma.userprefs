@@ -1,12 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="IntegerRangeTransitionDistribution.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MealyIohmm.cs">
     <Files>
-      <File FileName="IntegerRangeTransitionDistribution.cs" Line="133" Column="37" />
-      <File FileName="IRange.cs" Line="30" Column="3" />
-      <File FileName="ITransitionDistribution.cs" Line="42" Column="112" />
-      <File FileName="IntegerRangeDistribution.cs" Line="120" Column="16" />
-      <File FileName="TransitionDistribution.cs" Line="70" Column="46" />
+      <File FileName="MealyIohmm.cs" Line="41" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
