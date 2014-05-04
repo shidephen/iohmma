@@ -24,6 +24,9 @@ namespace iohmma {
 	/// <summary>
 	/// An interface that specifies that the instance stores or uses hidden states.
 	/// </summary>
+	/// <remarks>
+	/// <para>By contract, the number of hidden states cannot change after construction.</para>
+	/// </remarks>
 	public interface IHiddenStates {
 
 		/// <summary>
