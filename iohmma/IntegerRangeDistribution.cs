@@ -79,12 +79,12 @@ namespace iohmma {
 		public IntegerRangeDistribution (int lower, int upper) {
 			this.Lower = lower;
 			this.Upper = upper;
-			int n = upper - lower + 0x01;
-			if (n <= 0x00) {
+			int n = upper - lower;
+			if (n < 0x00) {
 				throw new ArgumentException ("The upper bound must be larger than or equal to the lower bound.");
 			}
 			double[] cp = new double[n];
-			double pi = 1.0d / n;
+			double pi = 1.0d / (n + 0x01);
 			double p = pi;
 			for (int i = 0x00; i < n; i++) {
 				cp [i] = p;
@@ -114,13 +114,20 @@ namespace iohmma {
 		/// <returns>The probability density of the given element.</returns>
 		/// <param name="x">The given element to compute the probability density from.</param>
 		/// <exception cref="ArgumentException">If the given <paramref name="x"/> is not in the integer range.</exception>
+		/// <remarks>
+		/// <para>The probability density function of any element must always be larger than or equal to zero.</para>
+		/// <para>The sum of the probability densities of the range is equal to one.</para>
+		/// </remarks>
 		public double GetPdf (int x) {
 			int index = x - this.Lower;
 			double[] cp = this.cprobs;
+			int cpn = cp.Length;
 			if (index == 0x00) {
 				return cp [0x00];
-			} else if (index > 0x00 && index < this.cprobs.Length) {
+			} else if (index > 0x00 && index < cpn) {
 				return cp [index] - cp [index - 0x01];
+			} else if (index == cpn) {
+				return 1.0d - cp [index - 0x01];
 			} else {
 				throw new ArgumentException ("The given value is not within the range.");
 			}

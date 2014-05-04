@@ -39,6 +39,12 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The probability density of the given element.</returns>
 		/// <param name="x">The given element to compute the probability density from.</param>
+		/// <exception cref="ArgumentException">If the given element is not within bounds.</exception>
+		/// <remarks>
+		/// <para>The probability density function of any element must always be larger than or equal to zero.</para>
+		/// <para>In case the <typeparamref name='TData'/> is discrete, the sum of the probability densities
+		/// is equal to one. In case it is continuous, the integral of the probability density function is equal to one.</para>
+		/// </remarks>
 		double GetPdf (TData x);
 
 		/// <summary>

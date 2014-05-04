@@ -1,5 +1,5 @@
 //
-//  IMealyIohmm.cs
+//  IHiddenStates.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -22,17 +22,19 @@ using System;
 
 namespace iohmma {
 	/// <summary>
-	/// An interface of a <see cref="T:IIohmm`2"/> using the Mealy flavor.
+	/// An interface that specifies that the instance stores or uses hidden states.
 	/// </summary>
-	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
-	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
-	public interface IMealyIohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
+	public interface IHiddenStates {
 
 		/// <summary>
-		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
+		/// Gets the number of hidden states.
 		/// </summary>
-		/// <returns>The <see cref="T:ITransitionDistribution`1"/> function for the given state.</returns>
-		/// <param name="state">The given state for which the transition function must be returned.</param>
-		ITransitionDistribution<TInput> GetTransition (int state);
+		/// <value>The number of hidden states.</value>
+		/// <remarks>
+		/// <para>The number of hidden states is always larger than zero.</para>
+		/// </remarks>
+		int NumberOfHiddenStates {
+			get;
+		}
 	}
 }
