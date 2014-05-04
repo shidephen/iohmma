@@ -77,5 +77,12 @@ namespace iohmma {
 		/// <returns>The most likely sequence of hidden states.</returns>
 		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
 		IEnumerable<int> MostLikelyHiddenStateSequence (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
+
+		/// <summary>
+		/// Generate a sequence of observations based on the given sequence of <paramref name="inputs"/> and the <see cref="T:IIohm`2"/>.
+		/// </summary>
+		/// <returns>A sequence of observations based on the given input.</returns>
+		/// <param name="inputs">A <see cref="T:IEnumerable`1"/> of inputs.</param>
+		IEnumerable<TOutput> GenerateObservationSequence (IEnumerable<TInput> inputs);
 	}
 }

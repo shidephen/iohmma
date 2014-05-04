@@ -27,5 +27,19 @@ namespace iohmma {
 	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
 	public interface IMealyIohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
+
+		/// <summary>
+		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
+		/// </summary>
+		/// <returns>The <see cref="T:ITransitionDistribution`1"/> function for the given state.</returns>
+		/// <param name="state">The given state for which the transition function must be returned.</param>
+		ITransitionDistribution<TInput> GetTransition (int state);
+
+		/// <summary>
+		/// Gets the emission distribution function for the given <paramref name="state"/>.
+		/// </summary>
+		/// <returns>The <see cref="IDistribution"/>.</returns>
+		/// <param name="state">State.</param>
+		IDistribution<TOutput> GetOutput (int state);
 	}
 }

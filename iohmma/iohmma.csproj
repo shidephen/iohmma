@@ -50,6 +50,7 @@
     <Compile Include="IHiddenStates.cs" />
     <Compile Include="TransitionDistribution.cs" />
     <Compile Include="IntegerRangeTransitionDistribution.cs" />
+    <Compile Include="TupleUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

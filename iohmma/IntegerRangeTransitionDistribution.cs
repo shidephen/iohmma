@@ -139,8 +139,15 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
+		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
 		public override int Sample (int input) {
-			throw new NotImplementedException ();
+			int x = input - this.Lower;
+			IntegerRangeDistribution[] ps = this.probabilities;
+			if (x >= 0x00 && x < ps.Length) {
+				return ps [x].Sample ();
+			} else {
+				throw new ArgumentException ("The given input is not within range.");
+			}
 		}
 
 		/// <summary>

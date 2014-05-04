@@ -67,6 +67,7 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
+		/// <exception cref="ArgumentException">If the given input is not within the specified bounds.</exception>
 		public abstract TData Sample (TData input);
 
 		/// <summary>
