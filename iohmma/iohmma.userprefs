@@ -1,16 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ITransitionDistribution.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="IntegerRangeTransitionDistribution.cs">
     <Files>
-      <File FileName="IIohmm.cs" Line="29" Column="53" />
-      <File FileName="IMealyIohmm.cs" Line="29" Column="73" />
-      <File FileName="IFiniteDistribution.cs" Line="21" Column="1" />
-      <File FileName="IDistribution.cs" Line="33" Column="16" />
-      <File FileName="IFinite.cs" Line="35" Column="81" />
-      <File FileName="IIntegerRangeDistribution.cs" Line="24" Column="16" />
-      <File FileName="IRange.cs" Line="46" Column="22" />
-      <File FileName="IntegerRangeDistribution.cs" Line="33" Column="50" />
-      <File FileName="ITransitionDistribution.cs" Line="21" Column="1" />
+      <File FileName="Iohmm.cs" Line="51" Column="42" />
+      <File FileName="IIohmm.cs" Line="30" Column="57" />
+      <File FileName="MealyIohmm.cs" Line="29" Column="88" />
+      <File FileName="ITransitionDistribution.cs" Line="35" Column="91" />
+      <File FileName="IHiddenStates.cs" Line="34" Column="43" />
+      <File FileName="TransitionDistribution.cs" Line="36" Column="40" />
+      <File FileName="IDistribution.cs" Line="47" Column="109" />
+      <File FileName="IntegerRangeTransitionDistribution.cs" Line="28" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
