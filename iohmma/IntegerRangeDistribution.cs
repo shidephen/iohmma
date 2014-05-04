@@ -117,7 +117,7 @@ namespace iohmma {
 		public double GetPdf (int x) {
 			int index = x - this.Lower;
 			double[] cp = this.cprobs;
-			int cpn = this.cprobs.Length;
+			int cpn = cp.Length;
 			if (index == 0x00) {
 				return cp [0x00];
 			} else if (index > 0x00 && index < cpn) {

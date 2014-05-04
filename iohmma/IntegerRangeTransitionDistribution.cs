@@ -118,8 +118,22 @@ namespace iohmma {
 		/// <returns>The probability density function for the given input and the given output state.</returns>
 		/// <param name="input">The given input to calculate the probability for.</param>
 		/// <param name="state">The given output state to calculate the probability for.</param>
+		/// <exception cref="ArgumentException">If the given input is not withing range.</exception>
+		/// <exception cref="ArgumentException">If the given state is smaller than zero.</exception>
+		/// <exception cref="ArgumentException">If the given state is larger or equal to the number of hidden states.</exception>
 		public override double GetPdf (int input, int state) {
-			throw new NotImplementedException ();
+			int i = input - this.Lower;
+			double[,] cp = this.probabilities;
+			int cpn = this.cprobs.Length;
+			if (index == 0x00) {
+				return cp [0x00];
+			} else if (index > 0x00 && index < cpn) {
+				return cp [index] - cp [index - 0x01];
+			} else if (index == cpn) {
+				return 1.0d - cp [index - 0x01];
+			} else {
+				throw new ArgumentException ("The given value is not within the range.");
+			}
 		}
 
 		/// <summary>
@@ -127,6 +141,15 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
 		public override Tuple<int, int> Sample () {
+			throw new NotImplementedException ();
+		}
+
+		/// <summary>
+		/// Generate a random element based on the density of the distribution for the given input.
+		/// </summary>
+		/// <param name="input">The given input</param>
+		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
+		public override int Sample (int input) {
 			throw new NotImplementedException ();
 		}
 

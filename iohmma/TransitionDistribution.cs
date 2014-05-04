@@ -63,6 +63,13 @@ namespace iohmma {
 		public abstract Tuple<TData, int> Sample ();
 
 		/// <summary>
+		/// Generate a random element based on the density of the distribution for the given input.
+		/// </summary>
+		/// <param name="input">The given input</param>
+		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
+		public abstract TData Sample (TData input);
+
+		/// <summary>
 		/// Fit the distribution using the data and their frequency.
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
