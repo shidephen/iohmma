@@ -84,5 +84,28 @@ namespace iohmma {
 		/// <returns>A sequence of observations based on the given input.</returns>
 		/// <param name="inputs">A <see cref="T:IEnumerable`1"/> of inputs.</param>
 		IEnumerable<TOutput> GenerateObservationSequence (IEnumerable<TInput> inputs);
+
+		/// <summary>
+		/// Calculate the alpha values based on the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the alpha values after each stage.</returns>
+		/// <param name="inoutputs">A list of tuples containing the input and the appropriate output.</param>
+		/// <remarks>
+		/// <para>The output list is as long as the <paramref name="inoutputs"/> list.</para>
+		/// <para>The values are computed lazily, infinite sequence are possible.</para>
+		/// </remarks>
+		IEnumerable<double[]> CalculateAlphas (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
+
+		/// <summary>
+		/// Calculate the beta values based on the given reversed sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the beta values after each stage from end to begin.</returns>
+		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output, the order
+		/// is reversed: the first tuple contains the last observation.</param>
+		/// <remarks>
+		/// <para>The output list is as long as the <paramref name="reversedinoutputs"/> list.</para>
+		/// <para>The values are computed lazily, infinite sequence are possible but the values should be reversed.</para>
+		/// </remarks>
+		IEnumerable<double[]> CalculateBetasReverse (IEnumerable<Tuple<TInput,TOutput>> reversedinoutputs);
 	}
 }

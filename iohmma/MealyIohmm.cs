@@ -99,6 +99,100 @@ namespace iohmma {
 		public override IEnumerable<int> MostLikelyHiddenStateSequence (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
 			throw new NotImplementedException ();
 		}
+
+		/// <summary>
+		/// Generate a sequence of observations based on the given sequence of <paramref name="inputs"/> and the <see cref="T:IIohm`2"/>.
+		/// </summary>
+		/// <returns>A sequence of observations based on the given input.</returns>
+		/// <param name="inputs">A <see cref="T:IEnumerable`1"/> of inputs.</param>
+		public override IEnumerable<TOutput> GenerateObservationSequence (IEnumerable<TInput> inputs) {
+			throw new NotImplementedException ();
+		}
+
+		/// <summary>
+		/// Calculate the alpha values based on the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the alpha values after each stage.</returns>
+		/// <param name="inoutputs">A list of tuples containing the input and the appropriate output.</param>
+		/// <remarks>
+		/// <para>The output list is as long as the <paramref name="inoutputs"/> list.</para>
+		/// <para>The values are computed lazily, infinite sequence are possible.</para>
+		/// </remarks>
+		public override IEnumerable<double[]> CalculateAlphas (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
+			IEnumerator<Tuple<TInput,TOutput>> enumerator = inoutputs.GetEnumerator ();
+			if (enumerator.MoveNext ()) {
+				TInput xt0, xt1;
+				TOutput yt1;
+				Tuple<TInput,TOutput> cur = enumerator.Current;
+				xt1 = cur.Item1;
+				yt1 = cur.Item2;
+				int nhidden = this.NumberOfHiddenStates;
+				double[] result1 = new double[nhidden], result0;
+				for (int si = 0x00; si < nhidden; si++) {
+					result1 [si] = this.GetPi (si) * this.GetB (xt1, si, yt1);
+				}
+				yield return result1;
+				while (enumerator.MoveNext ()) {
+					cur = enumerator.Current;
+					xt0 = xt1;
+					xt1 = cur.Item1;
+					yt1 = cur.Item2;
+					result0 = result1;
+					result1 = new double[nhidden];
+					for (int sj = 0x00; sj < nhidden; sj++) {
+						double p = 0.0d;
+						for (int si = 0x00; si < nhidden; si++) {
+							p += result0 [si] * this.GetA (xt0, si, sj);
+						}
+						result1 [sj] = p * this.GetB (xt1, sj, yt1);
+					}
+					yield return result1;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Calculate the beta values based on the given reversed sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the beta values after each stage from end to begin.</returns>
+		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output, the order
+		/// is reversed: the first tuple contains the last observation.</param>
+		/// <remarks>
+		/// <para>The output list is as long as the <paramref name="reversedinoutputs"/> list.</para>
+		/// <para>The values are computed lazily, infinite sequence are possible but the values should be reversed.</para>
+		/// </remarks>
+		public override IEnumerable<double[]> CalculateBetasReverse (IEnumerable<Tuple<TInput, TOutput>> reversedinoutputs) {
+			IEnumerator<Tuple<TInput,TOutput>> reversedenumerator = reversedinoutputs.GetEnumerator ();
+			if (reversedenumerator.MoveNext ()) {
+				TInput xt0, xt1;
+				TOutput yt1;
+				Tuple<TInput,TOutput> cur = reversedenumerator.Current;
+				xt1 = cur.Item1;
+				yt1 = cur.Item2;
+				int nhidden = this.NumberOfHiddenStates;
+				double[] result1 = new double[nhidden], result0;
+				for (int si = 0x00; si < nhidden; si++) {
+					result1 [si] = this.GetPi (si) * this.GetB (xt1, si, yt1);
+				}
+				yield return result1;
+				while (enumerator.MoveNext ()) {
+					cur = enumerator.Current;
+					xt0 = xt1;
+					xt1 = cur.Item1;
+					yt1 = cur.Item2;
+					result0 = result1;
+					result1 = new double[nhidden];
+					for (int sj = 0x00; sj < nhidden; sj++) {
+						double p = 0.0d;
+						for (int si = 0x00; si < nhidden; si++) {
+							p += result0 [si] * this.GetA (xt0, si, sj);
+						}
+						result1 [sj] = p * this.GetB (xt1, sj, yt1);
+					}
+					yield return result1;
+				}
+			}
+		}
 		#endregion
 	}
 }
