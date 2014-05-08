@@ -3,9 +3,9 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="MealyIohmm.cs">
     <Files>
       <File FileName="MealyIohmm.cs" Line="179" Column="31" />
-      <File FileName="IIohmm.cs" Line="99" Column="3" />
-      <File FileName="IntegerRangeTransitionDistribution.cs" Line="131" Column="17" />
-      <File FileName="Iohmm.cs" Line="145" Column="19" />
+      <File FileName="IIohmm.cs" Line="1" Column="1" />
+      <File FileName="IntegerRangeTransitionDistribution.cs" Line="1" Column="1" />
+      <File FileName="Iohmm.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
