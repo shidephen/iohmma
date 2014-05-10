@@ -24,8 +24,9 @@ namespace iohmma {
 	/// <summary>
 	/// An interface that specifies a distribution for state transitions depending on an input.
 	/// </summary>
-	/// <typeparam name='TData'>The type of data on which the transition distribution depends.</typeparam>
-	public interface ITransitionDistribution<TData> : IHiddenStates, IDistribution<Tuple<TData,int>> {
+	/// <typeparam name='TData'>The type of input on which the transition distribution depends.</typeparam>
+	/// /// <typeparam name='TData'>The type of input on which the transition distribution depends.</typeparam>
+	public interface ITransitionDistribution<TInput,TOutput> : IDistribution<Tuple<TInput,TOutput>> {
 
 		/// <summary>
 		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
@@ -33,13 +34,13 @@ namespace iohmma {
 		/// <returns>The probability density function for the given input and the given output state.</returns>
 		/// <param name="input">The given input to calculate the probability for.</param>
 		/// <param name="state">The given output state to calculate the probability for.</param>
-		double GetPdf (TData input, int state);
+		double GetPdf (TInput input, TOutput state);
 
 		/// <summary>
 		/// Generate a random element based on the density of the distribution for the given input.
 		/// </summary>
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
-		TData Sample (TData input);
+		TOutput Sample (TInput input);
 	}
 }

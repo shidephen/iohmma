@@ -175,8 +175,8 @@ namespace iohmma {
 					result1 [si] = this.GetPi (si) * this.GetB (xt1, si, yt1);
 				}
 				yield return result1;
-				while (enumerator.MoveNext ()) {
-					cur = enumerator.Current;
+				while (reversedenumerator.MoveNext ()) {
+					cur = reversedenumerator.Current;
 					xt0 = xt1;
 					xt1 = cur.Item1;
 					yt1 = cur.Item2;
