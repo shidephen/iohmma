@@ -82,7 +82,7 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state.</returns>
 		/// <param name="state">The given state for which the transition function must be returned.</param>
-		public virtual ITransitionDistribution<TInput,int> GetTransition (int state) {
+		public ITransitionDistribution<TInput,int> GetTransition (int state) {
 			return this.transitions [state];
 		}
 
@@ -105,8 +105,8 @@ namespace iohmma {
 		/// <param name="input">The given input for the transition.</param>
 		/// <param name="statei">The origin hidden state.</param>
 		/// <param name="statej">The target hidden state.</param>
-		public virtual double GetA (TInput input, int statei, int statej) {
-			return this.GetTransition (statei).GetPdf (input, statej);
+		public double GetA (TInput input, int statei, int statej) {
+			return this.transitions [statei].GetPdf (input, statej);
 		}
 
 		/// <summary>
