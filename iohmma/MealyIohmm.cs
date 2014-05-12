@@ -100,7 +100,23 @@ namespace iohmma {
 		/// </remarks>
 		public override void Train (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double fitting = 1.0d) {
 			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
-			double[][] beta = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
+			double[][] beta = this.CalculateBetasReverse (inoutputs.Reverse ()).Reverse ().ToArray ();//TODO: increase performance
+			int T = alpha.Length;
+			int N = this.NumberOfHiddenStates;
+			double[] pi = this.Pi;
+			double sum = 0.0d;
+			for (int i = 0x00; i < N; i++) {
+				sum += alpha [0x00] [i] * beta [0x00] [i];
+			}
+			sum = 1.0d / sum;
+			for (int i = 0x00; i < N; i++) {
+				sum += alpha [0x00] [i] * beta [0x00] [i];
+			}
+			for (int t = 0x00; t < T; t++) {
+				for (int i = 0x00; i < N; i++) {
+
+				}
+			}
 			throw new NotImplementedException ();
 		}
 

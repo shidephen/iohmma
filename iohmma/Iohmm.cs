@@ -31,8 +31,13 @@ namespace iohmma {
 	public abstract class Iohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
 
 		#region Fields
-		private readonly double[] pi;
 		private readonly ITransitionDistribution<TInput,int>[] transitions;
+		#endregion
+		#region protected Fields
+		/// <summary>
+		/// The initial distribution on the hidden states.
+		/// </summary>
+		protected readonly double[] Pi;
 		#endregion
 		#region IIohmm implementation
 		/// <summary>
@@ -44,7 +49,7 @@ namespace iohmma {
 		/// </remarks>
 		public int NumberOfHiddenStates {
 			get {
-				return this.pi.Length;
+				return this.Pi.Length;
 			}
 		}
 		#endregion
@@ -68,7 +73,7 @@ namespace iohmma {
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
 				ps [i] = psi;
 			}
-			this.pi = ps;
+			this.Pi = ps;
 			ITransitionDistribution<TInput,int>[] tr = transitionDistributions.Take (numberOfHiddenStates).ToArray ();
 			if (tr.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial transition distributions must be larger or equal to the number of hidden states.");
@@ -94,7 +99,7 @@ namespace iohmma {
 		/// <exception cref="IndexOutOfRangeException">If the given index is smaller than zero (<c>0</c>).</exception>
 		/// <exception cref="IndexOutOfRangeException">If the given index is larger than or equal to the number of hidden states (<see cref="NumberOfHiddenStates"/>).</exception>
 		public double GetPi (int index) {
-			return this.pi [index];
+			return this.Pi [index];
 		}
 
 		/// <summary>
