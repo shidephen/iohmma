@@ -68,12 +68,15 @@ namespace iohmma {
 		#endregion
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeTransitionDistribution"/> class with a given lower and
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given lower and
 		/// upper bound on the input and the number of hidden states of the hidden Markov model.
 		/// </summary>
 		/// <param name="lower">The lower bound on the input.</param>
-		/// <param name="upper">The upper bound on the input.</param>
-		/// <param name="numberOfHiddenStates">The number of hidden states involved.</param>
+		/// <param name="distributions">A list of distributions ordered per input.</param>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// </remarks>
 		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) {
 			this.Lower = lower;
 			this.probabilities = distributions.ToArray ();
@@ -85,9 +88,13 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The probability density function for the given input and the given output state.</returns>
 		/// <param name="input">The given input to calculate the probability for.</param>
-		/// <param name="state">The given output state to calculate the probability for.</param>
+		/// <param name="output">The given output to calculate the probability for.</param>
 		/// <exception cref="ArgumentException">If the given input is not withing range.</exception>
 		/// <exception cref="ArgumentException">If the given output is not in range of the distribution.</exception>
+		/// <remarks>
+		/// <para>If the output is discrete, for any given input the sum of the probabilities must be equal to one.</para>
+		/// <para>If the output is continu, for any given input the integral of the probabilities must be equal to one.</para>
+		/// </remarks>
 		public override double GetPdf (int input, TOutput output) {
 			int x = input - this.Lower;
 			IDistribution<TOutput>[] ps = this.probabilities;
