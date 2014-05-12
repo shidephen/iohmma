@@ -158,22 +158,17 @@ namespace iohmma {
 		/// If zero, only the old data.</para>
 		/// </remarks>
 		public void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {
-			IEnumerable<Tuple<int,double>> op = probabilities.OrderBy<Tuple<int,double>,int> (TupleUtils.First<int,double>);
-			double ofitting = 1.0d - fitting;
-			double[] ps = this.cprobs;
-			int n = ps.Length;
-			double p = 0.0d, p2;
-			for (int i = 0x00; i < n; i++) {
-				p2 = ps [i];
-				ps [i] -= p;
-				ps [i] *= ofitting;
-				p = p2;
-			}
-			p = ps [0x00];
-			for (int i = 0x01; i < n; i++) {
-				p2 = ps [i];
-				ps [i] += p;
-				p += p2;
+			double ofit = 1.0d - fitting;
+			double curp = 0.0d;
+			int index = 0x00;
+			int low = this.Lower;
+			int upp = this.Upper - low + 0x01;
+			foreach (Tuple<int,double> tuple in probabilities.Where (x => x.Item1 >= low && x.Item2 <= upp).OrderBy (TupleUtils.First)) {
+				int target = tuple.Item1 - low;
+				double prob = tuple.Item2;
+				for (; index < target; index++) {
+
+				}
 			}
 		}
 		#endregion
