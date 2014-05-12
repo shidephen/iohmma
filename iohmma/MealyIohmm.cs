@@ -39,24 +39,24 @@ namespace iohmma {
 		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
-		/// <param name="transitionDistributions">A list of initial distributions for the hidden states.</param>
+		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
+		/// <param name="emissionDistributions">A list of initial distributions for the hidden states.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="emissionDistributions"/> is less than the number of hidden states.</exception>
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions) : base(numberOfHiddenStates,transitionDistributions) {
+		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(numberOfHiddenStates,transitionDistributions) {
+			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+			if (em.Length < numberOfHiddenStates) {
+				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
+			}
+			this.emissions = em;
 		}
 		#endregion
 		#region IMealyIohmm implementation
-		/// <summary>
-		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
-		/// </summary>
-		/// <returns>The <see cref="T:ITransitionDistribution`1"/> function for the given state.</returns>
-		/// <param name="state">The given state for which the transition function must be returned.</param>
-		public override ITransitionDistribution<TInput,int> GetTransition (int state) {
-			throw new NotImplementedException ();
-		}
-
 		/// <summary>
 		/// Gets the transition function discribing the emission from the given <paramref name="state"/>.
 		/// </summary>
