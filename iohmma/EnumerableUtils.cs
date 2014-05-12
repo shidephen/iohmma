@@ -48,6 +48,20 @@ namespace iohmma {
 				}
 			}
 		}
+
+		/// <summary>
+		/// Repeat the specified source the given number of times.
+		/// </summary>
+		/// <param name="source">The original list of items to repeat.</param>
+		/// <param name="ntimes">The given number of times to repeat the source.</param>
+		/// <typeparam name="TItem">The type of the items to emit.</typeparam>
+		public static IEnumerable<TItem> Repeat<TItem> (this IEnumerable<TItem> source, int ntimes) {
+			for (int i = 0x00; i < ntimes; i++) {
+				foreach (TItem item in source) {
+					yield return item;
+				}
+			}
+		}
 	}
 }
 

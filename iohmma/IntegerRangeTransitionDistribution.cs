@@ -20,14 +20,15 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using iohmma;
 
 namespace iohmma {
 	/// <summary>
 	/// An implementation of a <see cref="T:ITransitionDistribution`1"/> that uses a range of integers as input.
 	/// </summary>
-	public class IntegerRangeTransitionDistribution : TransitionDistribution<int>, IRange<int> {
+	public class IntegerRangeTransitionDistribution<TOutput> : TransitionDistribution<int,TOutput>, IRange<int> {
 
-		private readonly IntegerRangeDistribution[] probabilities;
+		private readonly IDistribution<TOutput>[] probabilities;
 		#region IRange implementation
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
@@ -66,20 +67,6 @@ namespace iohmma {
 		#endregion
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeTransitionDistribution"/> class with a given upper bound
-		/// for the input and the number of hidden states of the hidden Markov model.
-		/// </summary>
-		/// <param name="upper">The upper bound on the input.</param>
-		/// <param name="numberOfHiddenStates">The number of hidden states involved.</param>
-		/// <exception cref="ArgumentException">If <paramref name="upper"/> is less than or equal to one (<c>1</c>).</exception>
-		/// <exception cref="ArgumentException">If the number of hidden states is less than or equal to zero (<c>0</c>).</exception>
-		/// <remarks>
-		/// <para>The lower bound is set to one (<c>1</c>).</para>
-		/// </remarks>
-		public IntegerRangeTransitionDistribution (int upper, int numberOfHiddenStates) : this(0x01,upper,numberOfHiddenStates) {
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeTransitionDistribution"/> class with a given lower and
 		/// upper bound on the input and the number of hidden states of the hidden Markov model.
 		/// </summary>
@@ -88,7 +75,7 @@ namespace iohmma {
 		/// <param name="numberOfHiddenStates">The number of hidden states involved.</param>
 		/// <exception cref="ArgumentException">If <paramref name="lower"/> is greater than <paramref name="upper"/>.</exception>
 		/// <exception cref="ArgumentException">If the number of hidden states is less than or equal to zero (<c>0</c>).</exception>
-		public IntegerRangeTransitionDistribution (int lower, int upper, int numberOfHiddenStates) {
+		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) {
 			if (lower > upper) {
 				throw new ArgumentException ("The lower bound must be less than or equal to the upper bound.");
 			}
@@ -99,7 +86,7 @@ namespace iohmma {
 			this.Upper = upper;
 			int m = upper - lower + 0x01;
 			int n = numberOfHiddenStates - 0x01;
-			IntegerRangeDistribution[] ps = new IntegerRangeDistribution[m];
+			IDistribution<TOutput>[] ps = new IntegerRangeDistribution[m];
 			for (int i = 0x00; i < m; i++) {
 				ps [i] = new IntegerRangeDistribution (0x00, n);
 			}
@@ -114,9 +101,8 @@ namespace iohmma {
 		/// <param name="input">The given input to calculate the probability for.</param>
 		/// <param name="state">The given output state to calculate the probability for.</param>
 		/// <exception cref="ArgumentException">If the given input is not withing range.</exception>
-		/// <exception cref="ArgumentException">If the given state is smaller than zero.</exception>
-		/// <exception cref="ArgumentException">If the given state is larger or equal to the number of hidden states.</exception>
-		public override double GetPdf (int input, int state) {
+		/// <exception cref="ArgumentException">If the given output is not in range of the distribution.</exception>
+		public override double GetPdf (int input, TOutput output) {
 			int x = input - this.Lower;
 			IntegerRangeDistribution[] ps = this.probabilities;
 			if (x >= 0x00 && x < ps.Length) {

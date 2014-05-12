@@ -31,8 +31,16 @@ namespace iohmma {
 		/// <summary>
 		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
 		/// </summary>
-		/// <returns>The <see cref="T:ITransitionDistribution`1"/> function for the given state.</returns>
+		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state.</returns>
 		/// <param name="state">The given state for which the transition function must be returned.</param>
-		ITransitionDistribution<TInput> GetTransition (int state);
+		ITransitionDistribution<TInput,int> GetTransition (int state);
+
+		/// <summary>
+		/// Gets the transition function discribing the emission from the given <paramref name="state"/>.
+		/// </summary>
+		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state that describes
+		/// the distribution with respect to the input.</returns>
+		/// <param name="state">The given state for which the emission function must be returned.</param>
+		ITransitionDistribution<TInput,TOutput> GetEmission (int state);
 	}
 }
