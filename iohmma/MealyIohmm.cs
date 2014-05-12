@@ -100,20 +100,31 @@ namespace iohmma {
 		/// </remarks>
 		public override void Train (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double fitting = 1.0d) {
 			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
-			double[][] beta = this.CalculateBetasReverse (inoutputs.Reverse ()).Reverse ().ToArray ();//TODO: increase performance
+			double[][] betar = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
 			int T = alpha.Length;
+			int T1 = T - 0x01;
 			int N = this.NumberOfHiddenStates;
 			double[] pi = this.Pi;
+			double[] alphat = null, betart = null, sumab = new double[T];
 			double sum = 0.0d;
-			for (int i = 0x00; i < N; i++) {
-				sum += alpha [0x00] [i] * beta [0x00] [i];
+			for (int t = T1; t >= 0x00; t--) {
+				alphat = alpha [t];
+				betart = betar [T1 - t];
+				sum = 0.0d;
+				for (int i = 0x00; i < N; i++) {
+					sum += alphat [i] * betart [i];
+				}
+				sumab [t] = sum;
 			}
 			sum = fitting / sum;
 			double fittingb = 1.0d - fitting;
 			for (int i = 0x00; i < N; i++) {
-				pi [i] = fittingb * pi [i] + alpha [0x00] [i] * beta [0x00] [i] * sum;
+				pi [i] = fittingb * pi [i] + alphat [i] * betart [i] * sum;
 			}
-			throw new NotImplementedException ();
+			double[][][] eta = new double[T] [N] [N];
+			for (int t = 0x00; t < T; t++) {
+
+			}
 		}
 
 		/// <summary>
