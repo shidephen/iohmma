@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace iohmma {
 	/// <summary>
@@ -29,7 +30,10 @@ namespace iohmma {
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
 	public abstract class Iohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
 
+		#region Fields
 		private readonly double[] pi;
+		private readonly ITransitionDistribution<TInput,int>[] transitions;
+		#endregion
 		#region IIohmm implementation
 		/// <summary>
 		/// Gets the number of hidden states.
@@ -49,8 +53,13 @@ namespace iohmma {
 		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
+		/// <param name="transitionDistributions">A list of initial distributions for the hidden states.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		protected Iohmm (int numberOfHiddenStates) {
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		protected Iohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions) {
 			if (numberOfHiddenStates <= 0x00) {
 				throw new ArgumentException ("The number of hidden states must be greater than zero.");
 			}
@@ -60,6 +69,11 @@ namespace iohmma {
 				ps [i] = psi;
 			}
 			this.pi = ps;
+			ITransitionDistribution<TInput,int>[] tr = transitionDistributions.Take (numberOfHiddenStates).ToArray ();
+			if (tr.Length < numberOfHiddenStates) {
+				throw new ArgumentException ("The number of given initial transition distributions must be larger or equal to the number of hidden states.");
+			}
+			this.transitions = tr;
 		}
 		#endregion
 		#region IIohmm implementation
@@ -68,7 +82,9 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state.</returns>
 		/// <param name="state">The given state for which the transition function must be returned.</param>
-		public abstract ITransitionDistribution<TInput,int> GetTransition (int state);
+		public virtual ITransitionDistribution<TInput,int> GetTransition (int state) {
+			return this.transitions [state];
+		}
 
 		/// <summary>
 		/// Gets the initial state distribution of the given state index.

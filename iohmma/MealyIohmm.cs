@@ -31,13 +31,20 @@ namespace iohmma {
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
 	public class MealyIohmm<TInput,TOutput> : Iohmm<TInput,TOutput>, IMealyIohmm<TInput,TOutput> {
 
+		#region Fields
+		private readonly ITransitionDistribution<TInput,TOutput>[] emissions;
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
+		/// <param name="transitionDistributions">A list of initial distributions for the hidden states.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		public MealyIohmm (int numberOfHiddenStates) : base(numberOfHiddenStates) {
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions) : base(numberOfHiddenStates,transitionDistributions) {
 		}
 		#endregion
 		#region IMealyIohmm implementation
