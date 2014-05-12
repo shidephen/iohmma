@@ -28,30 +28,122 @@ namespace iohmma {
 	public static class TupleUtils {
 
 		/// <summary>
-		/// Generate a <see cref="T:IEnumerable`1"/> containing the first elements of the list of tuples.
+		/// A function that returns the first item of a given <see cref="T:Tuple`2"/>.
 		/// </summary>
-		/// <param name="source">The list of tuples.</param>
-		/// <returns>A list containing the first element of each tuple in the given list.</returns>
-		/// <typeparam name="T1">The type of the first element of the tuple list.</typeparam>
-		/// <typeparam name="T2">The type of the second element of the tuple list.</typeparam>
-		public static IEnumerable<T1> First<T1,T2> (this IEnumerable<Tuple<T1,T2>> source) {
-			foreach (Tuple<T1,T2> tuple in source) {
-				yield return tuple.Item1;
-			}
+		/// <param name="tuple">The tuple to return the first element from.</param>
+		/// <returns>The first element of the given tuple.</returns>
+		/// <typeparam name="T1">The type of the first element of the tuple.</typeparam>
+		/// <typeparam name="T2">The type of the second element of the tuple.</typeparam>
+		/// <remarks>
+		/// <para>This method is mainly implement to extend LINQ functionality.</para>
+		/// </remarks>
+		public static T1 First<T1,T2> (this Tuple<T1,T2> tuple) {
+			return tuple.Item1;
 		}
 
 		/// <summary>
-		/// Generate a <see cref="T:IEnumerable`1"/> containing the first elements of the list of tuples.
+		/// A function that returns the first item of a given <see cref="T:Tuple`3"/>.
 		/// </summary>
-		/// <param name="source">The list of tuples.</param>
-		/// <returns>A list containing the first element of each tuple in the given list.</returns>
-		/// <typeparam name="T1">The type of the first element of the tuple list.</typeparam>
-		/// <typeparam name="T2">The type of the second element of the tuple list.</typeparam>
-		/// <typeparam name="T3">The type of the third element of the tuple list.</typeparam>
-		public static IEnumerable<T1> First<T1,T2,T3> (this IEnumerable<Tuple<T1,T2,T3>> source) {
-			foreach (Tuple<T1,T2,T3> tuple in source) {
-				yield return tuple.Item1;
-			}
+		/// <param name="tuple">The tuple to return the first element from.</param>
+		/// <returns>The first element of the given tuple.</returns>
+		/// <typeparam name="T1">The type of the first element of the tuple.</typeparam>
+		/// <typeparam name="T2">The type of the second element of the tuple.</typeparam>
+		/// <typeparam name="T3">The type of the third element of the tuple.</typeparam>
+		/// <remarks>
+		/// <para>This method is mainly implement to extend LINQ functionality.</para>
+		/// </remarks>
+		public static T1 First<T1,T2,T3> (this Tuple<T1,T2,T3> tuple) {
+			return tuple.Item1;
+		}
+
+		/// <summary>
+		/// A function that returns the first item of a given <see cref="T:Tuple`4"/>.
+		/// </summary>
+		/// <param name="tuple">The tuple to return the first element from.</param>
+		/// <returns>The first element of the given tuple.</returns>
+		/// <typeparam name="T1">The type of the first element of the tuple.</typeparam>
+		/// <typeparam name="T2">The type of the second element of the tuple.</typeparam>
+		/// <typeparam name="T3">The type of the third element of the tuple.</typeparam>
+		/// <typeparam name="T4">The type of the fourth element of the tuple.</typeparam>
+		/// <remarks>
+		/// <para>This method is mainly implement to extend LINQ functionality.</para>
+		/// </remarks>
+		public static T1 First<T1,T2,T3,T4> (this Tuple<T1,T2,T3,T4> tuple) {
+			return tuple.Item1;
+		}
+
+		/// <summary>
+		/// A function that returns the first item of a given <see cref="T:Tuple`5"/>.
+		/// </summary>
+		/// <param name="tuple">The tuple to return the first element from.</param>
+		/// <returns>The first element of the given tuple.</returns>
+		/// <typeparam name="T1">The type of the first element of the tuple.</typeparam>
+		/// <typeparam name="T2">The type of the second element of the tuple.</typeparam>
+		/// <typeparam name="T3">The type of the third element of the tuple.</typeparam>
+		/// <typeparam name="T4">The type of the fourth element of the tuple.</typeparam>
+		/// <typeparam name="T5">The type of the fifth element of the tuple.</typeparam>
+		/// <remarks>
+		/// <para>This method is mainly implement to extend LINQ functionality.</para>
+		/// </remarks>
+		public static T1 First<T1,T2,T3,T4,T5> (this Tuple<T1,T2,T3,T4,T5> tuple) {
+			return tuple.Item1;
+		}
+
+		/// <summary>
+		/// A function that returns the first item of a given <see cref="T:Tuple`6"/>.
+		/// </summary>
+		/// <param name="tuple">The tuple to return the first element from.</param>
+		/// <returns>The first element of the given tuple.</returns>
+		/// <typeparam name="T1">The type of the first element of the tuple.</typeparam>
+		/// <typeparam name="T2">The type of the second element of the tuple.</typeparam>
+		/// <typeparam name="T3">The type of the third element of the tuple.</typeparam>
+		/// <typeparam name="T4">The type of the fourth element of the tuple.</typeparam>
+		/// <typeparam name="T5">The type of the fifth element of the tuple.</typeparam>
+		/// <typeparam name="T6">The type of the sixth element of the tuple.</typeparam>
+		/// <remarks>
+		/// <para>This method is mainly implement to extend LINQ functionality.</para>
+		/// </remarks>
+		public static T1 First<T1,T2,T3,T4,T5,T6> (this Tuple<T1,T2,T3,T4,T5,T6> tuple) {
+			return tuple.Item1;
+		}
+
+		/// <summary>
+		/// A function that returns the first item of a given <see cref="T:Tuple`7"/>.
+		/// </summary>
+		/// <param name="tuple">The tuple to return the first element from.</param>
+		/// <returns>The first element of the given tuple.</returns>
+		/// <typeparam name="T1">The type of the first element of the tuple.</typeparam>
+		/// <typeparam name="T2">The type of the second element of the tuple.</typeparam>
+		/// <typeparam name="T3">The type of the third element of the tuple.</typeparam>
+		/// <typeparam name="T4">The type of the fourth element of the tuple.</typeparam>
+		/// <typeparam name="T5">The type of the fifth element of the tuple.</typeparam>
+		/// <typeparam name="T6">The type of the sixth element of the tuple.</typeparam>
+		/// <typeparam name="T7">The type of the seventh element of the tuple.</typeparam>
+		/// <remarks>
+		/// <para>This method is mainly implement to extend LINQ functionality.</para>
+		/// </remarks>
+		public static T1 First<T1,T2,T3,T4,T5,T6,T7> (this Tuple<T1,T2,T3,T4,T5,T6,T7> tuple) {
+			return tuple.Item1;
+		}
+
+		/// <summary>
+		/// A function that returns the first item of a given <see cref="T:Tuple`8"/>.
+		/// </summary>
+		/// <param name="tuple">The tuple to return the first element from.</param>
+		/// <returns>The first element of the given tuple.</returns>
+		/// <typeparam name="T1">The type of the first element of the tuple.</typeparam>
+		/// <typeparam name="T2">The type of the second element of the tuple.</typeparam>
+		/// <typeparam name="T3">The type of the third element of the tuple.</typeparam>
+		/// <typeparam name="T4">The type of the fourth element of the tuple.</typeparam>
+		/// <typeparam name="T5">The type of the fifth element of the tuple.</typeparam>
+		/// <typeparam name="T6">The type of the sixth element of the tuple.</typeparam>
+		/// <typeparam name="T7">The type of the seventh element of the tuple.</typeparam>
+		/// <typeparam name="T8">The type of the eight element of the tuple.</typeparam>
+		/// <remarks>
+		/// <para>This method is mainly implement to extend LINQ functionality.</para>
+		/// </remarks>
+		public static T1 First<T1,T2,T3,T4,T5,T6,T7,T8> (this Tuple<T1,T2,T3,T4,T5,T6,T7,T8> tuple) {
+			return tuple.Item1;
 		}
 	}
 }

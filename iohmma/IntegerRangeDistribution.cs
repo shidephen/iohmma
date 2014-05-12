@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace iohmma {
 	/// <summary>
@@ -157,7 +158,23 @@ namespace iohmma {
 		/// If zero, only the old data.</para>
 		/// </remarks>
 		public void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {
-			throw new NotImplementedException ();
+			IEnumerable<Tuple<int,double>> op = probabilities.OrderBy<Tuple<int,double>,int> (TupleUtils.First<int,double>);
+			double ofitting = 1.0d - fitting;
+			double[] ps = this.cprobs;
+			int n = ps.Length;
+			double p = 0.0d, p2;
+			for (int i = 0x00; i < n; i++) {
+				p2 = ps [i];
+				ps [i] -= p;
+				ps [i] *= ofitting;
+				p = p2;
+			}
+			p = ps [0x00];
+			for (int i = 0x01; i < n; i++) {
+				p2 = ps [i];
+				ps [i] += p;
+				p += p2;
+			}
 		}
 		#endregion
 	}
