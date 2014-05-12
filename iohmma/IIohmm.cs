@@ -76,7 +76,9 @@ namespace iohmma {
 		/// Train this hidden Markov model with the given sequence of inputs and outputs.
 		/// </summary>
 		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
-		void Train (IEnumerable<Tuple<TInput,TOutput>> inoutputs);
+		/// <param name="fitting">A parameter that expresses how much the data should be taken into
+		/// account compared with the old data stored in this Input-Output Hidden Markov Model.</param>
+		void Train (IEnumerable<Tuple<TInput,TOutput>> inoutputs, double fitting = 1.0d);
 
 		/// <summary>
 		/// Returns the most likely sequence of the hidden state of sequences for the given sequence of inputs and outputs.

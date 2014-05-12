@@ -98,7 +98,12 @@ namespace iohmma {
 		/// Train this hidden Markov model with the given sequence of inputs and outputs.
 		/// </summary>
 		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
-		public override void Train (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
+		/// <param name="fitting">A parameter that expresses how much the data should be taken into
+		/// account compared with the old data stored in this Input-Output Hidden Markov Model.</param>
+		/// <remarks>
+		/// <para>The sequence of inputs and outputs must be finite.</para>
+		/// </remarks>
+		public override void Train (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double fitting = 1.0d) {
 			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
 			double[][] beta = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
 			throw new NotImplementedException ();
