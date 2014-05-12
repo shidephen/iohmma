@@ -72,14 +72,14 @@ namespace iohmma {
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		/// <exception cref="ArgumentException">If the given input is not within the specified bounds.</exception>
-		public abstract TInput Sample (TInput input);
+		public abstract TOutput Sample (TInput input);
 
 		/// <summary>
 		/// Fit the distribution using the data and their frequency.
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
-		public abstract void Fit (IEnumerable<Tuple<Tuple<TInput, int>, double>> probabilities, double fitting = 1.0);
+		public abstract void Fit (IEnumerable<Tuple<Tuple<TInput, TOutput>, double>> probabilities, double fitting = 1.0);
 		#endregion
 	}
 }

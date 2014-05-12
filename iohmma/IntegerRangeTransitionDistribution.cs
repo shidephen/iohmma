@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
-using iohmma;
+using System.Linq;
 
 namespace iohmma {
 	/// <summary>
@@ -74,24 +74,9 @@ namespace iohmma {
 		/// <param name="lower">The lower bound on the input.</param>
 		/// <param name="upper">The upper bound on the input.</param>
 		/// <param name="numberOfHiddenStates">The number of hidden states involved.</param>
-		/// <exception cref="ArgumentException">If <paramref name="lower"/> is greater than <paramref name="upper"/>.</exception>
-		/// <exception cref="ArgumentException">If the number of hidden states is less than or equal to zero (<c>0</c>).</exception>
 		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) {
-			if (lower > upper) {
-				throw new ArgumentException ("The lower bound must be less than or equal to the upper bound.");
-			}
-			if (numberOfHiddenStates <= 0x00) {
-				throw new ArgumentException ("The number of hidden states must be larger than zero.");
-			}
 			this.Lower = lower;
-			this.Upper = upper;
-			int m = upper - lower + 0x01;
-			int n = numberOfHiddenStates - 0x01;
-			IDistribution<TOutput>[] ps = new IntegerRangeDistribution[m];
-			for (int i = 0x00; i < m; i++) {
-				ps [i] = new IntegerRangeDistribution (0x00, n);
-			}
-			this.probabilities = ps;
+			this.probabilities = distributions.ToArray ();
 		}
 		#endregion
 		#region implemented abstract members of TransitionDistribution
@@ -105,9 +90,9 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the given output is not in range of the distribution.</exception>
 		public override double GetPdf (int input, TOutput output) {
 			int x = input - this.Lower;
-			IntegerRangeDistribution[] ps = this.probabilities;
+			IDistribution<TOutput>[] ps = this.probabilities;
 			if (x >= 0x00 && x < ps.Length) {
-				return ps [x].GetPdf (state);
+				return ps [x].GetPdf (output);
 			} else {
 				throw new ArgumentException ("The given input is not within range.");
 			}
@@ -127,9 +112,9 @@ namespace iohmma {
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
-		public override int Sample (int input) {
+		public override TOutput Sample (int input) {
 			int x = input - this.Lower;
-			IntegerRangeDistribution[] ps = this.probabilities;
+			IDistribution<TOutput>[] ps = this.probabilities;
 			if (x >= 0x00 && x < ps.Length) {
 				return ps [x].Sample ();
 			} else {
@@ -142,7 +127,7 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
-		public override void Fit (IEnumerable<Tuple<Tuple<int, int>, double>> probabilities, double fitting = 1.0) {
+		public override void Fit (IEnumerable<Tuple<Tuple<int, TOutput>, double>> probabilities, double fitting = 1.0) {
 			throw new NotImplementedException ();
 		}
 		#endregion
