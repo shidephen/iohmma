@@ -63,6 +63,7 @@ namespace iohmma {
 		}
 		#endregion
 		#region IIohmm implementation
+		/// <summary>
 		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
 		/// </summary>
 		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state.</returns>
