@@ -105,7 +105,9 @@ namespace iohmma {
 		/// <param name="input">The given input for the transition.</param>
 		/// <param name="statei">The origin hidden state.</param>
 		/// <param name="statej">The target hidden state.</param>
-		public abstract double GetA (TInput input, int statei, int statej);
+		public virtual double GetA (TInput input, int statei, int statej) {
+			return this.GetTransition (statei).GetPdf (input, statej);
+		}
 
 		/// <summary>
 		/// Gets the probability of exhaust of <paramref name="output"/> given <paramref name="input"/> and
