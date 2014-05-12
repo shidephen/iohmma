@@ -64,7 +64,7 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public abstract Tuple<TInput, int> Sample ();
+		public abstract Tuple<TInput, TOutput> Sample ();
 
 		/// <summary>
 		/// Generate a random element based on the density of the distribution for the given input.

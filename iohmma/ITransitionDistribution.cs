@@ -24,8 +24,8 @@ namespace iohmma {
 	/// <summary>
 	/// An interface that specifies a distribution for state transitions depending on an input.
 	/// </summary>
-	/// <typeparam name='TData'>The type of input on which the transition distribution depends.</typeparam>
-	/// /// <typeparam name='TData'>The type of input on which the transition distribution depends.</typeparam>
+	/// <typeparam name='TInput'>The type of input on which the transition distribution depends.</typeparam>
+	/// <typeparam name='TOutput'>The type of output on which the transition distribution depends.</typeparam>
 	public interface ITransitionDistribution<TInput,TOutput> : IDistribution<Tuple<TInput,TOutput>> {
 
 		/// <summary>

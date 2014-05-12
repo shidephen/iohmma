@@ -50,8 +50,9 @@ namespace iohmma {
 		/// <para>The upper bound must be greater than or equal to the <see cref="Lower"/> bound.</para>
 		/// </remarks>
 		public int Upper {
-			get;
-			private set;
+			get {
+				return this.Lower + this.probabilities.Length - 0x01;
+			}
 		}
 		#endregion
 		#region implemented abstract members of TransitionDistribution
@@ -116,7 +117,7 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public override Tuple<int, int> Sample () {
+		public override Tuple<int, TOutput> Sample () {
 			throw new NotImplementedException ();
 		}
 

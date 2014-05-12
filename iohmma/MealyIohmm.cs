@@ -48,6 +48,16 @@ namespace iohmma {
 		public ITransitionDistribution<TInput,int> GetTransition (int state) {
 			throw new NotImplementedException ();
 		}
+
+		/// <summary>
+		/// Gets the transition function discribing the emission from the given <paramref name="state"/>.
+		/// </summary>
+		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state that describes
+		/// the distribution with respect to the input.</returns>
+		/// <param name="state">The given state for which the emission function must be returned.</param>
+		public ITransitionDistribution<TInput,TOutput> GetEmission (int state) {
+			throw new NotImplementedException ();
+		}
 		#endregion
 		#region implemented abstract members of Iohmm
 		/// <summary>
