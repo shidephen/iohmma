@@ -121,9 +121,27 @@ namespace iohmma {
 			for (int i = 0x00; i < N; i++) {
 				pi [i] = fittingb * pi [i] + alphat [i] * betart [i] * sum;
 			}
-			double[][][] eta = new double[T] [N] [N];
-			for (int t = 0x00; t < T; t++) {
-
+			double[][][] eta = new double[T1][][];
+			double[][] etat;
+			double[] etati;
+			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
+			enumerator.MoveNext ();
+			Tuple<TInput, TOutput> ct;
+			double den, denalphati;
+			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
+				ct = enumerator.Current;
+				etat = new double[N][];
+				alphat = alpha [t];
+				betart = betar [T1 - t];
+				den = 1.0d / sumab [t];
+				for (int i = 0x00; i < N; i++) {
+					denalphati = alphat [i] * den;
+					etati = new double[N];
+					for (int j = 0x00; j < N; j++) {
+						etati [j] = betart [j] * this.GetA () * this.GetB () * denalphati;
+					}
+					etat [i] = etati;
+				}
 			}
 		}
 
