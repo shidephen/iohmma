@@ -64,22 +64,10 @@ namespace iohmma {
 		/// the distribution with respect to the input.</returns>
 		/// <param name="state">The given state for which the emission function must be returned.</param>
 		public ITransitionDistribution<TInput,TOutput> GetEmission (int state) {
-			throw new NotImplementedException ();
+			return this.emissions [state];
 		}
 		#endregion
 		#region implemented abstract members of Iohmm
-		/// <summary>
-		/// Gets the probability of migrating from state <paramref name="statei"/> to <paramref name="statej"/> given
-		/// the <paramref name="input"/>.
-		/// </summary>
-		/// <returns>The probability of the transition from the first index to the second given the index.</returns>
-		/// <param name="input">The given input for the transition.</param>
-		/// <param name="statei">The origin hidden state.</param>
-		/// <param name="statej">The target hidden state.</param>
-		public override double GetA (TInput input, int statei, int statej) {
-			return this.GetTransition (statei).GetPdf (input, statej);
-		}
-
 		/// <summary>
 		/// Gets the probability of exhaust of <paramref name="output"/> given <paramref name="input"/> and
 		/// current <paramref name="state"/>
