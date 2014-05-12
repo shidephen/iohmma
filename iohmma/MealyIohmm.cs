@@ -108,14 +108,10 @@ namespace iohmma {
 			for (int i = 0x00; i < N; i++) {
 				sum += alpha [0x00] [i] * beta [0x00] [i];
 			}
-			sum = 1.0d / sum;
+			sum = fitting / sum;
+			double fittingb = 1.0d - fitting;
 			for (int i = 0x00; i < N; i++) {
-				sum += alpha [0x00] [i] * beta [0x00] [i];
-			}
-			for (int t = 0x00; t < T; t++) {
-				for (int i = 0x00; i < N; i++) {
-
-				}
+				pi [i] = fittingb * pi [i] + alpha [0x00] [i] * beta [0x00] [i] * sum;
 			}
 			throw new NotImplementedException ();
 		}
