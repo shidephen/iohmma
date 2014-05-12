@@ -30,6 +30,13 @@ namespace iohmma {
 	public interface IIohmm<TInput,TOutput> : IHiddenStates {
 
 		/// <summary>
+		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
+		/// </summary>
+		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state.</returns>
+		/// <param name="state">The given state for which the transition function must be returned.</param>
+		ITransitionDistribution<TInput,int> GetTransition (int state);
+
+		/// <summary>
 		/// Gets the initial state distribution of the given state index.
 		/// </summary>
 		/// <returns>The initial distribution for the given index of the hidden states.</returns>

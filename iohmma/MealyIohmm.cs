@@ -45,7 +45,7 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The <see cref="T:ITransitionDistribution`1"/> function for the given state.</returns>
 		/// <param name="state">The given state for which the transition function must be returned.</param>
-		public ITransitionDistribution<TInput,int> GetTransition (int state) {
+		public override ITransitionDistribution<TInput,int> GetTransition (int state) {
 			throw new NotImplementedException ();
 		}
 
