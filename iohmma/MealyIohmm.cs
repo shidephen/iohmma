@@ -81,7 +81,7 @@ namespace iohmma {
 		/// <param name="state">The current state of the hidden Markov model.</param>
 		/// <param name="output">The assumed output for this time stamp.</param>
 		public override double GetB (TInput input, int state, TOutput output) {
-			throw new NotImplementedException ();
+			return this.GetEmission (state).GetPdf (input, output);
 		}
 
 		/// <summary>

@@ -33,8 +33,8 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The probability density function for the given input and the given output state.</returns>
 		/// <param name="input">The given input to calculate the probability for.</param>
-		/// <param name="state">The given output state to calculate the probability for.</param>
-		double GetPdf (TInput input, TOutput state);
+		/// <param name="output">The given output to calculate the probability for.</param>
+		double GetPdf (TInput input, TOutput output);
 
 		/// <summary>
 		/// Generate a random element based on the density of the distribution for the given input.
