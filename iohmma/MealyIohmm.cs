@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace iohmma {
 	/// <summary>
@@ -90,7 +91,7 @@ namespace iohmma {
 		/// <returns>The probability of the sequence of outputs given the sequence of inputs.</returns>
 		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
 		public override double Probability (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
-			throw new NotImplementedException ();
+			return this.CalculateAlphas (inoutputs).Last ().Foldl1 ((x, y) => x + y);
 		}
 
 		/// <summary>
@@ -98,6 +99,8 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
 		public override void Train (IEnumerable<Tuple<TInput, TOutput>> inoutputs) {
+			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
+			double[][] beta = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
 			throw new NotImplementedException ();
 		}
 

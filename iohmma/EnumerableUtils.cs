@@ -62,6 +62,26 @@ namespace iohmma {
 				}
 			}
 		}
+
+		/// <summary>
+		/// Folds the specified source of items into a single item by applying the given <paramref name="function"/>
+		/// over the elements of the given <paramref name="source"/>.
+		/// </summary>
+		/// <param name="source">The list of items to fold.</param>
+		/// <param name="function">The function to apply left to right.</param>
+		/// <typeparam name="TA">The type of the elements.</typeparam>
+		public static TA Foldl1<TA> (this IEnumerable<TA> source, Func<TA,TA,TA> function) {
+			IEnumerator<TA> enumerator = source.GetEnumerator ();
+			if (enumerator.MoveNext ()) {
+				TA result = enumerator.Current;
+				while (enumerator.MoveNext ()) {
+					result = function (result, enumerator.Current);
+				}
+				return result;
+			} else {
+				return default(TA);
+			}
+		}
 	}
 }
 
