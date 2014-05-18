@@ -10,7 +10,7 @@
       <File FileName="INormalDistribution.cs" Line="1" Column="1" />
       <File FileName="TransitionDistribution.cs" Line="1" Column="1" />
       <File FileName="ITransitionDistribution.cs" Line="1" Column="1" />
-      <File FileName="IntegerRangeDistribution.cs" Line="166" Column="98" />
+      <File FileName="IntegerRangeDistribution.cs" Line="157" Column="37" />
       <File FileName="TupleUtils.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
