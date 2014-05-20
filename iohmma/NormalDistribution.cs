@@ -93,8 +93,24 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
-		public void Fit (IEnumerable<Tuple<double, double>> probabilities, double fitting = 1.0) {
-			throw new NotImplementedException ();
+		public void Fit (IEnumerable<Tuple<double, double>> probabilities, double fitting = 1.0) {//TODO
+			double mean = 0.0d;
+			double stdv = 0.0d;
+			double fittinh = 1.0d - fitting;
+			double x, p;
+			foreach (Tuple<double,double> item in probabilities) {
+				x = item.Item1;
+				p = item.Item2;
+				mean += p * x;
+			}
+			double sq = mean * mean;
+			foreach (Tuple<double,double> item in probabilities) {
+				x = item.Item1;
+				p = item.Item2;
+				stdv += p * (x * x - sq);
+			}
+			this.Mean = fitting * mean + fittinh * this.Mean;
+			this.Sigma = fitting * stdv + fittinh * this.Sigma;
 		}
 		#endregion
 	}

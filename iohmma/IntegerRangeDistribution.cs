@@ -157,7 +157,7 @@ namespace iohmma {
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// </remarks>
-		public void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {
+		public void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {//TODO
 			double ofit = 1.0d - fitting;
 			double curp = 0.0d;
 			int index = 0x00;
