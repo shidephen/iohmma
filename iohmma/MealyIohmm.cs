@@ -127,11 +127,12 @@ namespace iohmma {
 			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
 			enumerator.MoveNext ();
 			Tuple<TInput, TOutput> ct0;
-			Tuple<TInput, TOutput> ct1;
+			Tuple<TInput, TOutput> ct1 = enumerator.Current;
 
 			double den, denalphati;
 			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
-				ct0 = enumerator.Current;
+				ct0 = ct1;
+				ct1 = enumerator.Current;
 				etat = new double[N][];
 				alphat = alpha [t];
 				betart = betar [T1 - t];
@@ -140,7 +141,7 @@ namespace iohmma {
 					denalphati = alphat [i] * den;
 					etati = new double[N];
 					for (int j = 0x00; j < N; j++) {
-						//etati [j] = betart [j] * this.GetA () * this.GetB () * denalphati;
+						etati [j] = betart [j] * this.GetA (ct0.Item1, i, j) * this.GetB (ct1.Item1, j, ct1.Item2) * denalphati;
 					}
 					etat [i] = etati;
 				}
