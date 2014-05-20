@@ -1,17 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="IntegerRangeDistribution.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MealyIohmm.cs">
     <Files>
-      <File FileName="MealyIohmm.cs" Line="1" Column="1" />
-      <File FileName="IIohmm.cs" Line="1" Column="1" />
-      <File FileName="IntegerRangeTransitionDistribution.cs" Line="1" Column="1" />
-      <File FileName="Iohmm.cs" Line="1" Column="1" />
-      <File FileName="NormalDistribution.cs" Line="1" Column="1" />
-      <File FileName="INormalDistribution.cs" Line="1" Column="1" />
-      <File FileName="TransitionDistribution.cs" Line="1" Column="1" />
-      <File FileName="ITransitionDistribution.cs" Line="1" Column="1" />
-      <File FileName="IntegerRangeDistribution.cs" Line="157" Column="37" />
-      <File FileName="TupleUtils.cs" Line="1" Column="1" />
+      <File FileName="MealyIohmm.cs" Line="144" Column="96" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
