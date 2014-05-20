@@ -126,11 +126,12 @@ namespace iohmma {
 			double[] etati;
 			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
 			enumerator.MoveNext ();
-			Tuple<TInput, TOutput> ct;
+			Tuple<TInput, TOutput> ct0;
+			Tuple<TInput, TOutput> ct1;
 
 			double den, denalphati;
 			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
-				ct = enumerator.Current;
+				ct0 = enumerator.Current;
 				etat = new double[N][];
 				alphat = alpha [t];
 				betart = betar [T1 - t];
