@@ -112,6 +112,36 @@ namespace iohmma {
 				yield return new Tuple<T,double> (tup.Item1, sum * tup.Item2);
 			}
 		}
+
+		/// <summary>
+		/// Zips the given tuple of key-value pairs. When a key occurs a second time, the given function is applied to the cached value and
+		/// the new value.
+		/// </summary>
+		/// <returns>A stream of tuples such that every key occurs only once containing the zip of all values corresponding to that key.</returns>
+		/// <param name="source">A list of tuples to zip by key.</param>
+		/// <param name="f">F.</param>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
+		/// <typeparam name="TValue">The type of the value.</typeparam>
+		/// <remarks>
+		/// <para>The order of the original tuples of the <paramref name="source"/> is not maintained.</para>
+		/// </remarks>
+		public static IEnumerable<Tuple<TKey,TValue>> ZipKey<TKey,TValue> (this IEnumerable<Tuple<TKey,TValue>> source, Func<TValue,TValue,TValue> f) {
+			Dictionary<TKey,TValue> cache = new Dictionary<TKey, TValue> ();
+			TKey key;
+			TValue val, cur;
+			foreach (Tuple<TKey,TValue> tuple in source) {
+				key = tuple.Item1;
+				val = tuple.Item2;
+				if (cache.TryGetValue (key, out cur)) {
+					cache [key] = f (cur, val);
+				} else {
+					cache.Add (key, val);
+				}
+			}
+			foreach (KeyValuePair<TKey,TValue> kvp in cache) {
+				yield return new Tuple<TKey,TValue> (kvp.Key, kvp.Value);
+			}
+		}
 	}
 }
 
