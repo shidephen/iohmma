@@ -124,12 +124,18 @@ namespace iohmma {
 			double[][][] eta = new double[T1][][];
 			double[][] etat;
 			double[] etati;
+
+			double den, denalphati;
+		}
+
+		private IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (double[][] alpha, double[][] betar, int i) {
+			int T = alpha.Length;
+			int T1 = T - 0x01;
+			double den, denalphati;
 			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
 			enumerator.MoveNext ();
 			Tuple<TInput, TOutput> ct0;
 			Tuple<TInput, TOutput> ct1 = enumerator.Current;
-
-			double den, denalphati;
 			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
 				ct0 = ct1;
 				ct1 = enumerator.Current;
@@ -137,14 +143,12 @@ namespace iohmma {
 				alphat = alpha [t];
 				betart = betar [T1 - t];
 				den = 1.0d / sumab [t];
-				for (int i = 0x00; i < N; i++) {
-					denalphati = alphat [i] * den;
-					etati = new double[N];
-					for (int j = 0x00; j < N; j++) {
-						etati [j] = betart [j] * this.GetA (ct0.Item1, i, j) * this.GetB (ct1.Item1, j, ct1.Item2) * denalphati;
-					}
-					etat [i] = etati;
+				denalphati = alphat [i] * den;
+				etati = new double[N];
+				for (int j = 0x00; j < N; j++) {
+					etati [j] = betart [j] * this.GetA (ct0.Item1, i, j) * this.GetB (ct1.Item1, j, ct1.Item2) * denalphati;
 				}
+				etat [i] = etati;
 			}
 		}
 
