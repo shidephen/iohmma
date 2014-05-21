@@ -128,27 +128,29 @@ namespace iohmma {
 			double den, denalphati;
 		}
 
-		private IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (double[][] alpha, double[][] betar, int i) {
+		private IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {
 			int T = alpha.Length;
 			int T1 = T - 0x01;
+			int N = this.NumberOfHiddenStates;
 			double den, denalphati;
+			double[] alphat, betart;
 			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
 			enumerator.MoveNext ();
-			Tuple<TInput, TOutput> ct0;
 			Tuple<TInput, TOutput> ct1 = enumerator.Current;
+			TInput x0, x1 = ct1.Item1;
+			TOutput y1;
 			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
-				ct0 = ct1;
+				x0 = x1;
 				ct1 = enumerator.Current;
-				etat = new double[N][];
+				x1 = ct1.Item1;
+				y1 = ct1.Item2;
 				alphat = alpha [t];
 				betart = betar [T1 - t];
 				den = 1.0d / sumab [t];
 				denalphati = alphat [i] * den;
-				etati = new double[N];
 				for (int j = 0x00; j < N; j++) {
-					etati [j] = betart [j] * this.GetA (ct0.Item1, i, j) * this.GetB (ct1.Item1, j, ct1.Item2) * denalphati;
+					yield return new Tuple<Tuple<TInput,int>,double> (new Tuple<TInput,int> (x0, j), betart [j] * this.GetA (x0, i, j) * this.GetB (x1, j, y1) * denalphati);
 				}
-				etat [i] = etati;
 			}
 		}
 
