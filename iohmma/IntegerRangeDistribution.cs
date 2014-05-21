@@ -93,6 +93,31 @@ namespace iohmma {
 			}
 			this.cprobs = cp;
 		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeDistribution"/> class with a given
+		/// lower bound and a list of initial probabilities.
+		/// </summary>
+		/// <param name="lower">The given lower bound for the integer range.</param>
+		/// <param name="initialProbabilities">The list of initial probabilities, ordered in ascending index order.</param>
+		/// <exception cref="ArgumentException">If <paramref name="initialProbabilities"/> contains no elements.</exception>
+		/// <exception cref="ArgumentException">If the <paramref name="initialProbabilities"/> don't sum up to one.</exception>
+		/// <remarks>
+		/// <para>The list of initial probabilities must be finite.</para>
+		/// <para>The probabilities must sum up to one.</para>
+		/// </remarks>
+		public IntegerRangeDistribution (int lower, IEnumerable<double> initialProbabilities) {
+			this.Lower = lower;
+			double[] cp = initialProbabilities.ToArray ();
+			double p = 0.0d, pi;
+			int n = cp.Length;
+			for (int i = 0x00; i < n; i++) {
+				pi = cp [i];
+				cp [i] = p;
+				p += pi;
+			}
+			this.cprobs = cp;
+		}
 		#endregion
 		#region IFinite implementation
 		/// <summary>
