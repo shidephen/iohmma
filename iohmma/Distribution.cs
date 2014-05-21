@@ -1,5 +1,5 @@
 //
-//  IDistribution.cs
+//  Distribution.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -23,17 +23,19 @@ using System.Collections.Generic;
 
 namespace iohmma {
 	/// <summary>
-	/// An interface describing a distribution on the <typeparamref name='TData'/> type.
+	/// A basic implementation of the <see cref="T:IDistribution`1"/> interface.
 	/// </summary>
-	/// <typeparam name='TData'>The type of the distribution.</typeparam>
-	/// <remarks>
-	/// <para>A distribution is a mapping of a given set to real numbers where the real numbers where an element
-	/// corresponds to its probability density.</para>
-	/// <para>A density can be fitted given a sequence of values and their frequency. Samples can be derived
-	/// from the distribution.</para>
-	/// </remarks>
-	public interface IDistribution<TData> {
+	/// <typeparam name='TData'>
+	/// The type of data over which the distribution spans.
+	/// </typeparam>
+	public abstract class Distribution<TData> : IDistribution<TData> {
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Distribution`1"/> class.
+		/// </summary>
+		protected Distribution () {
+		}
+		#region IDistribution implementation
 		/// <summary>
 		/// Gets the probability density of the given element.
 		/// </summary>
@@ -45,13 +47,13 @@ namespace iohmma {
 		/// <para>In case the <typeparamref name='TData'/> is discrete, the sum of the probability densities
 		/// is equal to one. In case it is continuous, the integral of the probability density function is equal to one.</para>
 		/// </remarks>
-		double GetPdf (TData x);
+		public abstract double GetPdf (TData x);
 
 		/// <summary>
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		TData Sample ();
+		public abstract TData Sample ();
 
 		/// <summary>
 		/// Fit the distribution using the data and their frequency.
@@ -63,7 +65,7 @@ namespace iohmma {
 		/// If zero, only the old data.</para>
 		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="FitUnnormalized"/> method.</para>
 		/// </remarks>
-		void Fit (IEnumerable<Tuple<TData,double>> probabilities, double fitting = 1.0d);
+		public abstract void Fit (IEnumerable<Tuple<TData, double>> probabilities, double fitting = 1.0);
 
 		/// <summary>
 		/// Fit the distribution using the data and their frequence, but it is not guaranteed that the probabilities sum
@@ -75,6 +77,10 @@ namespace iohmma {
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// </remarks>
-		void FitUnnormalized (IEnumerable<Tuple<TData,double>> probabilities, double fitting = 1.0d);
+		public void FitUnnormalized (IEnumerable<Tuple<TData, double>> probabilities, double fitting = 1.0) {
+			this.Fit (probabilities.Normalize (), fitting);
+		}
+		#endregion
 	}
 }
+

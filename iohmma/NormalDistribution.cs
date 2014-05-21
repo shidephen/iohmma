@@ -25,7 +25,7 @@ namespace iohmma {
 	/// <summary>
 	/// An implementation of the <see cref="T:INormalDistribution`1"/> interface on scalar floating point numbers.
 	/// </summary>
-	public class NormalDistribution : INormalDistribution<double> {
+	public class NormalDistribution : Distribution<double>, INormalDistribution<double> {
 
 		private double sigma = 1.0d;
 		#region INormalDistribution implementation
@@ -76,7 +76,7 @@ namespace iohmma {
 		/// <returns>The probability density of the given element.</returns>
 		/// <param name="x">The given element to compute the probability density from.</param>
 		/// <exception cref="ArgumentException">If the given element is not within bounds.</exception>
-		public double GetPdf (double x) {
+		public override double GetPdf (double x) {
 			throw new NotImplementedException ();
 		}
 
@@ -84,7 +84,7 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public double Sample () {
+		public override double Sample () {
 			throw new NotImplementedException ();
 		}
 
@@ -93,7 +93,7 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
-		public void Fit (IEnumerable<Tuple<double, double>> probabilities, double fitting = 1.0) {//TODO
+		public override void Fit (IEnumerable<Tuple<double, double>> probabilities, double fitting = 1.0) {//TODO
 			double mean = 0.0d;
 			double stdv = 0.0d;
 			double fittinh = 1.0d - fitting;

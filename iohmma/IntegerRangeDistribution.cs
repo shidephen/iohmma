@@ -30,7 +30,7 @@ namespace iohmma {
 	/// <para>The implementation uses cummulative probability to make the <see cref="Sample"/> method faster.
 	/// Updating probabilities requires linear time.</para>
 	/// </remarks>
-	public class IntegerRangeDistribution : IIntegerRangeDistribution {
+	public class IntegerRangeDistribution : Distribution<int>, IIntegerRangeDistribution {
 
 		private readonly double[] cprobs;
 		#region IRange implementation
@@ -119,7 +119,7 @@ namespace iohmma {
 		/// <para>The probability density function of any element must always be larger than or equal to zero.</para>
 		/// <para>The sum of the probability densities of the range is equal to one.</para>
 		/// </remarks>
-		public double GetPdf (int x) {
+		public override double GetPdf (int x) {
 			int index = x - this.Lower;
 			double[] cp = this.cprobs;
 			int cpn = cp.Length;
@@ -138,7 +138,7 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public int Sample () {
+		public override int Sample () {
 			double[] cp = this.cprobs;
 			double x = StaticRandom.NextDouble ();
 			int value = Array.BinarySearch (cp, x);
@@ -157,19 +157,8 @@ namespace iohmma {
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// </remarks>
-		public void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {//TODO
-			double ofit = 1.0d - fitting;
-			double curp = 0.0d;
-			int index = 0x00;
-			int low = this.Lower;
-			int upp = this.Upper - low + 0x01;
-			foreach (Tuple<int,double> tuple in probabilities.Where (x => x.Item1 >= low && x.Item2 <= upp).OrderBy (TupleUtils.First)) {
-				int target = tuple.Item1 - low;
-				double prob = tuple.Item2;
-				for (; index < target; index++) {
-
-				}
-			}
+		public override void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {//TODO
+			throw new NotImplementedException ();
 		}
 		#endregion
 	}

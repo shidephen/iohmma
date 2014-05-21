@@ -121,11 +121,10 @@ namespace iohmma {
 			for (int i = 0x00; i < N; i++) {
 				pi [i] = fittingb * pi [i] + alphat [i] * betart [i] * sum;
 			}
-			double[][][] eta = new double[T1][][];
-			double[][] etat;
-			double[] etati;
-
-			double den, denalphati;
+			//fitting the transition probabilities based on the Alpha- and Beta-values.
+			for (int i = 0x00; i < N; i++) {
+				this.GetTransition (i).Fit (GetEtas (inoutputs, alpha, betar, sumab, i), fitting);
+			}
 		}
 
 		private IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {

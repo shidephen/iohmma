@@ -82,6 +82,36 @@ namespace iohmma {
 				return default(TA);
 			}
 		}
+
+		/// <summary>
+		/// Normalizes a stream of key-probability tuples such that the sum of the probabilties is equal to one.
+		/// </summary>
+		/// <param name="source">The source of key-probabilities.</param>
+		/// <typeparam name="T">The type of the keys.</typeparam>
+		/// <returns>A stream of tuples such that the sum of the probabilities (second item of the tuples), is
+		/// equal to one.</returns>
+		/// <exception cref="ArgumentException">If one of the probabilities is smaller than zero.</exception>
+		/// <remarks>
+		/// <para>The <paramref name="source"/> stream must be finite.</para>
+		/// <para>The resulting stream is finite as well.</para>
+		/// </remarks>
+		public static IEnumerable<Tuple<T,double>> Normalize<T> (this IEnumerable<Tuple<T,double>> source) {
+			Queue<Tuple<T,double>> cache = new Queue<Tuple<T,double>> ();
+			double sum = 0.0d;
+			foreach (Tuple<T,double> tuple in cache) {
+				cache.Enqueue (tuple);
+				double p = tuple.Item2;
+				if (p < 0.0d) {
+					throw new ArgumentException ("An unnormalized probability must be larger than or equal to zero.");
+				}
+				sum += tuple.Item2;
+			}
+			sum = 1.0d / sum;
+			while (cache.Count > 0x00) {
+				Tuple<T,double> tup = cache.Dequeue ();
+				yield return new Tuple<T,double> (tup.Item1, sum * tup.Item2);
+			}
+		}
 	}
 }
 

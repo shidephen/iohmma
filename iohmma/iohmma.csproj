@@ -56,6 +56,7 @@
     <Compile Include="EnumerableUtils.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="INormalDistribution.cs" />
+    <Compile Include="Distribution.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
