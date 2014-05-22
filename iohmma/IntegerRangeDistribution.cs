@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace iohmma {
 	/// <summary>
@@ -30,8 +31,15 @@ namespace iohmma {
 	/// <para>The implementation uses cummulative probability to make the <see cref="Sample"/> method faster.
 	/// Updating probabilities requires linear time.</para>
 	/// </remarks>
-	public class IntegerRangeDistribution : Distribution<int>, IIntegerRangeDistribution {
+	public class IntegerRangeDistribution : Distribution<int>, IIntegerRangeDistribution, IEnumerable<double> {
 
+		/// <summary>
+		/// The tolaterated difference between one and the sum of the given probabilities in constructors, methods, etc.
+		/// </summary>
+		/// <remarks>
+		/// <para>If the sum of the items does not equal one (with a tolerance of epsilon), a <see cref="ArgumentException"/> will be thrown.</para>
+		/// </remarks>
+		public const double EPSILON = 1e-6d;
 		private readonly double[] cprobs;
 		#region IRange implementation
 		/// <summary>
@@ -54,8 +62,9 @@ namespace iohmma {
 		/// <para>The upper bound must be greater than or equal to the <see cref="Lower"/> bound.</para>
 		/// </remarks>
 		public int Upper {
-			get;
-			private set;
+			get {
+				return this.Lower + this.cprobs.Length;
+			}
 		}
 		#endregion
 		#region Constructors
@@ -79,7 +88,6 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If <paramref name="lower"/> is greater than <paramref name="upper"/>.</exception>
 		public IntegerRangeDistribution (int lower, int upper) {
 			this.Lower = lower;
-			this.Upper = upper;
 			int n = upper - lower;
 			if (n < 0x00) {
 				throw new ArgumentException ("The upper bound must be larger than or equal to the lower bound.");
@@ -108,15 +116,20 @@ namespace iohmma {
 		/// </remarks>
 		public IntegerRangeDistribution (int lower, IEnumerable<double> initialProbabilities) {
 			this.Lower = lower;
-			double[] cp = initialProbabilities.ToArray ();
-			double p = 0.0d, pi;
-			int n = cp.Length;
-			for (int i = 0x00; i < n; i++) {
-				pi = cp [i];
-				cp [i] = p;
-				p += pi;
+			List<double> cps = new List<double> ();
+			IEnumerator<double> enumerator = initialProbabilities.GetEnumerator ();
+			if (!enumerator.MoveNext ()) {
+				throw new ArgumentException ("The list of probabilities must contain at least one element.");
 			}
-			this.cprobs = cp;
+			double p = enumerator.Current;
+			while (enumerator.MoveNext ()) {
+				cps.Add (p);
+				p += enumerator.Current;
+			}
+			if (Math.Abs (p - 1.0d) > EPSILON) {
+				throw new ArgumentException ("The probabilities must sum up to one.");
+			}
+			this.cprobs = cps.ToArray ();
 		}
 		#endregion
 		#region IFinite implementation
@@ -184,6 +197,62 @@ namespace iohmma {
 		/// </remarks>
 		public override void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {//TODO
 			throw new NotImplementedException ();
+		}
+		#endregion
+		#region IEnumerable implementation
+		/// <summary>
+		/// Gets the enumerator that iterates over the probabilities of the several options.
+		/// </summary>
+		/// <returns>An enumerator where the <c>i</c>-th item is the probability of item <c>i+lower</c>.</returns>
+		/// <remarks>
+		/// <para>The iterator is finite.</para>
+		/// <para>The items in the iterator sum up to one.</para>
+		/// </remarks>
+		public IEnumerator<double> GetEnumerator () {
+			double p = 0.0d;
+			foreach (double pi in cprobs) {
+				yield return pi - p;
+				p = pi;
+			}
+			yield return 1.0d - p;
+		}
+		#endregion
+		#region IEnumerable implementation
+		/// <summary>
+		/// Gets the enumerator for the <see cref="System.Collections.IEnumerable"/> interface.
+		/// </summary>
+		/// <returns>An enumerator where the <c>i</c>-th item is the probability of item <c>i+lower</c>.</returns>
+		/// <remarks>
+		/// <para>The iterator iterates over <see cref="double"/> instances.</para>
+		/// <para>The iterator is finite.</para>
+		/// <para>The items in the iterator sum up to one.</para>
+		/// </remarks>
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator () {
+			return this.GetEnumerator ();
+		}
+		#endregion
+		#region ToString method
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="IntegerRangeDistribution"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="IntegerRangeDistribution"/>.</returns>
+		/// <remarks>
+		/// <para>The result has a format <c>1/0.5,2/0.2,3/0.3</c>.</para>
+		/// </remarks>
+		public override string ToString () {
+			StringBuilder sb = new StringBuilder ();
+			int index = this.Lower;
+			IEnumerator<double> pis = this.GetEnumerator ();
+			pis.MoveNext ();
+			sb.Append (index++);
+			sb.Append ('/');
+			sb.Append (pis.Current);
+			while (pis.MoveNext ()) {
+				sb.Append (index++);
+				sb.Append ('/');
+				sb.Append (pis.Current);
+			}
+			return sb.ToString ();
 		}
 		#endregion
 	}
