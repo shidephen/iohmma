@@ -20,12 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using NUnit.Framework;
 using System;
+using iohmm;
 
 namespace IohmmTest {
-	[TestFixture()]
+	[TestFixture]
 	public class IntegerRangeDistributionTest {
-		[Test()]
-		public void TestCase () {
+		[Test]
+		public void TestConstructor () {
+			IntegerRangeDistribution ird = new IntegerRangeDistribution (1, 5);
 		}
 	}
 }

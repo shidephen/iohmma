@@ -39,4 +39,10 @@
     <Compile Include="IntegerRangeDistributionTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\iohmma.csproj">
+      <Project>{F0D80F9A-AFB6-4676-8451-E43D62E81353}</Project>
+      <Name>iohmma</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

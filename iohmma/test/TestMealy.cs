@@ -21,7 +21,7 @@
 using NUnit.Framework;
 using System;
 
-namespace test {
+namespace IohmmTest {
 	[TestFixture()]
 	public class Test {
 		[Test()]
