@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iohmma", "iohmma.csproj", "{F0D80F9A-AFB6-4676-8451-E43D62E81353}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{8D3AF6CA-FAEA-4EFA-B4BB-E47EAD7228D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testiohmm", "test\testiohmm.csproj", "{8D3AF6CA-FAEA-4EFA-B4BB-E47EAD7228D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

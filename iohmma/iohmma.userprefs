@@ -1,8 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MealyIohmm.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="test/IntegerRangeDistributionTest.cs">
     <Files>
       <File FileName="MealyIohmm.cs" Line="138" Column="27" />
+      <File FileName="IntegerRangeDistribution.cs" Line="238" Column="50" />
+      <File FileName="test/TestMealy.cs" Line="28" Column="28" />
+      <File FileName="test/IntegerRangeDistributionTest.cs" Line="24" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

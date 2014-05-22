@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8D3AF6CA-FAEA-4EFA-B4BB-E47EAD7228D0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>test</RootNamespace>
+    <RootNamespace>IohmmTest</RootNamespace>
     <AssemblyName>test</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,7 +35,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
+    <Compile Include="TestMealy.cs" />
+    <Compile Include="IntegerRangeDistributionTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
