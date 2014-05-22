@@ -28,6 +28,8 @@ namespace IohmmTest {
 		[Test]
 		public void TestConstructor () {
 			IntegerRangeDistribution ird = new IntegerRangeDistribution (1, 5);
+			Assert.AreEqual (1, ird.Lower);
+			Assert.AreEqual (5, ird.Upper);
 		}
 	}
 }
