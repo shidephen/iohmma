@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using NUnit.Framework;
 using System;
-using iohmm;
+using iohmma;
 
 namespace IohmmTest {
 	[TestFixture]
