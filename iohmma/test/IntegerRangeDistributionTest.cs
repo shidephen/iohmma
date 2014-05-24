@@ -67,5 +67,34 @@ namespace IohmmTest {
 			Assert.AreEqual (0.125d, ird.GetPdf (0x06), TestConstants.Tolerance);
 			Assert.AreEqual (0.125d, ird.GetPdf (0x07), TestConstants.Tolerance);
 		}
+
+		[Test]
+		public void TestFitting () {
+			IntegerRangeDistribution ird;
+			ird = new IntegerRangeDistribution (1, 5);
+			Assert.AreEqual (1, ird.Lower);
+			Assert.AreEqual (5, ird.Upper);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x02), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x03), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x04), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x05), TestConstants.Tolerance);
+			ird.Fit (new Tuple<int, double>[] { new Tuple<int,double> (0x03,1.0d) });
+			Assert.AreEqual (1, ird.Lower);
+			Assert.AreEqual (5, ird.Upper);
+			Assert.AreEqual (0.0d, ird.GetPdf (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (0.0d, ird.GetPdf (0x02), TestConstants.Tolerance);
+			Assert.AreEqual (1.0d, ird.GetPdf (0x03), TestConstants.Tolerance);
+			Assert.AreEqual (0.0d, ird.GetPdf (0x04), TestConstants.Tolerance);
+			Assert.AreEqual (0.0d, ird.GetPdf (0x05), TestConstants.Tolerance);
+			ird.Fit (new Tuple<int, double>[] { new Tuple<int,double> (0x02,1.0d) }, 0.25d);
+			Assert.AreEqual (1, ird.Lower);
+			Assert.AreEqual (5, ird.Upper);
+			Assert.AreEqual (0.0d, ird.GetPdf (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (0.25d, ird.GetPdf (0x02), TestConstants.Tolerance);
+			Assert.AreEqual (0.75d, ird.GetPdf (0x03), TestConstants.Tolerance);
+			Assert.AreEqual (0.0d, ird.GetPdf (0x04), TestConstants.Tolerance);
+			Assert.AreEqual (0.0d, ird.GetPdf (0x05), TestConstants.Tolerance);
+		}
 	}
 }

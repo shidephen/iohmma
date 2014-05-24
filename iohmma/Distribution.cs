@@ -77,7 +77,7 @@ namespace iohmma {
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// </remarks>
-		public void FitUnnormalized (IEnumerable<Tuple<TData, double>> probabilities, double fitting = 1.0) {
+		public virtual void FitUnnormalized (IEnumerable<Tuple<TData, double>> probabilities, double fitting = 1.0) {
 			this.Fit (probabilities.Normalize (), fitting);
 		}
 		#endregion
