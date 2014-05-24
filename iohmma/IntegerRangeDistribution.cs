@@ -39,7 +39,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>If the sum of the items does not equal one (with a tolerance of epsilon), a <see cref="ArgumentException"/> will be thrown.</para>
 		/// </remarks>
-		public const double EPSILON = 1e-6d;
+		public const double Epsilon = 1e-6d;
 		private readonly double[] cprobs;
 		#region IRange implementation
 		/// <summary>
@@ -126,7 +126,7 @@ namespace iohmma {
 				cps.Add (p);
 				p += enumerator.Current;
 			}
-			if (Math.Abs (p - 1.0d) > EPSILON) {
+			if (Math.Abs (p - 1.0d) > Epsilon) {
 				throw new ArgumentException ("The probabilities must sum up to one.");
 			}
 			this.cprobs = cps.ToArray ();
@@ -195,8 +195,29 @@ namespace iohmma {
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// </remarks>
-		public override void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {//TODO
-			throw new NotImplementedException ();
+		public override void Fit (IEnumerable<Tuple<int,double>> probabilities, double fitting = 1.0d) {
+			double[] cps = this.cprobs;
+			int n = cps.Length;
+			double[] pas = new double[n];
+			int low = this.Lower;
+			double p, sum = 0.0d;
+			foreach (Tuple<int,double> tup in probabilities) {
+				int x = tup.Item1 - low;
+				p = tup.Item2;
+				sum += p;
+				if (x < 0x00 || x > n) {
+					throw new ArgumentException ("While fitting, one can only enumerate valid values.");
+				} else if (x < n) {
+					pas [x] += p;
+				}
+			}
+			double fittinh = 1.0d - fitting;
+			double fitsum = fitting / sum;
+			double cur = 0.0d;
+			for (int i = 0x00; i < n; i++) {
+				cur += fitsum * pas [i];
+				cps [i] = fittinh * cps [i] + cur;
+			}
 		}
 		#endregion
 		#region IEnumerable implementation
