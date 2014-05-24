@@ -93,7 +93,7 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
-		public override void Fit (IEnumerable<Tuple<double, double>> probabilities, double fitting = 1.0) {//TODO
+		public override void Fit (IEnumerable<Tuple<double, double>> probabilities, double fitting = 1.0) {
 			double mean = 0.0d;
 			double stdv = 0.0d;
 			double fittinh = 1.0d - fitting;
@@ -111,6 +111,11 @@ namespace iohmma {
 			}
 			this.Mean = fitting * mean + fittinh * this.Mean;
 			this.Sigma = fitting * stdv + fittinh * this.Sigma;
+		}
+		#endregion
+		#region ToString method
+		public override string ToString () {
+			return string.Format ("N({0};{1})", this.Mean, this.Sigma);
 		}
 		#endregion
 	}
