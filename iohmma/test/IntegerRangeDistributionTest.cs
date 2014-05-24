@@ -27,10 +27,45 @@ namespace IohmmTest {
 	public class IntegerRangeDistributionTest {
 		[Test]
 		public void TestConstructor () {
-			IntegerRangeDistribution ird = new IntegerRangeDistribution (1, 5);
+			IntegerRangeDistribution ird;
+			ird = new IntegerRangeDistribution (1, 5);
 			Assert.AreEqual (1, ird.Lower);
 			Assert.AreEqual (5, ird.Upper);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x02), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x03), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x04), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x05), TestConstants.Tolerance);
+			ird = new IntegerRangeDistribution (5);
+			Assert.AreEqual (1, ird.Lower);
+			Assert.AreEqual (5, ird.Upper);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x02), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x03), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x04), TestConstants.Tolerance);
+			Assert.AreEqual (0.2d, ird.GetPdf (0x05), TestConstants.Tolerance);
+			ird = new IntegerRangeDistribution (1, 8);
+			Assert.AreEqual (1, ird.Lower);
+			Assert.AreEqual (8, ird.Upper);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x02), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x03), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x04), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x05), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x06), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x07), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x08), TestConstants.Tolerance);
+			ird = new IntegerRangeDistribution (0, 7);
+			Assert.AreEqual (0, ird.Lower);
+			Assert.AreEqual (7, ird.Upper);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x00), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x02), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x03), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x04), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x05), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x06), TestConstants.Tolerance);
+			Assert.AreEqual (0.125d, ird.GetPdf (0x07), TestConstants.Tolerance);
 		}
 	}
 }
-

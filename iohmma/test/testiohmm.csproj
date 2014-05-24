@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="TestMealy.cs" />
     <Compile Include="IntegerRangeDistributionTest.cs" />
+    <Compile Include="TestConstants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
