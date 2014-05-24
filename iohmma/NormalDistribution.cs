@@ -114,6 +114,14 @@ namespace iohmma {
 		}
 		#endregion
 		#region ToString method
+		/// <summary>
+		/// Returns a <see cref="String"/> that represents the current <see cref="NormalDistribution"/>.
+		/// </summary>
+		/// <returns>A <see cref="String"/> that represents the current <see cref="NormalDistribution"/>.</returns>
+		/// <remarks>
+		/// <para>The format of the returned text is <para>N(0,1)</para> where <c>0</c> is substituted by
+		/// the actual mean and <c>1</c> by the actual standard deviation.</para>
+		/// </remarks>
 		public override string ToString () {
 			return string.Format ("N({0};{1})", this.Mean, this.Sigma);
 		}
