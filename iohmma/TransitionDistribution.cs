@@ -68,6 +68,40 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the given input is not within the specified bounds.</exception>
 		public abstract TOutput Sample (TInput input);
 		#endregion
+		#region ITransitionDistribution implementation
+		/// Fit the distribution using the input-output data and their frequency.
+		/// </summary>
+		/// <param name="probabilities">A list of input-output data together with the observed probabilities.</param>
+		/// <param name="fitting">The fitting coefficient.</param>
+		/// <remarks>
+		/// <para>This method is a more convenient way to fit an <see cref="T:ITransitionDistribution`2"/> instance, but does nothing else
+		/// than the <see cref="M:IDistribution`2.Fit"/> method.</para>
+		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
+		/// If zero, only the old data.</para>
+		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="M:ITransitionDistribution`2.FitUnnormalized"/> method.</para>
+		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
+		/// </remarks>
+		public void Fit (IEnumerable<Tuple<TInput, TOutput, double>> probabilities, double fitting = 1.0) {
+			throw new NotImplementedException ();
+		}
+
+		/// <summary>
+		/// Fit the distribution using the input-output data and their frequence, but it is not guaranteed that the probabilities sum
+		/// up to one.
+		/// </summary>
+		/// <param name="probabilities">A list of input-output data together with the observed probabilities.</param>
+		/// <param name="fitting">The fitting coefficient.</param>
+		/// <remarks>
+		/// <para>This method is a more convenient way to fit an <see cref="T:ITransitionDistribution`2"/> instance, but does nothing else
+		/// than the <see cref="M:IDistribution`2.FitUnnormalized"/> method.</para>
+		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
+		/// If zero, only the old data.</para>
+		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
+		/// </remarks>
+		public void FitUnnormalized (IEnumerable<Tuple<TInput, TOutput, double>> probabilities, double fitting = 1.0) {
+			throw new NotImplementedException ();
+		}
+		#endregion
 	}
 }
 

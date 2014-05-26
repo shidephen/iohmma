@@ -62,6 +62,7 @@ namespace iohmma {
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="FitUnnormalized"/> method.</para>
+		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
 		/// </remarks>
 		void Fit (IEnumerable<Tuple<TData,double>> probabilities, double fitting = 1.0d);
 
@@ -74,6 +75,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
+		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
 		/// </remarks>
 		void FitUnnormalized (IEnumerable<Tuple<TData,double>> probabilities, double fitting = 1.0d);
 	}

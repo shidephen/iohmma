@@ -99,6 +99,7 @@ namespace iohmma {
 		/// <para>The sequence of inputs and outputs must be finite.</para>
 		/// </remarks>
 		public override void Train (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double fitting = 1.0d) {
+			//calculate Alpha- and Beta- values.
 			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
 			double[][] betar = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
 			int T = alpha.Length;
@@ -107,6 +108,7 @@ namespace iohmma {
 			double[] pi = this.Pi;
 			double[] alphat = null, betart = null, sumab = new double[T];
 			double sum = 0.0d;
+			//Calculate Gamma-like values.
 			for (int t = T1; t >= 0x00; t--) {
 				alphat = alpha [t];
 				betart = betar [T1 - t];
@@ -125,6 +127,37 @@ namespace iohmma {
 			for (int i = 0x00; i < N; i++) {
 				this.GetTransition (i).Fit (GetEtas (inoutputs, alpha, betar, sumab, i), fitting);
 			}
+			//fitting emmission probabilities based on the Alpha- and Beta-values.
+			for (int i = 0x00; i < N; i++) {
+				this.GetEmission (i).Fit (GetGammas (inoutputs, alpha, betar, sumab, i), fitting);
+			}
+		}
+
+		private IEnumerable<Tuple<Tuple<TInput,TOutput>,double>> GetGammas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {
+			int T = alpha.Length;
+			int T1 = T - 0x01;
+			int N = this.NumberOfHiddenStates;
+			double den, denalphati;
+			double[] alphat, betart;
+			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
+			enumerator.MoveNext ();
+			Tuple<TInput, TOutput> ct1 = enumerator.Current;
+			TInput x0, x1 = ct1.Item1;
+			TOutput y1;
+			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
+				x0 = x1;
+				ct1 = enumerator.Current;
+				x1 = ct1.Item1;
+				y1 = ct1.Item2;
+				alphat = alpha [t];
+				betart = betar [T1 - t];
+				den = 1.0d / sumab [t];
+				denalphati = alphat [i] * den;
+				for (int j = 0x00; j < N; j++) {
+					//yield return new Tuple<Tuple<TInput,int>,double> (new Tuple<TInput,int> (x0, j), betart [j] * this.GetA (x0, i, j) * this.GetB (x1, j, y1) * denalphati);
+				}
+			}
+			yield break;
 		}
 
 		private IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {

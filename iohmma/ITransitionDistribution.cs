@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
 
 namespace iohmma {
 	/// <summary>
@@ -42,5 +43,35 @@ namespace iohmma {
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		TOutput Sample (TInput input);
+
+		/// <summary>
+		/// Fit the distribution using the input-output data and their frequency.
+		/// </summary>
+		/// <param name="probabilities">A list of input-output data together with the observed probabilities.</param>
+		/// <param name="fitting">The fitting coefficient.</param>
+		/// <remarks>
+		/// <para>This method is a more convenient way to fit an <see cref="T:ITransitionDistribution`2"/> instance, but does nothing else
+		/// than the <see cref="M:IDistribution`2.Fit"/> method.</para>
+		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
+		/// If zero, only the old data.</para>
+		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="M:ITransitionDistribution`2.FitUnnormalized"/> method.</para>
+		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
+		/// </remarks>
+		void Fit (IEnumerable<Tuple<TInput,TOutput,double>> probabilities, double fitting = 1.0d);
+
+		/// <summary>
+		/// Fit the distribution using the input-output data and their frequence, but it is not guaranteed that the probabilities sum
+		/// up to one.
+		/// </summary>
+		/// <param name="probabilities">A list of input-output data together with the observed probabilities.</param>
+		/// <param name="fitting">The fitting coefficient.</param>
+		/// <remarks>
+		/// <para>This method is a more convenient way to fit an <see cref="T:ITransitionDistribution`2"/> instance, but does nothing else
+		/// than the <see cref="M:IDistribution`2.FitUnnormalized"/> method.</para>
+		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
+		/// If zero, only the old data.</para>
+		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
+		/// </remarks>
+		void FitUnnormalized (IEnumerable<Tuple<TInput,TOutput,double>> probabilities, double fitting = 1.0d);
 	}
 }
