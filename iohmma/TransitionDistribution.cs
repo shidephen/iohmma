@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace iohmma {
 	/// <summary>
@@ -69,6 +70,7 @@ namespace iohmma {
 		public abstract TOutput Sample (TInput input);
 		#endregion
 		#region ITransitionDistribution implementation
+		/// <summary>
 		/// Fit the distribution using the input-output data and their frequency.
 		/// </summary>
 		/// <param name="probabilities">A list of input-output data together with the observed probabilities.</param>
@@ -82,7 +84,7 @@ namespace iohmma {
 		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
 		/// </remarks>
 		public void Fit (IEnumerable<Tuple<TInput, TOutput, double>> probabilities, double fitting = 1.0) {
-			throw new NotImplementedException ();
+			this.Fit (probabilities.Select (x => new Tuple<Tuple<TInput,TOutput>,double> (new Tuple <TInput,TOutput> (x.Item1, x.Item2), x.Item3)), fitting);
 		}
 
 		/// <summary>
@@ -99,7 +101,7 @@ namespace iohmma {
 		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
 		/// </remarks>
 		public void FitUnnormalized (IEnumerable<Tuple<TInput, TOutput, double>> probabilities, double fitting = 1.0) {
-			throw new NotImplementedException ();
+			this.FitUnnormalized (probabilities.Select (x => new Tuple<Tuple<TInput,TOutput>,double> (new Tuple <TInput,TOutput> (x.Item1, x.Item2), x.Item3)), fitting);
 		}
 		#endregion
 	}
