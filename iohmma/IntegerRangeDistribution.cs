@@ -31,7 +31,7 @@ namespace iohmma {
 	/// <para>The implementation uses cummulative probability to make the <see cref="Sample"/> method faster.
 	/// Updating probabilities requires linear time.</para>
 	/// </remarks>
-	public class IntegerRangeDistribution : Distribution<int>, IIntegerRangeDistribution, IEnumerable<double> {
+	public class IntegerRangeDistribution : ScaledFittingDistribution<int>, IIntegerRangeDistribution, IEnumerable<double> {
 
 		/// <summary>
 		/// The tolaterated difference between one and the sum of the given probabilities in constructors, methods, etc.

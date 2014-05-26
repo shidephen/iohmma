@@ -25,7 +25,7 @@ namespace iohmma {
 	/// <summary>
 	/// An implementation of the <see cref="T:INormalDistribution`1"/> interface on scalar floating point numbers.
 	/// </summary>
-	public class NormalDistribution : Distribution<double>, INormalDistribution<double> {
+	public class NormalDistribution : ScaledFittingDistribution<double>, INormalDistribution<double> {
 
 		private double sigma = 1.0d;
 		#region INormalDistribution implementation
