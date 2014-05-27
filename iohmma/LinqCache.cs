@@ -38,7 +38,7 @@ namespace iohmma {
 	public class LinqCache<TData> : IEnumerable<TData> {
 
 		private readonly IEnumerator<TData> enumerator;
-		private readonly IList<TData> cache;
+		private readonly ICollection<TData> cache;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:LinqCache`1"/> class with a given
@@ -52,11 +52,11 @@ namespace iohmma {
 			if (source != null) {
 				throw new ArgumentNullException ("The given source must be effective.");
 			} else if (source is IList<TData>) {
-				this.cache = source as IList<TData>;
+				this.cache = source as ICollection<TData>;
 				this.enumerator = null;
 			} else {
 				this.enumerator = source.GetEnumerator ();
-				this.cache = new List<TData> ();
+				this.cache = new MultiThreadedList<TData> ();
 			}
 		}
 
