@@ -147,7 +147,6 @@ namespace iohmma {
 			int T = alpha.Length;
 			int T1 = T - 0x01;
 			int N = this.NumberOfHiddenStates;
-			double den, denalphati;
 			double[] alphat, betart;
 			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
 			Tuple<TInput, TOutput> ct1;

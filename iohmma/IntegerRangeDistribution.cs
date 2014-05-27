@@ -103,7 +103,52 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeDistribution"/> class with a given
+		/// Initializes a new instance of the <see cref="IntegerRangeDistribution"/> class with a given list of
+		/// initial probabilities.
+		/// </summary>
+		/// <param name="initialProbabilities">The list of initial probabilities, ordered in ascending index order.</param>
+		/// <exception cref="ArgumentException">If <paramref name="initialProbabilities"/> contains no elements.</exception>
+		/// <exception cref="ArgumentException">If the <paramref name="initialProbabilities"/> don't sum up to one.</exception>
+		/// <remarks>
+		/// <para>The list of initial probabilities must be finite.</para>
+		/// <para>The probabilities must sum up to one.</para>
+		/// <para>The lower bound is set to one (<c>1</c>).</para>
+		/// </remarks>
+		public IntegerRangeDistribution (params double[] initialProbabilities) : this((IEnumerable<double>) initialProbabilities) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="IntegerRangeDistribution"/> class with a given list of
+		/// initial probabilities.
+		/// </summary>
+		/// <param name="initialProbabilities">The list of initial probabilities, ordered in ascending index order.</param>
+		/// <exception cref="ArgumentException">If <paramref name="initialProbabilities"/> contains no elements.</exception>
+		/// <exception cref="ArgumentException">If the <paramref name="initialProbabilities"/> don't sum up to one.</exception>
+		/// <remarks>
+		/// <para>The list of initial probabilities must be finite.</para>
+		/// <para>The probabilities must sum up to one.</para>
+		/// <para>The lower bound is set to one (<c>1</c>).</para>
+		/// </remarks>
+		public IntegerRangeDistribution (IEnumerable<double> initialProbabilities) : this(0x01,initialProbabilities) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="IntegerRangeDistribution"/> class with a given lower
+		/// boudn and a list of initial probabilities.
+		/// </summary>
+		/// <param name="lower">The given lower bound for the integer range.</param>
+		/// <param name="initialProbabilities">The list of initial probabilities, ordered in ascending index order.</param>
+		/// <exception cref="ArgumentException">If <paramref name="initialProbabilities"/> contains no elements.</exception>
+		/// <exception cref="ArgumentException">If the <paramref name="initialProbabilities"/> don't sum up to one.</exception>
+		/// <remarks>
+		/// <para>The list of initial probabilities must be finite.</para>
+		/// <para>The probabilities must sum up to one.</para>
+		/// </remarks>
+		public IntegerRangeDistribution (int lower, params double[] initialProbabilities) : this(lower,(IEnumerable<double>) initialProbabilities) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="IntegerRangeDistribution"/> class with a given
 		/// lower bound and a list of initial probabilities.
 		/// </summary>
 		/// <param name="lower">The given lower bound for the integer range.</param>
@@ -274,6 +319,15 @@ namespace iohmma {
 				sb.Append (pis.Current);
 			}
 			return sb.ToString ();
+		}
+		#endregion
+		#region Random generators
+		public static IntegerRangeDistribution GenerateRandom (int lower, int upper) {
+			return null;
+		}
+
+		public static IntegerRangeDistribution GenerateRandom (int upper) {
+			return null;
 		}
 		#endregion
 	}

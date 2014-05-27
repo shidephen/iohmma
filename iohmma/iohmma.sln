@@ -5,12 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iohmma", "iohmma.csproj", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testiohmm", "test\testiohmm.csproj", "{8D3AF6CA-FAEA-4EFA-B4BB-E47EAD7228D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUtils", "..\NUtils\NUtils\NUtils.csproj", "{199D5C0D-6274-453D-8E5B-24E6142903FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{199D5C0D-6274-453D-8E5B-24E6142903FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{199D5C0D-6274-453D-8E5B-24E6142903FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{199D5C0D-6274-453D-8E5B-24E6142903FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{199D5C0D-6274-453D-8E5B-24E6142903FB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D3AF6CA-FAEA-4EFA-B4BB-E47EAD7228D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D3AF6CA-FAEA-4EFA-B4BB-E47EAD7228D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D3AF6CA-FAEA-4EFA-B4BB-E47EAD7228D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
