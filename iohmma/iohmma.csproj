@@ -60,6 +60,7 @@
     <Compile Include="ScaledFittingDistribution.cs" />
     <Compile Include="LinqCache.cs" />
     <Compile Include="MultiThreadedList.cs" />
+    <Compile Include="LinqCacheUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
