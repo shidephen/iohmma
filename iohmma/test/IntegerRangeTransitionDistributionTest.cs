@@ -28,7 +28,12 @@ namespace IohmmTest {
 
 		[Test()]
 		public void TestConstructor1 () {
-			IntegerRangeTransitionDistribution<int> irtd = new IntegerRangeTransitionDistribution<int> (new IntegerRangeDistribution (0.0d, 1.0d), new IntegerRangeDistribution (1.0d, 0.0d));
+			IntegerRangeTransitionDistribution<int> irtd;
+			irtd = new IntegerRangeTransitionDistribution<int> (new IntegerRangeDistribution (0.0d, 1.0d), new IntegerRangeDistribution (1.0d, 0.0d));
+			Assert.AreEqual (0x01, irtd.Lower);
+			Assert.AreEqual (0x02, irtd.Upper);
+			Assert.AreEqual (0x01, irtd.Sample (0x02));
+			Assert.AreEqual (0x02, irtd.Sample (0x01));
 		}
 	}
 }
