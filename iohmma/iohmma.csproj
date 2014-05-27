@@ -58,6 +58,7 @@
     <Compile Include="INormalDistribution.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="ScaledFittingDistribution.cs" />
+    <Compile Include="LinqCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
