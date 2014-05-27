@@ -139,7 +139,7 @@ namespace iohmma {
 			int n = pc.Length, li, l = this.Lower;
 			for (int i = 0x00; i < n; i++) {
 				li = l + i;
-				pc [i].Fit (probabilities.Where (x => x.Item1.Item1 == li).Select (x => new Tuple<TOutput,double> (x.Item1.Item2, x.Item2)), fitting);
+				pc [i].Fit (from p in probabilities where p.Item1.Item1 == li select new Tuple<TOutput,double> (p.Item1.Item2, p.Item2), fitting);
 			}
 		}
 		#endregion
