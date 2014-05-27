@@ -54,6 +54,37 @@ namespace iohmma {
 			}
 		}
 		#endregion
+		#region ICollection implementation
+		public void Add (TData item) {
+			throw new NotImplementedException ();
+		}
+
+		public void Clear () {
+			throw new NotImplementedException ();
+		}
+
+		public bool Contains (TData item) {
+			throw new NotImplementedException ();
+		}
+
+		public void CopyTo (TData[] array, int arrayIndex) {
+			throw new NotImplementedException ();
+		}
+
+		public bool Remove (TData item) {
+			throw new NotImplementedException ();
+		}
+		#endregion
+		#region IEnumerable implementation
+		public IEnumerator<TData> GetEnumerator () {
+			throw new NotImplementedException ();
+		}
+		#endregion
+		#region IEnumerable implementation
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator () {
+			throw new NotImplementedException ();
+		}
+		#endregion
 		private class MultiThreadedListItem {
 
 			public TData data;
