@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUtils;
 
 namespace iohmma {
 	/// <summary>
@@ -68,11 +69,52 @@ namespace iohmma {
 		#endregion
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given lower and
-		/// upper bound on the input and the number of hidden states of the hidden Markov model.
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// list of distributions for every discrete input.
+		/// </summary>
+		/// <param name="distributions">A list of distributions ordered per input.</param>
+		/// <exception cref="ArgumentException">If no distribution is given.</exception>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// </remarks>
+		public IntegerRangeTransitionDistribution (params IDistribution<TOutput>[] distributions) : this(0x01,distributions) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// list of distributions for every discrete input.
+		/// </summary>
+		/// <param name="distributions">A list of distributions ordered per input.</param>
+		/// <exception cref="ArgumentException">If no distribution is given.</exception>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// </remarks>
+		public IntegerRangeTransitionDistribution (IEnumerable<IDistribution<TOutput>> distributions) : this(0x01,distributions) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// lower bound and a list of distributions for every discrete input.
 		/// </summary>
 		/// <param name="lower">The lower bound on the input.</param>
 		/// <param name="distributions">A list of distributions ordered per input.</param>
+		/// <exception cref="ArgumentException">If no distribution is given.</exception>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// </remarks>
+		public IntegerRangeTransitionDistribution (int lower, params IDistribution<TOutput>[] distributions) : this(lower,(IEnumerable<IDistribution<TOutput>>) distributions) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// lower bound and a list of distributions for every discrete input.
+		/// </summary>
+		/// <param name="lower">The lower bound on the input.</param>
+		/// <param name="distributions">A list of distributions ordered per input.</param>
+		/// <exception cref="ArgumentException">If no distribution is given.</exception>
 		/// <remarks>
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
@@ -80,6 +122,80 @@ namespace iohmma {
 		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) {
 			this.Lower = lower;
 			this.subdistributions = distributions.ToArray ();
+			if (this.subdistributions.Length <= 0x00) {
+				throw new ArgumentException ("The number of given distributions must be larger than zero.");
+			}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// upper bound and a generator function that constructs new distributions.
+		/// </summary>
+		/// <param name="upper">The given upper bound on the input</param>
+		/// <param name="subdistributionGenerator">A generator that constructs the distributions. The function takes no inputs.</param>
+		/// <exception cref="ArgumentException">If the given upper bound is less than one (<c>1</c>).</exception>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// <para>The lower bound is set to one (<c>1</c>).</para>
+		/// </remarks>
+		public IntegerRangeTransitionDistribution (int upper, Func<IDistribution<TOutput>> subdistributionGenerator) : this(0x01,upper,subdistributionGenerator) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// lower- and upper bound and a generator function that constructs new distributions.
+		/// </summary>
+		/// <param name="lower">The given lower bound on the input.</param>
+		/// <param name="upper">The given upper bound on the input</param>
+		/// <param name="subdistributionGenerator">A generator that constructs the distributions. The function takes no inputs.</param>
+		/// <exception cref="ArgumentException">If the given upper bound is less than the given lower bound.</exception>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// </remarks>
+		public IntegerRangeTransitionDistribution (int lower, int upper, Func<IDistribution<TOutput>> subdistributionGenerator) : this(lower,upper,subdistributionGenerator.ShiftRightParameter<int,IDistribution<TOutput>> ()) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// upper bound and a generator function that constructs new distributions.
+		/// </summary>
+		/// <param name="upper">The given upper bound on the input</param>
+		/// <param name="subdistributionGenerator">A generator that constructs the distributions. The function takes as input
+		/// the input value for which a distribution must be generated.</param>
+		/// <exception cref="ArgumentException">If the given upper bound is less than one (<c>1</c>).</exception>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// <para>The lower bound is set to one (<c>1</c>).</para>
+		/// </remarks>
+		public IntegerRangeTransitionDistribution (int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : this(0x01,upper,subdistributionGenerator) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
+		/// lower- and upper bound and a generator function that constructs new distributions.
+		/// </summary>
+		/// <param name="lower">The given lower bound on the input.</param>
+		/// <param name="upper">The given upper bound on the input</param>
+		/// <param name="subdistributionGenerator">A generator that constructs the distributions. The function takes as input
+		/// the input value for which a distribution must be generated.</param>
+		/// <exception cref="ArgumentException">If the given upper bound is less than the given lower bound.</exception>
+		/// <remarks>
+		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
+		/// in this transitional distribution.</para>
+		/// </remarks>
+		public IntegerRangeTransitionDistribution (int lower, int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) {
+			this.Lower = lower;
+			int n = upper - lower + 0x01;
+			if (n <= 0x00) {
+				throw new ArgumentException ("The upper bound must be larger than or equal to the lower bound.");
+			}
+			this.subdistributions = new IDistribution<TOutput>[n];
+			for (int i = 0x00; i < n; i++) {
+				this.subdistributions [i] = subdistributionGenerator (i + lower);
+			}
 		}
 		#endregion
 		#region implemented abstract members of TransitionDistribution
