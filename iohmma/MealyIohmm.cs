@@ -125,14 +125,24 @@ namespace iohmma {
 			}
 			//fitting the transition probabilities based on the Alpha- and Beta-values.
 			for (int i = 0x00; i < N; i++) {
-				this.GetTransition (i).Fit (GetEtas (inoutputs, alpha, betar, sumab, i).Cache (), fitting);
+				this.GetTransition (i).FitUnnormalized (GetEtas (inoutputs, alpha, betar, sumab, i).Cache (), fitting);
 			}
 			//fitting emmission probabilities based on the Alpha- and Beta-values.
 			for (int i = 0x00; i < N; i++) {
-				this.GetEmission (i).Fit (GetGammas (inoutputs, alpha, betar, sumab, i).Cache (), fitting);
+				this.GetEmission (i).FitUnnormalized (GetGammas (inoutputs, alpha, betar, sumab, i).Cache (), fitting);
 			}
 		}
 
+		/// <summary>
+		/// Calculates a stream of gamma-values, these are used for fitting the emmission probabilities (the so-called B-values).
+		/// </summary>
+		/// <returns>A list of <see cref="T:Tuple`2"/> instances where the first item is a <see cref="T:Tuple`2"/> that contains
+		/// the input and output pair and the probability as a second item.</returns>
+		/// <param name="inoutputs">The original list of inputs- and outputs used to train the Hidden Markov Model.</param>
+		/// <param name="alpha">The calculated alpha values.</param>
+		/// <param name="betar">The calculated beta values in recversed order.</param>
+		/// <param name="sumab">A list of sums of the alpha and beta values of each time stamp.</param>
+		/// <param name="i">The original index for the emission probabilities.</param>
 		private IEnumerable<Tuple<Tuple<TInput,TOutput>,double>> GetGammas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {
 			int T = alpha.Length;
 			int T1 = T - 0x01;
@@ -140,26 +150,30 @@ namespace iohmma {
 			double den, denalphati;
 			double[] alphat, betart;
 			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
-			enumerator.MoveNext ();
-			Tuple<TInput, TOutput> ct1 = enumerator.Current;
-			TInput x0, x1 = ct1.Item1;
+			Tuple<TInput, TOutput> ct1;
+			TInput x1;
 			TOutput y1;
 			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
-				x0 = x1;
 				ct1 = enumerator.Current;
 				x1 = ct1.Item1;
 				y1 = ct1.Item2;
 				alphat = alpha [t];
 				betart = betar [T1 - t];
-				den = 1.0d / sumab [t];
-				denalphati = alphat [i] * den;
-				for (int j = 0x00; j < N; j++) {
-					//yield return new Tuple<Tuple<TInput,int>,double> (new Tuple<TInput,int> (x0, j), betart [j] * this.GetA (x0, i, j) * this.GetB (x1, j, y1) * denalphati);
-				}
+				yield return new Tuple<Tuple<TInput,TOutput>,double> (new Tuple<TInput,TOutput> (x1, y1), alphat [i] * betart [i]);
 			}
 			yield break;
 		}
 
+		/// <summary>
+		/// Caclcuates a stream of eta-values, these are used to fit the transition probabilities (or the so-called A-values).
+		/// </summary>
+		/// <returns>A list of <see cref="T:Tuple`2"/> values where the first element is a <see cref="T:Tuple`2"/>
+		/// of input and state. and as second item the probability of the migration.</returns>
+		/// <param name="inoutputs">The original sequence of inputs and outputs that are used to train the Hidden Markov Model.</param>
+		/// <param name="alpha">The calculated alpha values.</param>
+		/// <param name="betar">The calculated beta values in reverse ordered.</param>
+		/// <param name="sumab">A list of sums of the alpha and beta values of each time stamp.</param>
+		/// <param name="i">The original index for the transition probabilities.</param>
 		private IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {
 			int T = alpha.Length;
 			int T1 = T - 0x01;
