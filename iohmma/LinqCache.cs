@@ -78,6 +78,13 @@ namespace iohmma {
 			}
 		}
 		#region IEnumerable implementation
+		/// <summary>
+		/// Generate an <see cref="T:IEnumerator`1"/> that will enumerate all the items of the original
+		/// given <see cref="T:IEnumerable`1"/>, the items are caches such that, when called a second time, the enumeration
+		/// is done faster.
+		/// </summary>
+		/// <returns>The <see cref="T:IEnumerator`1"/> that enumerates all the items of the original
+		/// given <see cref="T:IEnumerable`1"/>.</returns>
 		public IEnumerator<TData> GetEnumerator () {
 			foreach (TData data in this.cache) {
 				yield return data;
