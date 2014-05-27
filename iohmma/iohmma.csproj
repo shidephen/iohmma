@@ -63,4 +63,10 @@
     <Compile Include="LinqCacheUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\NUtils\NUtils\NUtils.csproj">
+      <Project>{199D5C0D-6274-453D-8E5B-24E6142903FB}</Project>
+      <Name>NUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

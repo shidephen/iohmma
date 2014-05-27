@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NUtils;
 
 namespace iohmma {
 	/// <summary>
@@ -322,12 +323,45 @@ namespace iohmma {
 		}
 		#endregion
 		#region Random generators
+		/// <summary>
+		/// Generates a random <see cref="IntegerRangeDistribution"/> with a given lower and upper bound. The probabilities
+		/// are random numbers between zero and one that sum up to one.
+		/// </summary>
+		/// <returns>A random <see cref="IntegerRangeDistribution"/> with a given lower and upper bound.</returns>
+		/// <param name="lower">The lower bound of the generated <see cref="IntegerRangeDistribution"/>.</param>
+		/// <param name="upper">The upper bound of the generated <see cref="IntegerRangeDistribution"/>.</param>
+		/// <exception cref="ArgumentException">If the given upper bound is smaller than the given lower bound.</exception>
 		public static IntegerRangeDistribution GenerateRandom (int lower, int upper) {
-			return null;
+			int n = upper - lower + 0x01;
+			if (n <= 0x00) {
+				throw new ArgumentException ("The upper bound must at least be as large as the lower bound.");
+			}
+			double[] probs = new double[n];
+			double p, sum = 0.0d;
+			for (int i = 0x00; i <n; i++) {
+				p = MathUtils.NextDouble ();
+				probs [i] = p;
+				sum += p;
+			}
+			sum = 1.0d / sum;
+			for (int i = 0x00; i <n; i++) {
+				probs [i] *= sum;
+			}
+			return new IntegerRangeDistribution (lower, probs);
 		}
 
+		/// <summary>
+		/// Generates a random <see cref="IntegerRangeDistribution"/> with a given upper bound. The probabilities
+		/// are random numbers between zero and one that sum up to one.
+		/// </summary>
+		/// <returns>A random <see cref="IntegerRangeDistribution"/> with a given upper bound.</returns>
+		/// <param name="upper">The upper bound of the generated <see cref="IntegerRangeDistribution"/>.</param>
+		/// <exception cref="ArgumentException">If the given upper bound is smaller than one (<c>1</c>).</exception>
+		/// <remarks>
+		/// <para>The lower bound is set to one (<c>1</c>).</para>
+		/// </remarks>
 		public static IntegerRangeDistribution GenerateRandom (int upper) {
-			return null;
+			return GenerateRandom (0x01, upper);
 		}
 		#endregion
 	}
