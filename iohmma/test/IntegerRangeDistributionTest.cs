@@ -154,5 +154,19 @@ namespace IohmmTest {
 			Assert.AreEqual (0.0d, ird.GetPdf (0x04), TestConstants.Tolerance);
 			Assert.AreEqual (0.0d, ird.GetPdf (0x05), TestConstants.Tolerance);
 		}
+
+		[Test]
+		public void GenerateRandomTest () {
+			IntegerRangeDistribution ird = IntegerRangeDistribution.GenerateRandom (16);
+			Assert.AreEqual (1, ird.Lower);
+			Assert.AreEqual (16, ird.Upper);
+			double sum = 0.0d;
+			for (int i = 0x01; i <= 16; i++) {
+				sum += ird.GetPdf (i);
+				Assert.LessOrEqual (0.0d, ird.GetPdf (i));
+				Assert.GreaterOrEqual (1.0d, ird.GetPdf (i));
+			}
+			Assert.AreEqual (1.0d, sum, TestConstants.Tolerance);
+		}
 	}
 }

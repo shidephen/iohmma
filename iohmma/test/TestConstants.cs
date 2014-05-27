@@ -24,6 +24,8 @@ namespace IohmmTest {
 	public static class TestConstants {
 
 		public const double Tolerance = 1e-7d;
+		public const int SmallLoop = 0x100;
+		public const int LargeLoop = 0x10000;
 	}
 }
 

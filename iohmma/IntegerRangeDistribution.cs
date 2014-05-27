@@ -32,7 +32,7 @@ namespace iohmma {
 	/// <para>The implementation uses cummulative probability to make the <see cref="Sample"/> method faster.
 	/// Updating probabilities requires linear time.</para>
 	/// </remarks>
-	public class IntegerRangeDistribution : ScaledFittingDistribution<int>, IIntegerRangeDistribution, IEnumerable<double> {
+	public class IntegerRangeDistribution : ScaledFittingDistribution<int>, IIntegerRangeDistribution, IEnumerable<double>, IFormatFormatProviderToString {
 
 		/// <summary>
 		/// The tolaterated difference between one and the sum of the given probabilities in constructors, methods, etc.
@@ -307,19 +307,46 @@ namespace iohmma {
 		/// <para>The result has a format <c>1/0.5,2/0.2,3/0.3</c>.</para>
 		/// </remarks>
 		public override string ToString () {
-			StringBuilder sb = new StringBuilder ();
-			int index = this.Lower;
-			IEnumerator<double> pis = this.GetEnumerator ();
-			pis.MoveNext ();
-			sb.Append (index++);
-			sb.Append ('/');
-			sb.Append (pis.Current);
-			while (pis.MoveNext ()) {
-				sb.Append (index++);
-				sb.Append ('/');
-				sb.Append (pis.Current);
-			}
-			return sb.ToString ();
+			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", this), this.Upper);
+		}
+		#endregion
+		#region IFormatFormatProviderToString implementation
+		/// <summary>
+		/// Converts the numeric value of this instance to its equivalent string representation using the specified format and
+		/// culture-specific format information.
+		/// </summary>
+		/// <returns>
+		/// The string representation of the value of this instance as specified by <paramref name="format" /> and <paramref name="provider" />.
+		/// </returns>
+		/// <param name="format">A numeric format string.</param>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information.</param>
+		public string ToString (string format, IFormatProvider provider) {
+			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", from x in this select x.ToString (format, provider)), this.Upper);
+		}
+		#endregion
+		/// <summary>
+		/// Converts the numeric value of this instance to its equivalent string representation using the specified culture-specific format information.
+		/// </summary>
+		/// <returns>
+		/// The string representation of the value of this instance as specified by <paramref name="provider"/>.
+		/// </returns>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information.</param>
+		#region IFormatProviderToString implementation
+		public string ToString (IFormatProvider provider) {
+			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", from x in this select x.ToString (provider)), this.Upper);
+		}
+		#endregion
+		#region IFormatToString implementation
+		/// <summary>
+		/// Converts the numeric value of this instance to its equivalent string representation, using the specified format.
+		/// </summary>
+		/// <returns>
+		/// The string representation of the value of this instance as specified by <paramref name="format" />.
+		/// </returns>
+		/// <param name="format">A numeric format string.</param>
+		/// <exception cref="T:System.FormatException"><paramref name="format" /> is invalid.</exception>
+		public string ToString (string format) {
+			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", from x in this select x.ToString (format)), this.Upper);
 		}
 		#endregion
 		#region Random generators
