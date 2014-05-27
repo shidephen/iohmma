@@ -28,7 +28,7 @@ namespace iohmma {
 	/// </summary>
 	public class IntegerRangeTransitionDistribution<TOutput> : TransitionDistribution<int,TOutput>, IRange<int> {
 
-		private readonly IDistribution<TOutput>[] probabilities;
+		private readonly IDistribution<TOutput>[] subdistributions;
 		#region IRange implementation
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
@@ -51,7 +51,7 @@ namespace iohmma {
 		/// </remarks>
 		public int Upper {
 			get {
-				return this.Lower + this.probabilities.Length - 0x01;
+				return this.Lower + this.subdistributions.Length - 0x01;
 			}
 		}
 		#endregion
@@ -62,7 +62,7 @@ namespace iohmma {
 		/// <value>The number of hidden states involved.</value>
 		public override int NumberOfHiddenStates {
 			get {
-				return this.probabilities.GetLength (0x01);
+				return this.subdistributions.GetLength (0x01);
 			}
 		}
 		#endregion
@@ -79,7 +79,7 @@ namespace iohmma {
 		/// </remarks>
 		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) {
 			this.Lower = lower;
-			this.probabilities = distributions.ToArray ();
+			this.subdistributions = distributions.ToArray ();
 		}
 		#endregion
 		#region implemented abstract members of TransitionDistribution
@@ -97,7 +97,7 @@ namespace iohmma {
 		/// </remarks>
 		public override double GetPdf (int input, TOutput output) {
 			int x = input - this.Lower;
-			IDistribution<TOutput>[] ps = this.probabilities;
+			IDistribution<TOutput>[] ps = this.subdistributions;
 			if (x >= 0x00 && x < ps.Length) {
 				return ps [x].GetPdf (output);
 			} else {
@@ -121,7 +121,7 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
 		public override TOutput Sample (int input) {
 			int x = input - this.Lower;
-			IDistribution<TOutput>[] ps = this.probabilities;
+			IDistribution<TOutput>[] ps = this.subdistributions;
 			if (x >= 0x00 && x < ps.Length) {
 				return ps [x].Sample ();
 			} else {
@@ -135,7 +135,12 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		public override void Fit (IEnumerable<Tuple<Tuple<int, TOutput>, double>> probabilities, double fitting = 1.0) {
-			throw new NotImplementedException ();
+			IDistribution<TOutput>[] pc = this.subdistributions;
+			int n = pc.Length, li, l = this.Lower;
+			for (int i = 0x00; i < n; i++) {
+				li = l + i;
+				pc [i].Fit (probabilities.Where (x => x.Item1.Item1 == li).Select (x => new Tuple<TOutput,double> (x.Item1.Item2, x.Item2)), fitting);
+			}
 		}
 		#endregion
 	}

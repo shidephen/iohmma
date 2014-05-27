@@ -125,11 +125,11 @@ namespace iohmma {
 			}
 			//fitting the transition probabilities based on the Alpha- and Beta-values.
 			for (int i = 0x00; i < N; i++) {
-				this.GetTransition (i).Fit (GetEtas (inoutputs, alpha, betar, sumab, i), fitting);
+				this.GetTransition (i).Fit (GetEtas (inoutputs, alpha, betar, sumab, i).Cache (), fitting);
 			}
 			//fitting emmission probabilities based on the Alpha- and Beta-values.
 			for (int i = 0x00; i < N; i++) {
-				this.GetEmission (i).Fit (GetGammas (inoutputs, alpha, betar, sumab, i), fitting);
+				this.GetEmission (i).Fit (GetGammas (inoutputs, alpha, betar, sumab, i).Cache (), fitting);
 			}
 		}
 

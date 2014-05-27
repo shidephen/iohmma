@@ -92,7 +92,7 @@ namespace iohmma {
 			TData edata;
 			while (this.emitNext (out edata)) {
 				yield return edata;
-			}
+			}//TODO: interleaved rechecking on cache data?
 		}
 		#endregion
 		#region IEnumerable implementation
