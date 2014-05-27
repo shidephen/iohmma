@@ -56,17 +56,6 @@ namespace iohmma {
 			}
 		}
 		#endregion
-		#region implemented abstract members of TransitionDistribution
-		/// <summary>
-		/// Gets the number of hidden states involved.
-		/// </summary>
-		/// <value>The number of hidden states involved.</value>
-		public override int NumberOfHiddenStates {
-			get {
-				return this.subdistributions.GetLength (0x01);
-			}
-		}
-		#endregion
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given

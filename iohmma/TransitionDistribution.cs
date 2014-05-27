@@ -29,15 +29,6 @@ namespace iohmma {
 	/// <typeparam name='TInput'>The type of input on which the transition distribution depends.</typeparam>
 	public abstract class TransitionDistribution<TInput,TOutput> : Distribution<Tuple<TInput,TOutput>>, ITransitionDistribution<TInput,TOutput> {
 
-		#region IHiddenStates implementation
-		/// <summary>
-		/// Gets the number of involved hidden states.
-		/// </summary>
-		/// <value>The number of involved hidden states.</value>
-		public abstract int NumberOfHiddenStates {
-			get;
-		}
-		#endregion
 		#region ITransitionDistribution implementation
 		/// <summary>
 		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
