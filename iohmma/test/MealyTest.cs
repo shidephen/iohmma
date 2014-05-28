@@ -23,9 +23,9 @@ using System;
 
 namespace IohmmTest {
 	[TestFixture()]
-	public class Test {
+	public class MealyTest {
 		[Test()]
-		public void TestCase () {
+		public void TestConstructor () {
 		}
 	}
 }
