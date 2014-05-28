@@ -61,6 +61,7 @@
     <Compile Include="LinqCache.cs" />
     <Compile Include="MultiThreadedList.cs" />
     <Compile Include="LinqCacheUtil.cs" />
+    <Compile Include="ProgramConstants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

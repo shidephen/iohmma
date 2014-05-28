@@ -57,12 +57,58 @@ namespace iohmma {
 		#endregion
 		#region Constructors
 		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class with a given list of initial hidden
+		/// state probabilities and a generator function for a transition distribution.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributionGenerator">A generator function, that generates the transition functions, the function has no parameters.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		protected Iohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator) : this(pi,transitionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,int>> ()) {
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator function, that generates the transition functions, the function has no parameters.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
 		protected Iohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator) : this(numberOfHiddenStates,transitionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,int>> ()) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class with a given list of initial hidden state probabilities and
+		/// a generator function for transition distributions.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributionGenerator">A generator function, that generates the transition functions, it has one parameter: the original state.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		protected Iohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator) {
+			double[] pia = pi.ToArray ();
+			int numberOfHiddenStates = pia.Length;
+			if (numberOfHiddenStates <= 0x00) {
+				throw new ArgumentException ("The number of hidden states must be greater than zero.");
+			}
+			double sum = 0.0d, p;
+			for (int i = 0x00; i < numberOfHiddenStates; i++) {
+				p = pia [i];
+				if (p < 0.0d) {
+					throw new ArgumentException ("All initial state probabilities must be larger or equal to zero.");
+				}
+				sum += pia [i];
+			}
+			if (Math.Abs (1.0d - sum) > ProgramConstants.Epsilon) {
+				throw new ArgumentException ("The given intial state probabilities must sum up to one.");
+			}
+			this.Pi = pia;
+			ITransitionDistribution<TInput,int>[] tr = new ITransitionDistribution<TInput, int>[numberOfHiddenStates];
+			for (int i = 0x00; i < numberOfHiddenStates; i++) {
+				tr [i] = transitionDistributionGenerator (i);
+			}
+			this.Transitions = tr;
 		}
 
 		/// <summary>
@@ -78,7 +124,6 @@ namespace iohmma {
 			this.Pi = new double[numberOfHiddenStates];
 			this.ResetPi ();
 			ITransitionDistribution<TInput,int>[] tr = new ITransitionDistribution<TInput, int>[numberOfHiddenStates];
-
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
 				tr [i] = transitionDistributionGenerator (i);
 			}
@@ -86,10 +131,39 @@ namespace iohmma {
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class with a given list of initial probabilities
+		/// and a given list of transition distributions.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributions">A list of initial transition distributions for the hidden states.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		protected Iohmm (IEnumerable<double> pi, params ITransitionDistribution<TInput,int>[] transitionDistributions) : this(pi,(IEnumerable<ITransitionDistribution<TInput,int>>) transitionDistributions) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class.
+		/// </summary>
+		/// <param name="numberOfHiddenStates">The given number of hidden states.</param>
+		/// <param name="transitionDistributions">A list of initial transition distributions for the hidden states.</param>
+		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		protected Iohmm (int numberOfHiddenStates, params ITransitionDistribution<TInput,int>[] transitionDistributions) : this(numberOfHiddenStates,(IEnumerable<ITransitionDistribution<TInput,int>>) transitionDistributions) {
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
-		/// <param name="transitionDistributions">A list of initial distributions for the hidden states.</param>
+		/// <param name="transitionDistributions">A list of initial transition distributions for the hidden states.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
 		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
 		/// <remarks>
@@ -101,6 +175,44 @@ namespace iohmma {
 			}
 			this.Pi = new double[numberOfHiddenStates];
 			this.ResetPi ();
+			ITransitionDistribution<TInput,int>[] tr = transitionDistributions.Take (numberOfHiddenStates).ToArray ();
+			if (tr.Length < numberOfHiddenStates) {
+				throw new ArgumentException ("The number of given initial transition distributions must be larger or equal to the number of hidden states.");
+			}
+			this.Transitions = tr;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class with a given list of initial probabilities
+		/// and a given list of transition distributions.
+		/// </summary>
+		/// <param name="pi">A given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributions">A list of initial transition distributions for the hidden states.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		protected Iohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions) {
+			double[] pia = pi.ToArray ();
+			int numberOfHiddenStates = pia.Length;
+			if (numberOfHiddenStates <= 0x00) {
+				throw new ArgumentException ("The number of hidden states must be greater than zero.");
+			}
+			double sum = 0.0d, p;
+			for (int i = 0x00; i < numberOfHiddenStates; i++) {
+				p = pia [i];
+				if (p < 0.0d) {
+					throw new ArgumentException ("All initial state probabilities must be larger or equal to zero.");
+				}
+				sum += pia [i];
+			}
+			if (Math.Abs (1.0d - sum) > ProgramConstants.Epsilon) {
+				throw new ArgumentException ("The given intial state probabilities must sum up to one.");
+			}
+			this.Pi = pia;
 			ITransitionDistribution<TInput,int>[] tr = transitionDistributions.Take (numberOfHiddenStates).ToArray ();
 			if (tr.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial transition distributions must be larger or equal to the number of hidden states.");

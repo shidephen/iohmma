@@ -1,5 +1,5 @@
 //
-//  Test.cs
+//  ProgramConstants.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -18,17 +18,23 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using NUnit.Framework;
 using System;
-using NUtils;
 
-namespace IohmmTest {
-	[TestFixture()]
-	public class MealyTest {
-		[Test()]
-		public void TestConstructor () {
-			//MealyIohmm mi = new MealyIohmm ();
-		}
+namespace iohmma {
+	/// <summary>
+	/// A utility class that stores a number of constants used by different algorithms in the program.
+	/// </summary>
+	public static class ProgramConstants {
+
+		#region Constants
+		/// <summary>
+		/// The tolaterated difference between one and the sum of the given probabilities in constructors, methods, etc.
+		/// </summary>
+		/// <remarks>
+		/// <para>If the sum of the items does not equal one (with a tolerance of epsilon), a <see cref="ArgumentException"/> will be thrown.</para>
+		/// </remarks>
+		public const double Epsilon = 1e-6d;
+		#endregion
 	}
 }
 

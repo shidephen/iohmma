@@ -34,14 +34,9 @@ namespace iohmma {
 	/// </remarks>
 	public class IntegerRangeDistribution : ScaledFittingDistribution<int>, IIntegerRangeDistribution, IEnumerable<double>, IFormatFormatProviderToString {
 
-		/// <summary>
-		/// The tolaterated difference between one and the sum of the given probabilities in constructors, methods, etc.
-		/// </summary>
-		/// <remarks>
-		/// <para>If the sum of the items does not equal one (with a tolerance of epsilon), a <see cref="ArgumentException"/> will be thrown.</para>
-		/// </remarks>
-		public const double Epsilon = 1e-6d;
+		#region Fields
 		private readonly double[] cprobs;
+		#endregion
 		#region IRange implementation
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
@@ -172,7 +167,7 @@ namespace iohmma {
 				cps.Add (p);
 				p += enumerator.Current;
 			}
-			if (Math.Abs (p - 1.0d) > Epsilon) {
+			if (Math.Abs (p - 1.0d) > ProgramConstants.Epsilon) {
 				throw new ArgumentException ("The probabilities must sum up to one.");
 			}
 			this.cprobs = cps.ToArray ();
