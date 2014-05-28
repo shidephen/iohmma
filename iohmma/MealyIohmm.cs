@@ -424,5 +424,16 @@ namespace iohmma {
 			}
 		}
 		#endregion
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:MealyIohmm`2"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="T:MealyIohmm`2"/>.</returns>
+		/// <remarks>
+		/// <para>The Hidden Markov Model is formatted as a two-dimensional table with in the x-direction the hidden states
+		/// and in the y-direction the initial probability, the transition probabilities and the emission probabilities.</para>
+		/// </remarks>
+		public override string ToString () {
+			return TablePrinter.WriteTable ((IEnumerable<object>)(IEnumerable<double>)this.Pi, (IEnumerable<ITransitionDistribution<TInput,int>>)this.Transitions, (IEnumerable<ITransitionDistribution<TInput,int>>)this.emissions);
+		}
 	}
 }

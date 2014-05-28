@@ -31,14 +31,15 @@ namespace iohmma {
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
 	public abstract class Iohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
 
-		#region Fields
-		private readonly ITransitionDistribution<TInput,int>[] transitions;
-		#endregion
 		#region protected Fields
 		/// <summary>
 		/// The initial distribution on the hidden states.
 		/// </summary>
 		protected readonly double[] Pi;
+		/// <summary>
+		/// The transition distributions per hidden state.
+		/// </summary>
+		protected readonly ITransitionDistribution<TInput,int>[] Transitions;
 		#endregion
 		#region IIohmm implementation
 		/// <summary>
@@ -81,7 +82,7 @@ namespace iohmma {
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
 				tr [i] = transitionDistributionGenerator (i);
 			}
-			this.transitions = tr;
+			this.Transitions = tr;
 		}
 
 		/// <summary>
@@ -104,7 +105,7 @@ namespace iohmma {
 			if (tr.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial transition distributions must be larger or equal to the number of hidden states.");
 			}
-			this.transitions = tr;
+			this.Transitions = tr;
 		}
 		#endregion
 		#region IIohmm implementation
@@ -114,7 +115,7 @@ namespace iohmma {
 		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state.</returns>
 		/// <param name="state">The given state for which the transition function must be returned.</param>
 		public ITransitionDistribution<TInput,int> GetTransition (int state) {
-			return this.transitions [state];
+			return this.Transitions [state];
 		}
 
 		/// <summary>
@@ -137,7 +138,7 @@ namespace iohmma {
 		/// <param name="statei">The origin hidden state.</param>
 		/// <param name="statej">The target hidden state.</param>
 		public double GetA (TInput input, int statei, int statej) {
-			return this.transitions [statei].GetPdf (input, statej);
+			return this.Transitions [statei].GetPdf (input, statej);
 		}
 
 		/// <summary>

@@ -27,11 +27,7 @@ namespace IohmmTest {
 	public class MealyTest {
 		[Test()]
 		public void TestConstructor () {
-			object[][] obj = new object[][] {
-				new object[] { 'a', 27.48, 0.5d, "foobar" },
-				new object[] { "table", "27.480", 0.005d, "tux" }
-			};
-			Console.WriteLine (obj.WriteTable ());
+			MealyIohmm mi = new MealyIohmm ();
 		}
 	}
 }
