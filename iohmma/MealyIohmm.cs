@@ -177,6 +177,172 @@ namespace iohmma {
 			}
 			this.emissions = em;
 		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
+		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator has no parameters.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(pi,transitionDistributionGenerator,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
+		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
+		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator has no parameters.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(pi,transitionDistributionGenerator,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
+		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator has no parameters.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(pi,transitionDistributions,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
+		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator takes one parameter: the state that will emit.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(pi,transitionDistributionGenerator) {
+			int numberOfHiddenStates = this.NumberOfHiddenStates;
+			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
+			for (int i = 0x00; i < numberOfHiddenStates; i++) {
+				em [i] = emissionDistributionGenerator (i);
+			}
+			this.emissions = em;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
+		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator takes one parameter: the state that will emit.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(pi,transitionDistributionGenerator) {
+			int numberOfHiddenStates = this.NumberOfHiddenStates;
+			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
+			for (int i = 0x00; i < numberOfHiddenStates; i++) {
+				em [i] = emissionDistributionGenerator (i);
+			}
+			this.emissions = em;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
+		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator takes one parameter: the state that will emit.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(pi,transitionDistributions) {
+			int numberOfHiddenStates = this.NumberOfHiddenStates;
+			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
+			for (int i = 0x00; i < numberOfHiddenStates; i++) {
+				em [i] = emissionDistributionGenerator (i);
+			}
+			this.emissions = em;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
+		/// <param name="emissionDistributions">A list of initial distributions for the hidden states.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="emissionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(pi,transitionDistributionGenerator) {
+			int numberOfHiddenStates = this.NumberOfHiddenStates;
+			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+			if (em.Length < numberOfHiddenStates) {
+				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
+			}
+			this.emissions = em;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
+		/// <param name="emissionDistributions">A list of initial distributions for the hidden states.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="emissionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(pi,transitionDistributionGenerator) {
+			int numberOfHiddenStates = this.NumberOfHiddenStates;
+			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+			if (em.Length < numberOfHiddenStates) {
+				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
+			}
+			this.emissions = em;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// </summary>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
+		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
+		/// <param name="emissionDistributions">A list of initial distributions for the hidden states.</param>
+		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
+		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
+		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
+		/// <exception cref="ArgumentException">The number of elements in the <paramref name="emissionDistributions"/> is less than the number of hidden states.</exception>
+		/// <remarks>
+		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
+		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
+		/// </remarks>
+		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(pi,transitionDistributions) {
+			int numberOfHiddenStates = this.NumberOfHiddenStates;
+			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+			if (em.Length < numberOfHiddenStates) {
+				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
+			}
+			this.emissions = em;
+		}
 		#endregion
 		#region IMealyIohmm implementation
 		/// <summary>
