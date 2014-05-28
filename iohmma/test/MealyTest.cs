@@ -21,13 +21,15 @@
 using NUnit.Framework;
 using System;
 using NUtils;
+using iohmma;
 
 namespace IohmmTest {
 	[TestFixture()]
 	public class MealyTest {
 		[Test()]
 		public void TestConstructor () {
-			//MealyIohmm mi = new MealyIohmm ();
+			MealyIohmm<int,int> mi = new MealyIohmm<int,int> (new double[] { 0.2, 0.8 }, new ITransitionDistribution<int,int>[] { },new ITransitionDistribution<int,int>[] {});
+			Console.WriteLine (mi);
 		}
 	}
 }
