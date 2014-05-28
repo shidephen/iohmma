@@ -20,13 +20,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using NUnit.Framework;
 using System;
+using NUtils;
 
 namespace IohmmTest {
 	[TestFixture()]
 	public class MealyTest {
 		[Test()]
 		public void TestConstructor () {
-
+			object[][] obj = new object[][] {
+				new object[] { 'a', 27.48, 0.5d, "foobar" },
+				new object[] { "table", "27.480", 0.005d, "tux" }
+			};
+			Console.WriteLine (obj.WriteTable ());
 		}
 	}
 }
