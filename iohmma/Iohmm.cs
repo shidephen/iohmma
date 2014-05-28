@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUtils;
 
 namespace iohmma {
 	/// <summary>
@@ -58,6 +59,35 @@ namespace iohmma {
 		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
+		/// <param name="transitionDistributionGenerator">A generator function, that generates the transition functions, the function has no parameters.</param>
+		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
+		protected Iohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator) : this(numberOfHiddenStates,transitionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,int>> ()) {
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class.
+		/// </summary>
+		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
+		/// <param name="transitionDistributionGenerator">A generator function, that generates the transition functions, it has one parameter: the original state.</param>
+		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
+		protected Iohmm (int numberOfHiddenStates, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator) {
+			if (numberOfHiddenStates <= 0x00) {
+				throw new ArgumentException ("The number of hidden states must be greater than zero.");
+			}
+			this.Pi = new double[numberOfHiddenStates];
+			this.ResetPi ();
+			ITransitionDistribution<TInput,int>[] tr = new ITransitionDistribution<TInput, int>[numberOfHiddenStates];
+
+			for (int i = 0x00; i < numberOfHiddenStates; i++) {
+				tr [i] = transitionDistributionGenerator (i);
+			}
+			this.transitions = tr;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class.
+		/// </summary>
+		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributions">A list of initial distributions for the hidden states.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
 		/// <exception cref="ArgumentException">The number of elements in the <paramref name="transitionDistributions"/> is less than the number of hidden states.</exception>
@@ -68,12 +98,8 @@ namespace iohmma {
 			if (numberOfHiddenStates <= 0x00) {
 				throw new ArgumentException ("The number of hidden states must be greater than zero.");
 			}
-			double[] ps = new double[numberOfHiddenStates];
-			double psi = 1.0d / numberOfHiddenStates;
-			for (int i = 0x00; i < numberOfHiddenStates; i++) {
-				ps [i] = psi;
-			}
-			this.Pi = ps;
+			this.Pi = new double[numberOfHiddenStates];
+			this.ResetPi ();
 			ITransitionDistribution<TInput,int>[] tr = transitionDistributions.Take (numberOfHiddenStates).ToArray ();
 			if (tr.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial transition distributions must be larger or equal to the number of hidden states.");
@@ -175,6 +201,18 @@ namespace iohmma {
 		/// <para>The values are computed lazily, infinite sequence are possible but the values should be reversed.</para>
 		/// </remarks>
 		public abstract IEnumerable<double[]> CalculateBetasReverse (IEnumerable<Tuple<TInput,TOutput>> reversedinoutputs);
+
+		/// <summary>
+		/// Resets the probability of being in a certain state at the first time stamp.
+		/// </summary>
+		public void ResetPi () {
+			int n = this.NumberOfHiddenStates;
+			double psi = 1.0d / n;
+			double[] ps = this.Pi;
+			for (int i = 0x00; i < n; i++) {
+				ps [i] = psi;
+			}
+		}
 		#endregion
 	}
 }

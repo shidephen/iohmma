@@ -46,6 +46,11 @@ namespace iohmma {
 		double GetPi (int index);
 
 		/// <summary>
+		/// Resets the probability of being in a certain state at the first time stamp.
+		/// </summary>
+		void ResetPi ();
+
+		/// <summary>
 		/// Gets the probability of migrating from state <paramref name="statei"/> to <paramref name="statej"/> given
 		/// the <paramref name="input"/>.
 		/// </summary>
