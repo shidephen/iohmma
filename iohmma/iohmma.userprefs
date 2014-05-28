@@ -1,23 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="test/IntegerRangeTransitionDistributionTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MealyIohmm.cs">
     <Files>
-      <File FileName="IntegerRangeDistribution.cs" Line="326" Column="13" />
-      <File FileName="../NUtils/NUtils/MathUtils.cs" Line="66" Column="3" />
-      <File FileName="IntegerRangeTransitionDistribution.cs" Line="233" Column="1" />
-      <File FileName="../NUtils/NUtils/FunctionUtils.cs" Line="65" Column="38" />
-      <File FileName="test/IntegerRangeTransitionDistributionTest.cs" Line="31" Column="49" />
-      <File FileName="TransitionDistribution.cs" Line="43" Column="28" />
-      <File FileName="ITransitionDistribution.cs" Line="1" Column="1" />
+      <File FileName="MealyIohmm.cs" Line="63" Column="35" />
+      <File FileName="Iohmm.cs" Line="64" Column="119" />
+      <File FileName="IIohmm.cs" Line="49" Column="82" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="iohmma" expanded="True" />
-          <Node name="NUtils" expanded="True" />
-          <Node name="testiohmm" expanded="True">
-            <Node name="IntegerRangeTransitionDistributionTest.cs" selected="True" />
+          <Node name="iohmma" expanded="True">
+            <Node name="MealyIohmm.cs" selected="True" />
           </Node>
+          <Node name="NUtils" expanded="True" />
+          <Node name="testiohmm" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
