@@ -35,12 +35,12 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>The probability density function for the given input and the given output state.</returns>
 		/// <param name="input">The given input to calculate the probability for.</param>
-		/// <param name="state">The given output to calculate the probability for.</param>
+		/// <param name="output">The given output to calculate the probability for.</param>
 		/// <remarks>
 		/// <para>For each valid input, the sum of the probabilities of the output must sum up to one if the
 		/// output is discrete. If the output is continu, the integral of the probabilities of the outputs must sum up to one.</para>
 		/// </remarks>
-		public abstract double GetPdf (TInput input, TOutput state);
+		public abstract double GetPdf (TInput input, TOutput output);
 		#endregion
 		#region IDistribution implementation
 		/// <summary>

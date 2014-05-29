@@ -27,9 +27,7 @@ namespace iohmma {
 	/// <summary>
 	/// An implementation of a <see cref="T:ITransitionDistribution`1"/> that uses a range of integers as input.
 	/// </summary>
-	public class IntegerRangeTransitionDistribution<TOutput> : TransitionDistribution<int,TOutput>, IRange<int> {
-
-		private readonly IDistribution<TOutput>[] subdistributions;
+	public class IntegerRangeTransitionDistribution<TOutput> : FiniteTransitionDistribution<int,TOutput>, IRange<int> {
 		#region IRange implementation
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
@@ -52,7 +50,7 @@ namespace iohmma {
 		/// </remarks>
 		public int Upper {
 			get {
-				return this.Lower + this.subdistributions.Length - 0x01;
+				return this.Lower + this.Subdistributions.Length - 0x01;
 			}
 		}
 		#endregion
@@ -108,12 +106,8 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) {
+		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) : base(distributions) {
 			this.Lower = lower;
-			this.subdistributions = distributions.ToArray ();
-			if (this.subdistributions.Length <= 0x00) {
-				throw new ArgumentException ("The number of given distributions must be larger than zero.");
-			}
 		}
 
 		/// <summary>
@@ -175,16 +169,8 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) {
+		public IntegerRangeTransitionDistribution (int lower, int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : base(upper-lower+0x01, x => x+lower,subdistributionGenerator) {
 			this.Lower = lower;
-			int n = upper - lower + 0x01;
-			if (n <= 0x00) {
-				throw new ArgumentException ("The upper bound must be larger than or equal to the lower bound.");
-			}
-			this.subdistributions = new IDistribution<TOutput>[n];
-			for (int i = 0x00; i < n; i++) {
-				this.subdistributions [i] = subdistributionGenerator (i + lower);
-			}
 		}
 		#endregion
 		#region implemented abstract members of TransitionDistribution
@@ -202,7 +188,7 @@ namespace iohmma {
 		/// </remarks>
 		public override double GetPdf (int input, TOutput output) {
 			int x = input - this.Lower;
-			IDistribution<TOutput>[] ps = this.subdistributions;
+			IDistribution<TOutput>[] ps = this.Subdistributions;
 			if (x >= 0x00 && x < ps.Length) {
 				return ps [x].GetPdf (output);
 			} else {
@@ -226,7 +212,7 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
 		public override TOutput Sample (int input) {
 			int x = input - this.Lower;
-			IDistribution<TOutput>[] ps = this.subdistributions;
+			IDistribution<TOutput>[] ps = this.Subdistributions;
 			if (x >= 0x00 && x < ps.Length) {
 				return ps [x].Sample ();
 			} else {
@@ -240,7 +226,7 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		public override void Fit (IEnumerable<Tuple<Tuple<int, TOutput>, double>> probabilities, double fitting = 1.0) {
-			IDistribution<TOutput>[] pc = this.subdistributions;
+			IDistribution<TOutput>[] pc = this.Subdistributions;
 			int n = pc.Length, li, l = this.Lower;
 			for (int i = 0x00; i < n; i++) {
 				li = l + i;
