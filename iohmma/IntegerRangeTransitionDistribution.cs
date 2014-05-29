@@ -222,10 +222,28 @@ namespace iohmma {
 		/// Creates a <see cref="T:IntegerRangeTransitionDistribution`1"/>
 		/// </summary>
 		/// <returns>The state transition distributions.</returns>
+		/// <param name="lower">The lower bound on the input.</param>">
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="probabilities">Probabilities.</param>
 		/// <exception cref="ArgumentException">If the given <paramref name="numberOfHiddenStates"/> is less than or equal to zero (<c>0</c>).</exception>
 		/// <exception cref="ArgumentException">If the given number of generates sub distributions is less than or equal to zero (<c>0</c>).</exception>
+		/// <exception cref="ArgumentException">If the subsequences with a length of <paramref name="numberOfHiddenStates"/> don't sum up to one.</exception>
+		/// <exception cref="ArgumentException">If one of the given probabilities is less than zero.</exception>
+		public static IntegerRangeTransitionDistribution<int> HiddenStateTransitionDistributions (int lower, int numberOfHiddenStates, params double[] probabilities) {
+			return HiddenStateTransitionDistributions (lower, numberOfHiddenStates, (IEnumerable<double>)probabilities);
+		}
+
+		/// <summary>
+		/// Creates a <see cref="T:IntegerRangeTransitionDistribution`1"/>
+		/// </summary>
+		/// <returns>The state transition distributions.</returns>
+		/// <param name="lower">The lower bound on the input.</param>">
+		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
+		/// <param name="probabilities">Probabilities.</param>
+		/// <exception cref="ArgumentException">If the given <paramref name="numberOfHiddenStates"/> is less than or equal to zero (<c>0</c>).</exception>
+		/// <exception cref="ArgumentException">If the given number of generates sub distributions is less than or equal to zero (<c>0</c>).</exception>
+		/// <exception cref="ArgumentException">If the subsequences with a length of <paramref name="numberOfHiddenStates"/> don't sum up to one.</exception>
+		/// <exception cref="ArgumentException">If one of the given probabilities is less than zero.</exception>
 		public static IntegerRangeTransitionDistribution<int> HiddenStateTransitionDistributions (int lower, int numberOfHiddenStates, IEnumerable<double> probabilities) {
 			if (numberOfHiddenStates <= 0x00) {
 				throw new ArgumentException ("The number of hidden states must be larger than zero.");
