@@ -299,10 +299,10 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="IntegerRangeDistribution"/>.</returns>
 		/// <remarks>
-		/// <para>The result has a format <c>1/0.5,2/0.2,3/0.3</c>.</para>
+		/// <para>The result has a format <c>1:0.5;0.2;0.3:3</c>.</para>
 		/// </remarks>
 		public override string ToString () {
-			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", this), this.Upper);
+			return string.Format ("{0}:{1}:{2}", this.Lower, string.Join (";", this), this.Upper);
 		}
 		#endregion
 		#region IFormatFormatProviderToString implementation
@@ -316,7 +316,7 @@ namespace iohmma {
 		/// <param name="format">A numeric format string.</param>
 		/// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information.</param>
 		public string ToString (string format, IFormatProvider provider) {
-			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", from x in this select x.ToString (format, provider)), this.Upper);
+			return string.Format ("{0}:{1}:{2}", this.Lower, string.Join (";", from x in this select x.ToString (format, provider)), this.Upper);
 		}
 		#endregion
 		/// <summary>
@@ -328,7 +328,7 @@ namespace iohmma {
 		/// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information.</param>
 		#region IFormatProviderToString implementation
 		public string ToString (IFormatProvider provider) {
-			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", from x in this select x.ToString (provider)), this.Upper);
+			return string.Format ("{0}:{1}:{2}", this.Lower, string.Join (";", from x in this select x.ToString (provider)), this.Upper);
 		}
 		#endregion
 		#region IFormatToString implementation
@@ -341,7 +341,7 @@ namespace iohmma {
 		/// <param name="format">A numeric format string.</param>
 		/// <exception cref="T:System.FormatException"><paramref name="format" /> is invalid.</exception>
 		public string ToString (string format) {
-			return string.Format ("{0}::{1}::{2}", this.Lower, string.Join ("; ", from x in this select x.ToString (format)), this.Upper);
+			return string.Format ("{0}:{1}:{2}", this.Lower, string.Join (";", from x in this select x.ToString (format)), this.Upper);
 		}
 		#endregion
 		#region Random generators

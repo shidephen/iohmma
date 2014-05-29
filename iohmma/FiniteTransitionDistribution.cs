@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using NUtils;
 
 namespace iohmma {
@@ -185,6 +186,26 @@ namespace iohmma {
 				input = im (i);
 				pc [i].Fit (from p in probabilities where Object.Equals (p.Item1.Item1, input) select new Tuple<TOutput,double> (p.Item1.Item2, p.Item2), fitting);
 			}
+		}
+		#endregion
+		#region ToString method
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:FiniteTransitionDistribution`2"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="T:FiniteTransitionDistribution`2"/>.</returns>
+		public override string ToString () {
+			StringBuilder sb = new StringBuilder ();
+			IDistribution<TOutput>[] subd = this.Subdistributions;
+			int n = subd.Length;
+			Func<int,TInput> im = this.IndexMapper;
+			for (int i = 0x00; i < n; i++) {
+				sb.Append ('[');
+				sb.Append (im (i));
+				sb.Append ('/');
+				sb.Append (subd [i]);
+				sb.Append (']');
+			}
+			return sb.ToString ();
 		}
 		#endregion
 	}
