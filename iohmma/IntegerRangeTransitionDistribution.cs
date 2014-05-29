@@ -28,6 +28,30 @@ namespace iohmma {
 	/// An implementation of a <see cref="T:ITransitionDistribution`1"/> that uses a range of integers as input.
 	/// </summary>
 	public class IntegerRangeTransitionDistribution<TOutput> : FiniteTransitionDistribution<int,TOutput>, IRange<int> {
+
+		#region implemented abstract members of FiniteTransitionDistribution
+		/// <summary>
+		/// A function that transforms input into their corresponding index. This is used by several methods
+		/// to translate the input such that the implementation remains generic.
+		/// </summary>
+		/// <value>A function mapping inputs to indices.</value>
+		protected override Func<int, int> InputMapper {
+			get {
+				return x => x - this.Lower;
+			}
+		}
+
+		/// <summary>
+		/// A function that transforms indices into their corresponding input. This is used by several methods
+		/// to translate the input such that the implementation remains generic.
+		/// </summary>
+		/// <value>A function mapping indices to inputs.</value>
+		protected override Func<int, int> IndexMapper {
+			get {
+				return x => x + this.Lower;
+			}
+		}
+		#endregion
 		#region IRange implementation
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
@@ -169,52 +193,8 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : base(upper-lower+0x01, x => x+lower,subdistributionGenerator) {
+		public IntegerRangeTransitionDistribution (int lower, int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : base(upper-lower+0x01,subdistributionGenerator) {
 			this.Lower = lower;
-		}
-		#endregion
-		#region implemented abstract members of TransitionDistribution
-		/// <summary>
-		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
-		/// </summary>
-		/// <returns>The probability density function for the given input and the given output state.</returns>
-		/// <param name="input">The given input to calculate the probability for.</param>
-		/// <param name="output">The given output to calculate the probability for.</param>
-		/// <exception cref="ArgumentException">If the given input is not withing range.</exception>
-		/// <exception cref="ArgumentException">If the given output is not in range of the distribution.</exception>
-		/// <remarks>
-		/// <para>If the output is discrete, for any given input the sum of the probabilities must be equal to one.</para>
-		/// <para>If the output is continu, for any given input the integral of the probabilities must be equal to one.</para>
-		/// </remarks>
-		public override double GetPdf (int input, TOutput output) {
-			return this.InnerGetPdf (input - this.Lower, output);
-		}
-
-		/// <summary>
-		/// Generate a random element based on the density of the distribution.
-		/// </summary>
-		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public override Tuple<int, TOutput> Sample () {
-			throw new NotImplementedException ();
-		}
-
-		/// <summary>
-		/// Generate a random element based on the density of the distribution for the given input.
-		/// </summary>
-		/// <param name="input">The given input</param>
-		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
-		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
-		public override TOutput Sample (int input) {
-			return this.InnerSample (input - this.Lower);
-		}
-
-		/// <summary>
-		/// Fit the distribution using the data and their frequency.
-		/// </summary>
-		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
-		/// <param name="fitting">The fitting coefficient.</param>
-		public override void Fit (IEnumerable<Tuple<Tuple<int, TOutput>, double>> probabilities, double fitting = 1.0) {
-			this.InnerFit (from x in probabilities select new Tuple<Tuple<int, TOutput>,double> (new Tuple<int, TOutput> (x.Item1.Item1 - this.Lower, x.Item1.Item2), x.Item2), fitting);
 		}
 		#endregion
 		#region Structure constructors

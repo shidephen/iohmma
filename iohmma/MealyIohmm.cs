@@ -599,7 +599,7 @@ namespace iohmma {
 		/// and in the y-direction the initial probability, the transition probabilities and the emission probabilities.</para>
 		/// </remarks>
 		public override string ToString () {
-			return TablePrinter.WriteTable ((IEnumerable<object>)(IEnumerable<double>)this.Pi, (IEnumerable<ITransitionDistribution<TInput,int>>)this.Transitions, (IEnumerable<ITransitionDistribution<TInput,int>>)this.emissions);
+			return TablePrinter.WriteTable (this.Pi.Cast<object> (), this.Transitions, this.emissions);
 		}
 	}
 }

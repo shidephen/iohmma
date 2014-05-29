@@ -37,6 +37,25 @@ namespace iohmma {
 		/// </summary>
 		protected readonly IDistribution<TOutput>[] Subdistributions;
 		#endregion
+		#region Abstract properties
+		/// <summary>
+		/// A function that transforms input into their corresponding index. This is used by several methods
+		/// to translate the input such that the implementation remains generic.
+		/// </summary>
+		/// <value>A function mapping inputs to indices.</value>
+		protected abstract Func<TInput,int> InputMapper {
+			get;
+		}
+
+		/// <summary>
+		/// A function that transforms indices into their corresponding input. This is used by several methods
+		/// to translate the input such that the implementation remains generic.
+		/// </summary>
+		/// <value>A function mapping indices to inputs.</value>
+		protected abstract Func<int,TInput> IndexMapper {
+			get;
+		}
+		#endregion
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
@@ -79,7 +98,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		protected FiniteTransitionDistribution (int size, Func<IDistribution<TOutput>> subdistributionGenerator) : this(size,x => default(TInput),subdistributionGenerator.ShiftRightParameter<TInput,IDistribution<TOutput>> ()) {
+		protected FiniteTransitionDistribution (int size, Func<IDistribution<TOutput>> subdistributionGenerator) : this(size,subdistributionGenerator.ShiftRightParameter<TInput,IDistribution<TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -87,7 +106,6 @@ namespace iohmma {
 		/// upper bound and a generator function that constructs new distributions.
 		/// </summary>
 		/// <param name="size">The given number of sub distributions.</param>
-		/// <param name="indexMapper">A function that takes as input the index and maps it to the expected input of the distribution generator.</param>
 		/// <param name="subdistributionGenerator">A generator that constructs the distributions. The function takes as input
 		/// the input value for which a distribution must be generated.</param>
 		/// <exception cref="ArgumentException">If the given <paramref name="size"/> is less than one (<c>1</c>).</exception>
@@ -95,17 +113,18 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		protected FiniteTransitionDistribution (int size, Func<int,TInput> indexMapper, Func<TInput,IDistribution<TOutput>> subdistributionGenerator) {
+		protected FiniteTransitionDistribution (int size, Func<TInput,IDistribution<TOutput>> subdistributionGenerator) {
 			if (size <= 0x00) {
 				throw new ArgumentException ("The number of sub probabilities must be larger or equal to one.");
 			}
 			this.Subdistributions = new IDistribution<TOutput>[size];
+			Func<int,TInput> im = this.IndexMapper;
 			for (int i = 0x00; i < size; i++) {
-				this.Subdistributions [i] = subdistributionGenerator (indexMapper (i));
+				this.Subdistributions [i] = subdistributionGenerator (im (i));
 			}
 		}
 		#endregion
-		#region Inner functions used for fast subclassing
+		#region implemented abstract members of TransitionDistribution
 		/// <summary>
 		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
 		/// </summary>
@@ -118,10 +137,11 @@ namespace iohmma {
 		/// <para>If the output is discrete, for any given input the sum of the probabilities must be equal to one.</para>
 		/// <para>If the output is continu, for any given input the integral of the probabilities must be equal to one.</para>
 		/// </remarks>
-		protected double InnerGetPdf (int input, TOutput output) {
+		public override double GetPdf (TInput input, TOutput output) {
+			int index = this.InputMapper (input);
 			IDistribution<TOutput>[] ps = this.Subdistributions;
-			if (input >= 0x00 && input < ps.Length) {
-				return ps [input].GetPdf (output);
+			if (index >= 0x00 && index < ps.Length) {
+				return ps [index].GetPdf (output);
 			} else {
 				throw new ArgumentException ("The given input is not within range.");
 			}
@@ -131,7 +151,7 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		protected Tuple<int, TOutput> InnerSample () {
+		public override Tuple<TInput, TOutput> Sample () {
 			throw new NotImplementedException ();
 		}
 
@@ -141,10 +161,11 @@ namespace iohmma {
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
-		protected TOutput InnerSample (int input) {
+		public override TOutput Sample (TInput input) {
+			int index = this.InputMapper (input);
 			IDistribution<TOutput>[] ps = this.Subdistributions;
-			if (input >= 0x00 && input < ps.Length) {
-				return ps [input].Sample ();
+			if (index >= 0x00 && index < ps.Length) {
+				return ps [index].Sample ();
 			} else {
 				throw new ArgumentException ("The given input is not within range.");
 			}
@@ -155,11 +176,14 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
-		protected void InnerFit (IEnumerable<Tuple<Tuple<int, TOutput>, double>> probabilities, double fitting = 1.0) {
+		public override void Fit (IEnumerable<Tuple<Tuple<TInput, TOutput>, double>> probabilities, double fitting = 1.0) {
 			IDistribution<TOutput>[] pc = this.Subdistributions;
 			int n = pc.Length;
+			Func<int,TInput> im = this.IndexMapper;
+			TInput input;
 			for (int i = 0x00; i < n; i++) {
-				pc [i].Fit (from p in probabilities where p.Item1.Item1 == i select new Tuple<TOutput,double> (p.Item1.Item2, p.Item2), fitting);
+				input = im (i);
+				pc [i].Fit (from p in probabilities where Object.Equals (p.Item1.Item1, input) select new Tuple<TOutput,double> (p.Item1.Item2, p.Item2), fitting);
 			}
 		}
 		#endregion
