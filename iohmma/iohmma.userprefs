@@ -1,16 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MealyIohmm.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="IntegerRangeDistribution.cs">
     <Files>
-      <File FileName="MealyIohmm.cs" Line="63" Column="35" />
-      <File FileName="Iohmm.cs" Line="64" Column="119" />
-      <File FileName="IIohmm.cs" Line="49" Column="82" />
+      <File FileName="FiniteTransitionDistribution.cs" Line="204" Column="18" />
+      <File FileName="IntegerRangeTransitionDistribution.cs" Line="246" Column="13" />
+      <File FileName="test/MealyIohmmTest.cs" Line="38" Column="27" />
+      <File FileName="MealyIohmm.cs" Line="602" Column="79" />
+      <File FileName="IntegerRangeDistribution.cs" Line="305" Column="34" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="iohmma" expanded="True">
-            <Node name="MealyIohmm.cs" selected="True" />
+            <Node name="IntegerRangeDistribution.cs" selected="True" />
           </Node>
           <Node name="NUtils" expanded="True" />
           <Node name="testiohmm" expanded="True" />
