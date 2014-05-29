@@ -52,15 +52,10 @@
     <Compile Include="IHiddenStates.cs" />
     <Compile Include="TransitionDistribution.cs" />
     <Compile Include="IntegerRangeTransitionDistribution.cs" />
-    <Compile Include="TupleUtils.cs" />
-    <Compile Include="EnumerableUtils.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="INormalDistribution.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="ScaledFittingDistribution.cs" />
-    <Compile Include="LinqCache.cs" />
-    <Compile Include="MultiThreadedList.cs" />
-    <Compile Include="LinqCacheUtil.cs" />
     <Compile Include="ProgramConstants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

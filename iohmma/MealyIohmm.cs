@@ -193,7 +193,7 @@ namespace iohmma {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
-		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
+		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
 		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator has no parameters.</param>
 		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
