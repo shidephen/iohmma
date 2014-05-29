@@ -219,7 +219,8 @@ namespace iohmma {
 		#endregion
 		#region Structure constructors
 		/// <summary>
-		/// Creates a <see cref="T:IntegerRangeTransitionDistribution`1"/>
+		/// Creates a <see cref="T:IntegerRangeTransitionDistribution`1"/> that works as a transition function for a specific hidden state to another hidden
+		/// state given an input. The probabilites are given.
 		/// </summary>
 		/// <returns>The state transition distributions.</returns>
 		/// <param name="lower">The lower bound on the input.</param>">
@@ -234,7 +235,8 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Creates a <see cref="T:IntegerRangeTransitionDistribution`1"/>
+		/// Creates a <see cref="T:IntegerRangeTransitionDistribution`1"/> that works as a transition function for a specific hidden state to another hidden
+		/// state given an input. The probabilites are given.
 		/// </summary>
 		/// <returns>The state transition distributions.</returns>
 		/// <param name="lower">The lower bound on the input.</param>">
