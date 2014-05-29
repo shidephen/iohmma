@@ -187,13 +187,7 @@ namespace iohmma {
 		/// <para>If the output is continu, for any given input the integral of the probabilities must be equal to one.</para>
 		/// </remarks>
 		public override double GetPdf (int input, TOutput output) {
-			int x = input - this.Lower;
-			IDistribution<TOutput>[] ps = this.Subdistributions;
-			if (x >= 0x00 && x < ps.Length) {
-				return ps [x].GetPdf (output);
-			} else {
-				throw new ArgumentException ("The given input is not within range.");
-			}
+			return this.InnerGetPdf (input - this.Lower, output);
 		}
 
 		/// <summary>
@@ -211,13 +205,7 @@ namespace iohmma {
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
 		public override TOutput Sample (int input) {
-			int x = input - this.Lower;
-			IDistribution<TOutput>[] ps = this.Subdistributions;
-			if (x >= 0x00 && x < ps.Length) {
-				return ps [x].Sample ();
-			} else {
-				throw new ArgumentException ("The given input is not within range.");
-			}
+			return this.InnerSample (input - this.Lower);
 		}
 
 		/// <summary>
@@ -226,12 +214,7 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		public override void Fit (IEnumerable<Tuple<Tuple<int, TOutput>, double>> probabilities, double fitting = 1.0) {
-			IDistribution<TOutput>[] pc = this.Subdistributions;
-			int n = pc.Length, li, l = this.Lower;
-			for (int i = 0x00; i < n; i++) {
-				li = l + i;
-				pc [i].Fit (from p in probabilities where p.Item1.Item1 == li select new Tuple<TOutput,double> (p.Item1.Item2, p.Item2), fitting);
-			}
+			this.InnerFit (from x in probabilities select new Tuple<Tuple<int, TOutput>,double> (new Tuple<int, TOutput> (x.Item1.Item1 - this.Lower, x.Item1.Item2), x.Item2), fitting);
 		}
 		#endregion
 	}

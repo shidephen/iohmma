@@ -105,25 +105,7 @@ namespace iohmma {
 			}
 		}
 		#endregion
-		#region implemented abstract members of Distribution
-		/// <summary>
-		/// Generate a random element based on the density of the distribution.
-		/// </summary>
-		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public override Tuple<TInput, TOutput> Sample () {
-			throw new NotImplementedException ();
-		}
-
-		/// <summary>
-		/// Fit the distribution using the data and their frequency.
-		/// </summary>
-		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
-		/// <param name="fitting">The fitting coefficient.</param>
-		public override void Fit (IEnumerable<Tuple<Tuple<TInput, TOutput>, double>> probabilities, double fitting = 1.0) {
-			throw new NotImplementedException ();
-		}
-		#endregion
-		#region implemented abstract members of TransitionDistribution
+		#region Inner functions used for fast subclassing
 		/// <summary>
 		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
 		/// </summary>
@@ -136,7 +118,20 @@ namespace iohmma {
 		/// <para>If the output is discrete, for any given input the sum of the probabilities must be equal to one.</para>
 		/// <para>If the output is continu, for any given input the integral of the probabilities must be equal to one.</para>
 		/// </remarks>
-		public override double GetPdf (TInput input, TOutput output) {
+		protected double InnerGetPdf (int input, TOutput output) {
+			IDistribution<TOutput>[] ps = this.Subdistributions;
+			if (input >= 0x00 && input < ps.Length) {
+				return ps [input].GetPdf (output);
+			} else {
+				throw new ArgumentException ("The given input is not within range.");
+			}
+		}
+
+		/// <summary>
+		/// Generate a random element based on the density of the distribution.
+		/// </summary>
+		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
+		protected Tuple<int, TOutput> InnerSample () {
 			throw new NotImplementedException ();
 		}
 
@@ -146,8 +141,26 @@ namespace iohmma {
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
-		public override TOutput Sample (TInput input) {
-			throw new NotImplementedException ();
+		protected TOutput InnerSample (int input) {
+			IDistribution<TOutput>[] ps = this.Subdistributions;
+			if (input >= 0x00 && input < ps.Length) {
+				return ps [input].Sample ();
+			} else {
+				throw new ArgumentException ("The given input is not within range.");
+			}
+		}
+
+		/// <summary>
+		/// Fit the distribution using the data and their frequency.
+		/// </summary>
+		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
+		/// <param name="fitting">The fitting coefficient.</param>
+		protected void InnerFit (IEnumerable<Tuple<Tuple<int, TOutput>, double>> probabilities, double fitting = 1.0) {
+			IDistribution<TOutput>[] pc = this.Subdistributions;
+			int n = pc.Length;
+			for (int i = 0x00; i < n; i++) {
+				pc [i].Fit (from p in probabilities where p.Item1.Item1 == i select new Tuple<TOutput,double> (p.Item1.Item2, p.Item2), fitting);
+			}
 		}
 		#endregion
 	}
