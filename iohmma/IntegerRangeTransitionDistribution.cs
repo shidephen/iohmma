@@ -186,22 +186,6 @@ namespace iohmma {
 				this.subdistributions [i] = subdistributionGenerator (i + lower);
 			}
 		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
-		/// lower- and upper bound and a generator function that constructs new distributions.
-		/// </summary>
-		/// <param name="lower">The given lower bound on the input.</param>
-		/// <param name="numberOfHiddenStates">The given number of hidden states for the input-depending transition distribution.</param>
-		/// <param name="probabilities">A list of probabilities to split over the different hidden states and inputs.</param>
-		/// <exception cref="ArgumentException">If the given number of hidden states is less than or equal to zero.</exception>
-		/// <remarks>
-		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
-		/// in this transitional distribution.</para>
-		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, int numberOfHiddenStates, IEnumerable<double> probabilities) {
-
-		}
 		#endregion
 		#region implemented abstract members of TransitionDistribution
 		/// <summary>
