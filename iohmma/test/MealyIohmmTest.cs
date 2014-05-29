@@ -28,7 +28,7 @@ namespace IohmmTest {
 	public class MealyTest {
 		[Test()]
 		public void TestConstructor () {
-			MealyIohmm<int,int> mi = new MealyIohmm<int,int> (new double[] { 0.2, 0.8 }, new ITransitionDistribution<int,int>[] { },new ITransitionDistribution<int,int>[] {});
+			MealyIohmm<int,int> mi = new MealyIohmm<int,int> (new double[] { 0.2, 0.8 }, new ITransitionDistribution<int,int>[] { IntegerRangeTransitionDistribution }, new ITransitionDistribution<int,int>[] { });
 			Console.WriteLine (mi);
 		}
 	}
