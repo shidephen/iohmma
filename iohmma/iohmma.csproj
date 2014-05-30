@@ -57,7 +57,7 @@
     <Compile Include="Distribution.cs" />
     <Compile Include="ScaledFittingDistribution.cs" />
     <Compile Include="ProgramConstants.cs" />
-    <Compile Include="FiniteRangeTransitionDistribution.cs" />
+    <Compile Include="FiniteTransitionDistribution.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

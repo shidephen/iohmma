@@ -38,7 +38,7 @@
     <Compile Include="IntegerRangeDistributionTest.cs" />
     <Compile Include="TestConstants.cs" />
     <Compile Include="IntegerRangeTransitionDistributionTest.cs" />
-    <Compile Include="MealyTest.cs" />
+    <Compile Include="MealyIohmmTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
