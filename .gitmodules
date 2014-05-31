@@ -1,0 +1,3 @@
+[submodule "NUtils"]
+	path = NUtils
+	url = git@github.com:KommuSoft/NUtils.git

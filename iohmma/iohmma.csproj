@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F0D80F9A-AFB6-4676-8451-E43D62E81353}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>iohmma</RootNamespace>
+    <AssemblyName>iohmma</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <GenerateDocumentation>true</GenerateDocumentation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IIohmm.cs" />
+    <Compile Include="IMealyIohmm.cs" />
+    <Compile Include="IMooreIohmm.cs" />
+    <Compile Include="IDistribution.cs" />
+    <Compile Include="IFiniteDistribution.cs" />
+    <Compile Include="IFinite.cs" />
+    <Compile Include="IIntegerRangeDistribution.cs" />
+    <Compile Include="IRange.cs" />
+    <Compile Include="IntegerRangeDistribution.cs" />
+    <Compile Include="ITransitionDistribution.cs" />
+    <Compile Include="StaticRandom.cs" />
+    <Compile Include="MealyIohmm.cs" />
+    <Compile Include="Iohmm.cs" />
+    <Compile Include="IHiddenStates.cs" />
+    <Compile Include="TransitionDistribution.cs" />
+    <Compile Include="IntegerRangeTransitionDistribution.cs" />
+    <Compile Include="NormalDistribution.cs" />
+    <Compile Include="INormalDistribution.cs" />
+    <Compile Include="Distribution.cs" />
+    <Compile Include="ScaledFittingDistribution.cs" />
+    <Compile Include="ProgramConstants.cs" />
+    <Compile Include="FiniteTransitionDistribution.cs" />
+    <Compile Include="FiniteDistribution.cs" />
+    <Compile Include="IInputIndexMapping.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\NUtils\NUtils\NUtils.csproj">
+      <Project>{199D5C0D-6274-453D-8E5B-24E6142903FB}</Project>
+      <Name>NUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
