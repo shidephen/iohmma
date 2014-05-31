@@ -35,7 +35,26 @@ namespace IohmmTest {
 				IntegerRangeTransitionDistribution<int>.HiddenStateTransitionDistributions (0x01, 0x02, 0.3d, 0.7d),
 				IntegerRangeTransitionDistribution<int>.HiddenStateTransitionDistributions (0x01, 0x02, 0.8d, 0.2d)
 			});
-			Console.WriteLine (mi);
+
+		}
+
+		[Test()]
+		public void TestProbability () {
+			MealyIohmm<int,int> mi = this.CreateMealy1 ();
+			Assert.AreEqual (0.024, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
+			Assert.AreEqual (0.006, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
+			Assert.AreEqual (0.056, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
+			Assert.AreEqual (0.014, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
+		}
+
+		private MealyIohmm<int,int> CreateMealy1 () {
+			return new MealyIohmm<int,int> (new double[] { 0.2, 0.8 }, new ITransitionDistribution<int,int>[] {
+				IntegerRangeTransitionDistribution<int>.HiddenStateTransitionDistributions (0x01, 0x02, 0.5d, 0.5d),
+				IntegerRangeTransitionDistribution<int>.HiddenStateTransitionDistributions (0x01, 0x02, 0.3d, 0.7d)
+			}, new ITransitionDistribution<int,int>[] { 
+				IntegerRangeTransitionDistribution<int>.HiddenStateTransitionDistributions (0x01, 0x02, 0.3d, 0.7d),
+				IntegerRangeTransitionDistribution<int>.HiddenStateTransitionDistributions (0x01, 0x02, 0.8d, 0.2d)
+			});
 		}
 	}
 }
