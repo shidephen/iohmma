@@ -30,7 +30,7 @@ namespace iohmma {
 	/// a list of sub distributions. Subclasses of this class must map the inputs to the the corresponding
 	/// indices of this class.
 	/// </summary>
-	public abstract class FiniteTransitionDistribution<TInput,TOutput> : TransitionDistribution<TInput,TOutput> {
+	public abstract class FiniteTransitionDistribution<TInput,TOutput> : TransitionDistribution<TInput,TOutput>, IInputIndexMapping<TInput> {
 
 		#region Protected fields
 		/// <summary>
@@ -38,13 +38,13 @@ namespace iohmma {
 		/// </summary>
 		protected readonly IDistribution<TOutput>[] Subdistributions;
 		#endregion
-		#region Abstract properties
+		#region IInputIndexMapping implementation
 		/// <summary>
 		/// A function that transforms input into their corresponding index. This is used by several methods
 		/// to translate the input such that the implementation remains generic.
 		/// </summary>
 		/// <value>A function mapping inputs to indices.</value>
-		protected abstract Func<TInput,int> InputMapper {
+		public abstract Func<TInput,int> InputMapper {
 			get;
 		}
 
@@ -53,7 +53,7 @@ namespace iohmma {
 		/// to translate the input such that the implementation remains generic.
 		/// </summary>
 		/// <value>A function mapping indices to inputs.</value>
-		protected abstract Func<int,TInput> IndexMapper {
+		public abstract Func<int,TInput> IndexMapper {
 			get;
 		}
 		#endregion

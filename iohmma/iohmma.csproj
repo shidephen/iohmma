@@ -59,6 +59,7 @@
     <Compile Include="ProgramConstants.cs" />
     <Compile Include="FiniteTransitionDistribution.cs" />
     <Compile Include="FiniteDistribution.cs" />
+    <Compile Include="IInputIndexMapping.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

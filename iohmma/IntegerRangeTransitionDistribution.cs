@@ -36,7 +36,7 @@ namespace iohmma {
 		/// to translate the input such that the implementation remains generic.
 		/// </summary>
 		/// <value>A function mapping inputs to indices.</value>
-		protected override Func<int, int> InputMapper {
+		public override Func<int, int> InputMapper {
 			get {
 				return x => x - this.Lower;
 			}
@@ -47,7 +47,7 @@ namespace iohmma {
 		/// to translate the input such that the implementation remains generic.
 		/// </summary>
 		/// <value>A function mapping indices to inputs.</value>
-		protected override Func<int, int> IndexMapper {
+		public override Func<int, int> IndexMapper {
 			get {
 				return x => x + this.Lower;
 			}
