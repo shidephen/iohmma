@@ -62,6 +62,7 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		/// <remarks>
+		/// <para>If no data is provided, the distribution is not midified.</para>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="FitUnnormalized"/> method.</para>
@@ -75,6 +76,7 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		/// <remarks>
+		/// <para>If no data is provided, the distribution is not midified.</para>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// </remarks>

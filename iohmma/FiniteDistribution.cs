@@ -157,6 +157,7 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		/// <remarks>
+		/// <para>If no data is provided, the distribution is not midified.</para>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// </remarks>
@@ -166,6 +167,7 @@ namespace iohmma {
 			double[] pas = new double[n];
 			Func<TData,int> im = this.InputMapper;
 			double p, sum = 0.0d;
+			bool data = false;
 			foreach (Tuple<TData,double> tup in probabilities) {
 				int x = im (tup.Item1);
 				p = tup.Item2;
@@ -175,13 +177,16 @@ namespace iohmma {
 				} else if (x < n) {
 					pas [x] += p;
 				}
+				data = true;
 			}
-			double fittinh = 1.0d - fitting;
-			double fitsum = fitting / sum;
-			double cur = 0.0d;
-			for (int i = 0x00; i < n; i++) {
-				cur += fitsum * pas [i];
-				cps [i] = fittinh * cps [i] + cur;
+			if (data) {
+				double fittinh = 1.0d - fitting;
+				double fitsum = fitting / sum;
+				double cur = 0.0d;
+				for (int i = 0x00; i < n; i++) {
+					cur += fitsum * pas [i];
+					cps [i] = fittinh * cps [i] + cur;
+				}
 			}
 		}
 		#endregion

@@ -177,6 +177,9 @@ namespace iohmma {
 		/// </summary>
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
+		/// <remarks>
+		/// <para>If no data is provided, the distribution is not midified.</para>
+		/// </remarks>
 		public override void Fit (IEnumerable<Tuple<Tuple<TInput, TOutput>, double>> probabilities, double fitting = 1.0) {
 			IDistribution<TOutput>[] pc = this.Subdistributions;
 			int n = pc.Length;
