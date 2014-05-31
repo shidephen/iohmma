@@ -39,12 +39,12 @@ namespace IohmmTest {
 		}
 
 		[Test()]
-		public void TestProbability () {
+		public void TestProbability1 () {
 			MealyIohmm<int,int> mi = this.CreateMealy1 ();
-			Assert.AreEqual (0.024, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
-			Assert.AreEqual (0.006, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
-			Assert.AreEqual (0.056, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
-			Assert.AreEqual (0.014, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
+			Assert.AreEqual (0.449, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
+			Assert.AreEqual (0.251, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
+			Assert.AreEqual (0.181, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
+			Assert.AreEqual (0.119, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
 		}
 
 		private MealyIohmm<int,int> CreateMealy1 () {

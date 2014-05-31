@@ -98,19 +98,23 @@ namespace iohmma {
 			double stdv = 0.0d;
 			double fittinh = 1.0d - fitting;
 			double x, p;
+			bool data = false;
 			foreach (Tuple<double,double> item in probabilities) {
 				x = item.Item1;
 				p = item.Item2;
 				mean += p * x;
+				data = true;
 			}
-			double sq = mean * mean;
-			foreach (Tuple<double,double> item in probabilities) {
-				x = item.Item1;
-				p = item.Item2;
-				stdv += p * (x * x - sq);
+			if (data) {
+				double sq = mean * mean;
+				foreach (Tuple<double,double> item in probabilities) {
+					x = item.Item1;
+					p = item.Item2;
+					stdv += p * (x * x - sq);
+				}
+				this.Mean = fitting * mean + fittinh * this.Mean;
+				this.Sigma = fitting * stdv + fittinh * this.Sigma;
 			}
-			this.Mean = fitting * mean + fittinh * this.Mean;
-			this.Sigma = fitting * stdv + fittinh * this.Sigma;
 		}
 		#endregion
 		#region ToString method

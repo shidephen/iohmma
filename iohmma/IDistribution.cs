@@ -61,6 +61,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
+		/// <para>If the list of probabilities does not contain any entries, the distribution remains the same.</para>
 		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="FitUnnormalized"/> method.</para>
 		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
 		/// </remarks>
@@ -73,6 +74,7 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		/// <remarks>
+		/// <para>If the list of probabilities does not contain any entries, the distribution remains the same.</para>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>

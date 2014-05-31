@@ -372,6 +372,16 @@ namespace iohmma {
 		public IEnumerable<double[]> CalculateBetasReverse (params Tuple<TInput, TOutput>[] reversedinoutputs) {
 			return this.CalculateBetasReverse ((IEnumerable<Tuple<TInput, TOutput>>)reversedinoutputs);
 		}
+
+		/// <summary>
+		/// Train this hidden Markov model with the given sequence of input-output sequences.
+		/// </summary>
+		/// <param name="inoutputseq">The list of observation sequences.</param>
+		/// <param name="fitting">A parameter that expresses how much the data should be taken into
+		/// account compared with the old data stored in this Input-Output Hidden Markov Model.</param>
+		public void Train (IEnumerable<IEnumerable<Tuple<TInput, TOutput>>> inoutputseq, double fitting = 1.0) {
+
+		}
 		#endregion
 	}
 }

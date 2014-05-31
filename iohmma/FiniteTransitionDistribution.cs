@@ -27,7 +27,7 @@ using NUtils;
 namespace iohmma {
 	/// <summary>
 	/// A basic <see cref="T:TransitionDistribution`2"/> class where the number of inputs is finite. The class stores
-	/// a list of sub distributions. Subclasses of this class must map the inputs to the their corresponding
+	/// a list of sub distributions. Subclasses of this class must map the inputs to the the corresponding
 	/// indices of this class.
 	/// </summary>
 	public abstract class FiniteTransitionDistribution<TInput,TOutput> : TransitionDistribution<TInput,TOutput> {
