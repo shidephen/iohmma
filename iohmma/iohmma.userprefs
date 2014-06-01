@@ -3,13 +3,7 @@
   <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="iohmma" expanded="True">
-            <Node name="FiniteDistribution.cs" selected="True" />
-          </Node>
-          <Node name="NUtils" expanded="True" />
-          <Node name="testiohmm" expanded="True" />
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
       <Pad Id="ClassPad">
         <State expanded="True" selected="True" />
