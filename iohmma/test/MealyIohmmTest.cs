@@ -75,14 +75,49 @@ namespace IohmmTest {
 		public const double M1TA21 = 0.115696d;
 		public const double M1TA30 = 0.03546606d;
 		public const double M1TA31 = 0.01938884d;
-		public const double M1TB00 = 0.45d;
-		public const double M1TB01 = 0.35d;
-		public const double M1TB10 = 0.45d;
-		public const double M1TB11 = 0.35d;
+		public const double M1TB00 = 0.096275d;
+		public const double M1TB01 = 0.076685d;
+		public const double M1TB10 = 0.2075d;
+		public const double M1TB11 = 0.2365d;
 		public const double M1TB20 = 0.45d;
 		public const double M1TB21 = 0.35d;
 		public const double M1TB30 = 1.0d;
 		public const double M1TB31 = 1.0d;
+		public const double M1TC00 = M1TA00 * M1TB00;
+		public const double M1TC01 = M1TA01 * M1TB01;
+		public const double M1TC10 = M1TA10 * M1TB10;
+		public const double M1TC11 = M1TA11 * M1TB11;
+		public const double M1TC20 = M1TA20 * M1TB20;
+		public const double M1TC21 = M1TA21 * M1TB21;
+		public const double M1TC30 = M1TA30 * M1TB30;
+		public const double M1TC31 = M1TA31 * M1TB31;
+		public const double M1TG0 = M1TC00 + M1TC01;
+		public const double M1TG1 = M1TC10 + M1TC11;
+		public const double M1TG2 = M1TC20 + M1TC21;
+		public const double M1TG3 = M1TC30 + M1TC31;
+		public const double M1TG00 = M1TC00 / M1TG0;
+		public const double M1TG01 = M1TC01 / M1TG0;
+		public const double M1TG10 = M1TC10 / M1TG1;
+		public const double M1TG11 = M1TC11 / M1TG1;
+		public const double M1TG20 = M1TC20 / M1TG2;
+		public const double M1TG21 = M1TC21 / M1TG2;
+		public const double M1TG30 = M1TC30 / M1TG3;
+		public const double M1TG31 = M1TC31 / M1TG3;
+		public const double M1TE000 = M1TA00 * M1A00 * M1TB10 * M1B01 / M1TG0;
+		public const double M1TE001 = M1TA00 * M1A01 * M1TB11 * M1B11 / M1TG0;
+		public const double M1TE010 = M1TA01 * M1A10 * M1TB10 * M1B01 / M1TG0;
+		public const double M1TE011 = M1TA01 * M1A11 * M1TB11 * M1B11 / M1TG0;
+		public const double M1TE100 = M1TA10 * M1A00 * M1TB20 * M1B00 / M1TG1;
+		public const double M1TE101 = M1TA10 * M1A01 * M1TB21 * M1B10 / M1TG1;
+		public const double M1TE110 = M1TA11 * M1A10 * M1TB20 * M1B00 / M1TG1;
+		public const double M1TE111 = M1TA11 * M1A11 * M1TB21 * M1B10 / M1TG1;
+		public const double M1TE200 = M1TA20 * M1A00 * M1TB30 * M1B01 / M1TG2;
+		public const double M1TE201 = M1TA20 * M1A01 * M1TB31 * M1B11 / M1TG2;
+		public const double M1TE210 = M1TA21 * M1A10 * M1TB30 * M1B01 / M1TG2;
+		public const double M1TE211 = M1TA21 * M1A11 * M1TB31 * M1B11 / M1TG2;
+		public const double M1T_NP0 = M1TG00;
+		public const double M1T_NP1 = M1TG01;
+		public const double M1T_NA00 = M1TG00;
 
 		[Test()]
 		public void TestConstructor () {
@@ -204,8 +239,10 @@ namespace IohmmTest {
 			Assert.AreEqual (M1TB21, beta [0x02] [0x01], TestConstants.Tolerance);
 			Assert.AreEqual (M1TB30, beta [0x03] [0x00], TestConstants.Tolerance);
 			Assert.AreEqual (M1TB31, beta [0x03] [0x01], TestConstants.Tolerance);
+			mi.Train (observations);
+			Assert.AreEqual (M1T_NP0, mi.GetPi (0x00), TestConstants.Tolerance);
+			Assert.AreEqual (M1T_NP1, mi.GetPi (0x01), TestConstants.Tolerance);
 			for (int i = 0x00; i < 0x10; i++) {
-				mi.Train (observations);
 				Console.WriteLine (mi);
 			}
 		}
