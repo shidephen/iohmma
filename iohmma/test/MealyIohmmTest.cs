@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using NUnit.Framework;
 using System;
-using NUtils;
+using System.Linq;
 using iohmma;
 
 namespace IohmmTest {
@@ -37,10 +37,24 @@ namespace IohmmTest {
 		public const double M1B01 = 0.7d;
 		public const double M1B10 = 0.8d;
 		public const double M1B11 = 0.2d;
+		public const double M1Pr0 = 0.7d;
+		public const double M1Pr1 = 0.3d;
 		public const double M1Pr00 = 0.449d;
 		public const double M1Pr01 = 0.251d;
 		public const double M1Pr10 = 0.181d;
 		public const double M1Pr11 = 0.119d;
+		public const double M1O0A00 = 0.06d;
+		public const double M1O0A01 = 0.64d;
+		public const double M1O1A00 = 0.14d;
+		public const double M1O1A01 = 0.16d;
+		public const double M1O00A00 = 0.06d;
+		public const double M1O00A01 = 0.64d;
+		public const double M1O00A10 = 0.0666d;
+		public const double M1O00A11 = 0.3824d;
+		public const double M1O01A00 = 0.06d;
+		public const double M1O01A01 = 0.64d;
+		public const double M1O01A10 = 0.1554d;
+		public const double M1O01A11 = 0.0956d;
 
 		[Test()]
 		public void TestConstructor () {
@@ -60,10 +74,35 @@ namespace IohmmTest {
 		[Test()]
 		public void TestProbability1 () {
 			MealyIohmm<int,int> mi = CreateMealy1 ();
+			Assert.AreEqual (M1Pr0, mi.Probability (new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
+			Assert.AreEqual (M1Pr1, mi.Probability (new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
+			Assert.AreEqual (M1Pr00, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
 			Assert.AreEqual (M1Pr00, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
 			Assert.AreEqual (M1Pr01, mi.Probability (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
 			Assert.AreEqual (M1Pr10, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x00)), TestConstants.Tolerance);
 			Assert.AreEqual (M1Pr11, mi.Probability (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x01)), TestConstants.Tolerance);
+		}
+
+		[Test()]
+		public void TestAlphas1 () {
+			MealyIohmm<int,int> mi = CreateMealy1 ();
+			double[][] alpha;
+			alpha = mi.CalculateAlphas (new Tuple<int,int> (0x01, 0x00)).ToArray ();
+			Assert.AreEqual (M1O0A00, alpha [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O0A01, alpha [0x00] [0x01], TestConstants.Tolerance);
+			alpha = mi.CalculateAlphas (new Tuple<int,int> (0x01, 0x01)).ToArray ();
+			Assert.AreEqual (M1O1A00, alpha [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O1A01, alpha [0x00] [0x01], TestConstants.Tolerance);
+			alpha = mi.CalculateAlphas (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)).ToArray ();
+			Assert.AreEqual (M1O00A00, alpha [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00A01, alpha [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00A10, alpha [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00A11, alpha [0x01] [0x01], TestConstants.Tolerance);
+			alpha = mi.CalculateAlphas (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x01)).ToArray ();
+			Assert.AreEqual (M1O01A00, alpha [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01A01, alpha [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01A10, alpha [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01A11, alpha [0x01] [0x01], TestConstants.Tolerance);
 		}
 
 		[Test()]
