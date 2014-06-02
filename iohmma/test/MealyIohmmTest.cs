@@ -96,7 +96,7 @@ namespace IohmmTest {
 		}
 
 		[Test()]
-		public void TestAlphas1 () {
+		public void TestCalculateAlphas1 () {
 			MealyIohmm<int,int> mi = CreateMealy1 ();
 			double[][] alpha;
 			alpha = mi.CalculateAlphas (new Tuple<int,int> (0x01, 0x00)).ToArray ();
@@ -118,7 +118,29 @@ namespace IohmmTest {
 		}
 
 		[Test()]
-		public void TestBetas1 () {
+		public void TestCalculateBetas1 () {
+			MealyIohmm<int,int> mi = CreateMealy1 ();
+			double[][] beta;
+			beta = mi.CalculateBetas (new Tuple<int,int> (0x01, 0x00)).ToArray ();
+			Assert.AreEqual (M1O0B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O0B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			beta = mi.CalculateBetas (new Tuple<int,int> (0x01, 0x01)).ToArray ();
+			Assert.AreEqual (M1O1B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O1B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			beta = mi.CalculateBetas (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)).ToArray ();
+			Assert.AreEqual (M1O00B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00B10, beta [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00B11, beta [0x01] [0x01], TestConstants.Tolerance);
+			beta = mi.CalculateBetas (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x01)).ToArray ();
+			Assert.AreEqual (M1O01B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01B10, beta [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01B11, beta [0x01] [0x01], TestConstants.Tolerance);
+		}
+
+		[Test()]
+		public void TestCalculateBetasReverse1 () {
 			MealyIohmm<int,int> mi = CreateMealy1 ();
 			double[][] beta;
 			beta = mi.CalculateBetasReverse (new Tuple<int,int> (0x01, 0x00)).Reverse ().ToArray ();

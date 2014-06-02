@@ -372,7 +372,7 @@ namespace iohmma {
 		/// <returns>A list of probability arrays describing the beta values after each stage from beginning to end.</returns>
 		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output.</param>
 		public IEnumerable<double[]> CalculateBetas (params Tuple<TInput, TOutput>[] reversedinoutputs) {
-			return this.CalculateBetas (reversedinoutputs.Reverse ()).Reverse ();
+			return this.CalculateBetasReverse (reversedinoutputs.Reverse ()).Reverse ();
 		}
 
 		/// <summary>
@@ -384,7 +384,7 @@ namespace iohmma {
 		/// <para><paramref name="inoutputs"/> is not allowed to have an infinite length.</para>
 		/// </remarks>
 		public IEnumerable<double[]> CalculateBetas (IEnumerable<Tuple<TInput, TOutput>> reversedinoutputs) {
-			return this.CalculateBetas (reversedinoutputs.Reverse ()).Reverse ();
+			return this.CalculateBetasReverse (reversedinoutputs.Reverse ()).Reverse ();
 		}
 
 		/// <summary>
