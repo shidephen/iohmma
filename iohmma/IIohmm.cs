@@ -150,6 +150,23 @@ namespace iohmma {
 		IEnumerable<double[]> CalculateAlphas (params Tuple<TInput,TOutput>[] inoutputs);
 
 		/// <summary>
+		/// Calculate the beta values based on the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the beta values after each stage from beginning to end.</returns>
+		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output.</param>
+		IEnumerable<double[]> CalculateBetas (params Tuple<TInput, TOutput>[] reversedinoutputs);
+
+		/// <summary>
+		/// Calculate the beta values based on the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the beta values after each stage from beginning to end.</returns>
+		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output.</param>
+		/// <remarks>
+		/// <para><paramref name="inoutputs"/> is not allowed to have an infinite length.</para>
+		/// </remarks>
+		IEnumerable<double[]> CalculateBetas (IEnumerable<Tuple<TInput, TOutput>> reversedinoutputs);
+
+		/// <summary>
 		/// Calculate the beta values based on the given reversed sequence of inputs and outputs.
 		/// </summary>
 		/// <returns>A list of probability arrays describing the beta values after each stage from end to begin.</returns>

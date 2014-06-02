@@ -359,16 +359,43 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>A list of probability arrays describing the alpha values after each stage.</returns>
 		/// <param name="inoutputs">A list of tuples containing the input and the appropriate output.</param>
+		/// <remarks>
+		/// <para><paramref name="inoutputs"/> is allowed to have an infinite length.</para>
+		/// </remarks>
 		public IEnumerable<double[]> CalculateAlphas (params Tuple<TInput, TOutput>[] inoutputs) {
 			return this.CalculateAlphas ((IEnumerable<Tuple<TInput, TOutput>>)inoutputs);
 		}
 
 		/// <summary>
-		/// Calculate the beta values based on the given reversed sequence of inputs and outputs.
+		/// Calculate the beta values based on the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the beta values after each stage from beginning to end.</returns>
+		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output.</param>
+		public IEnumerable<double[]> CalculateBetas (params Tuple<TInput, TOutput>[] reversedinoutputs) {
+			return this.CalculateBetas (reversedinoutputs.Reverse ()).Reverse ();
+		}
+
+		/// <summary>
+		/// Calculate the beta values based on the given sequence of inputs and outputs.
+		/// </summary>
+		/// <returns>A list of probability arrays describing the beta values after each stage from beginning to end.</returns>
+		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output.</param>
+		/// <remarks>
+		/// <para><paramref name="inoutputs"/> is not allowed to have an infinite length.</para>
+		/// </remarks>
+		public IEnumerable<double[]> CalculateBetas (IEnumerable<Tuple<TInput, TOutput>> reversedinoutputs) {
+			return this.CalculateBetas (reversedinoutputs.Reverse ()).Reverse ();
+		}
+
+		/// <summary>
+		/// Calculate the reversed list of beta values based on the given reversed sequence of inputs and outputs.
 		/// </summary>
 		/// <returns>A list of probability arrays describing the beta values after each stage from end to begin.</returns>
 		/// <param name="reversedinoutputs">A list of tuples containing the input and the appropriate output, the order
 		/// is reversed: the first tuple contains the last observation.</param>
+		/// <remarks>
+		/// <para><paramref name="inoutputs"/> is allowed to have an infinite length.</para>
+		/// </remarks>
 		public IEnumerable<double[]> CalculateBetasReverse (params Tuple<TInput, TOutput>[] reversedinoutputs) {
 			return this.CalculateBetasReverse ((IEnumerable<Tuple<TInput, TOutput>>)reversedinoutputs);
 		}
