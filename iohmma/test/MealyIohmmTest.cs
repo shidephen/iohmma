@@ -79,8 +79,10 @@ namespace IohmmTest {
 				new Tuple<int,int> (0x01, 0x00),
 				new Tuple<int,int> (0x01, 0x01)
 			};
-			mi.Train (observations);
-			Console.WriteLine (mi);
+			for (int i = 0x00; i < 0x10; i++) {
+				mi.Train (observations);
+				Console.WriteLine (mi);
+			}
 		}
 
 		private static MealyIohmm<int,int> CreateMealy1 () {
