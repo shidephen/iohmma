@@ -561,27 +561,28 @@ namespace iohmma {
 			IEnumerator<Tuple<TInput,TOutput>> reversedenumerator = reversedinoutputs.GetEnumerator ();
 			if (reversedenumerator.MoveNext ()) {
 				TInput xt0, xt1;
-				TOutput yt1;
+				TOutput yt0, yt1;
 				Tuple<TInput,TOutput> cur = reversedenumerator.Current;
-				xt1 = cur.Item1;
-				yt1 = cur.Item2;
 				int nhidden = this.NumberOfHiddenStates;
 				double[] result1 = new double[nhidden], result0;
 				for (int si = 0x00; si < nhidden; si++) {
 					result1 [si] = 1.0d;
 				}
 				yield return result1;
+				xt0 = cur.Item1;
+				yt0 = cur.Item2;
 				while (reversedenumerator.MoveNext ()) {
 					cur = reversedenumerator.Current;
-					xt0 = xt1;
-					xt1 = cur.Item1;
-					yt1 = cur.Item2;
+					xt1 = xt0;
+					xt0 = cur.Item1;
+					yt1 = yt0;
+					yt0 = cur.Item2;
 					result0 = result1;
 					result1 = new double[nhidden];
 					for (int si = 0x00; si < nhidden; si++) {
 						double p = 0.0d;
 						for (int sj = 0x00; sj < nhidden; sj++) {
-							p += result0 [sj] * this.GetA (xt0, si, sj) * this.GetB (xt1, sj, yt1);
+							p += this.GetA (xt0, si, sj) * result0 [sj] * this.GetB (xt1, sj, yt1);
 						}
 						result1 [si] = p;
 					}

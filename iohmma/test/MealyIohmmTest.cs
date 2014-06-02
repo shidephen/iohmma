@@ -55,18 +55,18 @@ namespace IohmmTest {
 		public const double M1O01A01 = 0.64d;
 		public const double M1O01A10 = 0.1554d;
 		public const double M1O01A11 = 0.0956d;
-		public const double M1O0B00 = 0.06d;
-		public const double M1O0B01 = 0.64d;
-		public const double M1O1B00 = 0.14d;
-		public const double M1O1B01 = 0.16d;
-		public const double M1O00B00 = 0.06d;
-		public const double M1O00B01 = 0.64d;
-		public const double M1O00B10 = 0.0666d;
-		public const double M1O00B11 = 0.3824d;
-		public const double M1O01B00 = 0.06d;
-		public const double M1O01B01 = 0.64d;
-		public const double M1O01B10 = 0.1554d;
-		public const double M1O01B11 = 0.0956d;
+		public const double M1O0B00 = 1.0d;
+		public const double M1O0B01 = 1.0d;
+		public const double M1O1B00 = 1.0d;
+		public const double M1O1B01 = 1.0d;
+		public const double M1O00B00 = 0.55d;
+		public const double M1O00B01 = 0.65d;
+		public const double M1O00B10 = 1.0d;
+		public const double M1O00B11 = 1.0d;
+		public const double M1O01B00 = 0.45d;
+		public const double M1O01B01 = 0.35d;
+		public const double M1O01B10 = 1.0d;
+		public const double M1O01B11 = 1.0d;
 
 		[Test()]
 		public void TestConstructor () {
