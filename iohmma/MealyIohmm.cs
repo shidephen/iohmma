@@ -568,7 +568,7 @@ namespace iohmma {
 				int nhidden = this.NumberOfHiddenStates;
 				double[] result1 = new double[nhidden], result0;
 				for (int si = 0x00; si < nhidden; si++) {
-					result1 [si] = this.GetPi (si) * this.GetB (xt1, si, yt1);
+					result1 [si] = 1.0d;
 				}
 				yield return result1;
 				while (reversedenumerator.MoveNext ()) {
@@ -578,12 +578,12 @@ namespace iohmma {
 					yt1 = cur.Item2;
 					result0 = result1;
 					result1 = new double[nhidden];
-					for (int sj = 0x00; sj < nhidden; sj++) {
+					for (int si = 0x00; si < nhidden; si++) {
 						double p = 0.0d;
-						for (int si = 0x00; si < nhidden; si++) {
-							p += result0 [si] * this.GetA (xt0, si, sj);
+						for (int sj = 0x00; sj < nhidden; sj++) {
+							p += result0 [sj] * this.GetA (xt0, si, sj) * this.GetB (xt1, sj, yt1);
 						}
-						result1 [sj] = p * this.GetB (xt1, sj, yt1);
+						result1 [si] = p;
 					}
 					yield return result1;
 				}

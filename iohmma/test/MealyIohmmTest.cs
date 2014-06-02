@@ -55,6 +55,18 @@ namespace IohmmTest {
 		public const double M1O01A01 = 0.64d;
 		public const double M1O01A10 = 0.1554d;
 		public const double M1O01A11 = 0.0956d;
+		public const double M1O0B00 = 0.06d;
+		public const double M1O0B01 = 0.64d;
+		public const double M1O1B00 = 0.14d;
+		public const double M1O1B01 = 0.16d;
+		public const double M1O00B00 = 0.06d;
+		public const double M1O00B01 = 0.64d;
+		public const double M1O00B10 = 0.0666d;
+		public const double M1O00B11 = 0.3824d;
+		public const double M1O01B00 = 0.06d;
+		public const double M1O01B01 = 0.64d;
+		public const double M1O01B10 = 0.1554d;
+		public const double M1O01B11 = 0.0956d;
 
 		[Test()]
 		public void TestConstructor () {
@@ -103,6 +115,28 @@ namespace IohmmTest {
 			Assert.AreEqual (M1O01A01, alpha [0x00] [0x01], TestConstants.Tolerance);
 			Assert.AreEqual (M1O01A10, alpha [0x01] [0x00], TestConstants.Tolerance);
 			Assert.AreEqual (M1O01A11, alpha [0x01] [0x01], TestConstants.Tolerance);
+		}
+
+		[Test()]
+		public void TestBetas1 () {
+			MealyIohmm<int,int> mi = CreateMealy1 ();
+			double[][] beta;
+			beta = mi.CalculateBetasReverse (new Tuple<int,int> (0x01, 0x00)).Reverse ().ToArray ();
+			Assert.AreEqual (M1O0B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O0B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			beta = mi.CalculateBetasReverse (new Tuple<int,int> (0x01, 0x01)).Reverse ().ToArray ();
+			Assert.AreEqual (M1O1B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O1B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			beta = mi.CalculateBetasReverse (new Tuple<int,int> (0x01, 0x00), new Tuple<int,int> (0x01, 0x00)).Reverse ().ToArray ();
+			Assert.AreEqual (M1O00B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00B10, beta [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O00B11, beta [0x01] [0x01], TestConstants.Tolerance);
+			beta = mi.CalculateBetasReverse (new Tuple<int,int> (0x01, 0x01), new Tuple<int,int> (0x01, 0x00)).Reverse ().ToArray ();
+			Assert.AreEqual (M1O01B00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01B01, beta [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01B10, beta [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1O01B11, beta [0x01] [0x01], TestConstants.Tolerance);
 		}
 
 		[Test()]
