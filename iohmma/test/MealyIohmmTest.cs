@@ -67,6 +67,22 @@ namespace IohmmTest {
 		public const double M1O01B01 = 0.35d;
 		public const double M1O01B10 = 1.0d;
 		public const double M1O01B11 = 1.0d;
+		public const double M1TA00 = 0.06d;
+		public const double M1TA01 = 0.64d;
+		public const double M1TA10 = 0.1554d;
+		public const double M1TA11 = 0.0956d;
+		public const double M1TA20 = 0.031914d;
+		public const double M1TA21 = 0.115696d;
+		public const double M1TA30 = 0.03546606d;
+		public const double M1TA31 = 0.01938884d;
+		public const double M1TB00 = 0.45d;
+		public const double M1TB01 = 0.35d;
+		public const double M1TB10 = 0.45d;
+		public const double M1TB11 = 0.35d;
+		public const double M1TB20 = 0.45d;
+		public const double M1TB21 = 0.35d;
+		public const double M1TB30 = 1.0d;
+		public const double M1TB31 = 1.0d;
 
 		[Test()]
 		public void TestConstructor () {
@@ -169,11 +185,25 @@ namespace IohmmTest {
 				new Tuple<int,int> (0x01, 0x01),
 				new Tuple<int,int> (0x01, 0x00),
 				new Tuple<int,int> (0x01, 0x01),
-				new Tuple<int,int> (0x01, 0x00),
-				new Tuple<int,int> (0x01, 0x01),
-				new Tuple<int,int> (0x01, 0x00),
-				new Tuple<int,int> (0x01, 0x01)
 			};
+			double[][] alpha = mi.CalculateAlphas (observations).ToArray ();
+			Assert.AreEqual (M1TA00, alpha [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TA01, alpha [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1TA10, alpha [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TA11, alpha [0x01] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1TA20, alpha [0x02] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TA21, alpha [0x02] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1TA30, alpha [0x03] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TA31, alpha [0x03] [0x01], TestConstants.Tolerance);
+			double[][] beta = mi.CalculateBetas (observations).ToArray ();
+			Assert.AreEqual (M1TB00, beta [0x00] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TB01, beta [0x00] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1TB10, beta [0x01] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TB11, beta [0x01] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1TB20, beta [0x02] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TB21, beta [0x02] [0x01], TestConstants.Tolerance);
+			Assert.AreEqual (M1TB30, beta [0x03] [0x00], TestConstants.Tolerance);
+			Assert.AreEqual (M1TB31, beta [0x03] [0x01], TestConstants.Tolerance);
 			for (int i = 0x00; i < 0x10; i++) {
 				mi.Train (observations);
 				Console.WriteLine (mi);
