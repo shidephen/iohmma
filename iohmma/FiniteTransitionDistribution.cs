@@ -30,7 +30,7 @@ namespace iohmma {
 	/// a list of sub distributions. Subclasses of this class must map the inputs to the the corresponding
 	/// indices of this class.
 	/// </summary>
-	public abstract class FiniteTransitionDistribution<TInput,TOutput> : TransitionDistribution<TInput,TOutput>, IInputIndexMapping<TInput> {
+	public abstract class FiniteTransitionDistribution<TInput,TOutput> : ScaledFittingTransitionDistribution<TInput,TOutput>, IInputIndexMapping<TInput> {
 
 		#region Protected fields
 		/// <summary>
