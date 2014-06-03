@@ -440,7 +440,7 @@ namespace iohmma {
 			Tuple<TInput, TOutput> ct1;
 			TInput x1;
 			TOutput y1;
-			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
+			for (int t = 0x00; t < T && enumerator.MoveNext(); t++) {
 				ct1 = enumerator.Current;
 				x1 = ct1.Item1;
 				y1 = ct1.Item2;
@@ -577,7 +577,6 @@ namespace iohmma {
 		/// <param name="inoutputs">A sequence of input-output values that would train the Hidden Markov model.</param>
 		/// <param name="initialState">The given initial state.</param>
 		public IEnumerable<Tuple<Tuple<TInput, TOutput>, double>> CalculateNewEmission (IEnumerable<Tuple<TInput, TOutput>> inoutputs, int initialState) {
-			//calculate Alpha- and Beta- values.
 			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
 			double[][] betar = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
 			int T = alpha.Length;
@@ -585,7 +584,6 @@ namespace iohmma {
 			int N = this.NumberOfHiddenStates;
 			double[] alphat = null, betart = null, sumab = new double[T];
 			double sum = 0.0d;
-			//Calculate Gamma-like values.
 			for (int t = T1; t >= 0x00; t--) {
 				alphat = alpha [t];
 				betart = betar [T1 - t];

@@ -421,8 +421,9 @@ namespace iohmma {
 		protected IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {
 			int T = alpha.Length;
 			int T1 = T - 0x01;
+			int T2 = T1 - 0x01;
 			int N = this.NumberOfHiddenStates;
-			double den, denalphati;
+			double denalphati;
 			double[] alphat, betart;
 			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
 			enumerator.MoveNext ();
@@ -435,11 +436,12 @@ namespace iohmma {
 				x1 = ct1.Item1;
 				y1 = ct1.Item2;
 				alphat = alpha [t];
-				betart = betar [T1 - t];
-				den = 1.0d / sumab [t];
-				denalphati = alphat [i] * den;
+				betart = betar [T2 - t];
+				denalphati = alphat [i] / sumab [t];
 				for (int j = 0x00; j < N; j++) {
-					yield return new Tuple<Tuple<TInput,int>,double> (new Tuple<TInput,int> (x0, j), betart [j] * this.GetA (x0, i, j) * this.GetB (x1, j, y1) * denalphati);
+					double res = denalphati * this.GetA (x0, i, j) * betart [j] * this.GetB (x1, j, y1);
+					//Console.WriteLine ("~{0}*{1}*{2}*{3}/{4}={5}~", alphat [i], this.GetA (x0, i, j), betart [j], this.GetB (x1, j, y1), sumab [t], res);
+					yield return new Tuple<Tuple<TInput,int>,double> (new Tuple<TInput,int> (x0, j), res);
 				}
 			}
 		}
@@ -451,7 +453,6 @@ namespace iohmma {
 		/// <param name="inoutputs">A sequence of input-output values that would train the Hidden Markov model.</param>
 		/// <param name="initialState">The given initial state.</param>
 		public IEnumerable<Tuple<Tuple<TInput, int>, double>> CalculateNewTransition (IEnumerable<Tuple<TInput, TOutput>> inoutputs, int initialState) {
-			//calculate Alpha- and Beta- values.
 			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
 			double[][] betar = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
 			int T = alpha.Length;
@@ -459,7 +460,6 @@ namespace iohmma {
 			int N = this.NumberOfHiddenStates;
 			double[] alphat = null, betart = null, sumab = new double[T];
 			double sum = 0.0d;
-			//Calculate Gamma-like values.
 			for (int t = T1; t >= 0x00; t--) {
 				alphat = alpha [t];
 				betart = betar [T1 - t];
