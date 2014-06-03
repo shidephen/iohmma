@@ -440,7 +440,7 @@ namespace iohmma {
 			Tuple<TInput, TOutput> ct1;
 			TInput x1;
 			TOutput y1;
-			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
+			for (int t = 0x00; t < T && enumerator.MoveNext(); t++) {
 				ct1 = enumerator.Current;
 				x1 = ct1.Item1;
 				y1 = ct1.Item2;
@@ -449,42 +449,6 @@ namespace iohmma {
 				yield return new Tuple<Tuple<TInput,TOutput>,double> (new Tuple<TInput,TOutput> (x1, y1), alphat [i] * betart [i]);
 			}
 			yield break;
-		}
-
-		/// <summary>
-		/// Caclcuates a stream of eta-values, these are used to fit the transition probabilities (or the so-called A-values).
-		/// </summary>
-		/// <returns>A list of <see cref="T:Tuple`2"/> values where the first element is a <see cref="T:Tuple`2"/>
-		/// of input and state. and as second item the probability of the migration.</returns>
-		/// <param name="inoutputs">The original sequence of inputs and outputs that are used to train the Hidden Markov Model.</param>
-		/// <param name="alpha">The calculated alpha values.</param>
-		/// <param name="betar">The calculated beta values in reverse ordered.</param>
-		/// <param name="sumab">A list of sums of the alpha and beta values of each time stamp.</param>
-		/// <param name="i">The original index for the transition probabilities.</param>
-		private IEnumerable<Tuple<Tuple<TInput,int>,double>> GetEtas (IEnumerable<Tuple<TInput, TOutput>> inoutputs, double[][] alpha, double[][] betar, double[] sumab, int i) {
-			int T = alpha.Length;
-			int T1 = T - 0x01;
-			int N = this.NumberOfHiddenStates;
-			double den, denalphati;
-			double[] alphat, betart;
-			IEnumerator<Tuple<TInput, TOutput>> enumerator = inoutputs.GetEnumerator ();
-			enumerator.MoveNext ();
-			Tuple<TInput, TOutput> ct1 = enumerator.Current;
-			TInput x0, x1 = ct1.Item1;
-			TOutput y1;
-			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
-				x0 = x1;
-				ct1 = enumerator.Current;
-				x1 = ct1.Item1;
-				y1 = ct1.Item2;
-				alphat = alpha [t];
-				betart = betar [T1 - t];
-				den = 1.0d / sumab [t];
-				denalphati = alphat [i] * den;
-				for (int j = 0x00; j < N; j++) {
-					yield return new Tuple<Tuple<TInput,int>,double> (new Tuple<TInput,int> (x0, j), betart [j] * this.GetA (x0, i, j) * this.GetB (x1, j, y1) * denalphati);
-				}
-			}
 		}
 
 		/// <summary>
@@ -561,35 +525,37 @@ namespace iohmma {
 			IEnumerator<Tuple<TInput,TOutput>> reversedenumerator = reversedinoutputs.GetEnumerator ();
 			if (reversedenumerator.MoveNext ()) {
 				TInput xt0, xt1;
-				TOutput yt1;
+				TOutput yt0, yt1;
 				Tuple<TInput,TOutput> cur = reversedenumerator.Current;
-				xt1 = cur.Item1;
-				yt1 = cur.Item2;
 				int nhidden = this.NumberOfHiddenStates;
 				double[] result1 = new double[nhidden], result0;
 				for (int si = 0x00; si < nhidden; si++) {
-					result1 [si] = this.GetPi (si) * this.GetB (xt1, si, yt1);
+					result1 [si] = 1.0d;
 				}
 				yield return result1;
+				xt0 = cur.Item1;
+				yt0 = cur.Item2;
 				while (reversedenumerator.MoveNext ()) {
 					cur = reversedenumerator.Current;
-					xt0 = xt1;
-					xt1 = cur.Item1;
-					yt1 = cur.Item2;
+					xt1 = xt0;
+					xt0 = cur.Item1;
+					yt1 = yt0;
+					yt0 = cur.Item2;
 					result0 = result1;
 					result1 = new double[nhidden];
-					for (int sj = 0x00; sj < nhidden; sj++) {
+					for (int si = 0x00; si < nhidden; si++) {
 						double p = 0.0d;
-						for (int si = 0x00; si < nhidden; si++) {
-							p += result0 [si] * this.GetA (xt0, si, sj);
+						for (int sj = 0x00; sj < nhidden; sj++) {
+							p += this.GetA (xt0, si, sj) * result0 [sj] * this.GetB (xt1, sj, yt1);
 						}
-						result1 [sj] = p * this.GetB (xt1, sj, yt1);
+						result1 [si] = p;
 					}
 					yield return result1;
 				}
 			}
 		}
 		#endregion
+		#region ToString method
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:MealyIohmm`2"/>.
 		/// </summary>
@@ -601,5 +567,45 @@ namespace iohmma {
 		public override string ToString () {
 			return TablePrinter.WriteTable (this.Pi.Cast<object> (), this.Transitions, this.emissions);
 		}
+		#endregion
+		#region IMealyIohmm implementation
+		/// <summary>
+		/// Gets a list of input-output values together with the (unscaled) probabilities that would be used to train the
+		/// emission probabilities Hidden Markov model for the given initial state.
+		/// </summary>
+		/// <returns>A list of input-output values together with the (unscaled) probabilities.</returns>
+		/// <param name="inoutputs">A sequence of input-output values that would train the Hidden Markov model.</param>
+		/// <param name="initialState">The given initial state.</param>
+		public IEnumerable<Tuple<Tuple<TInput, TOutput>, double>> CalculateNewEmission (IEnumerable<Tuple<TInput, TOutput>> inoutputs, int initialState) {
+			double[][] alpha = this.CalculateAlphas (inoutputs).ToArray ();
+			double[][] betar = this.CalculateBetasReverse (inoutputs.Reverse ()).ToArray ();
+			int T = alpha.Length;
+			int T1 = T - 0x01;
+			int N = this.NumberOfHiddenStates;
+			double[] alphat = null, betart = null, sumab = new double[T];
+			double sum = 0.0d;
+			for (int t = T1; t >= 0x00; t--) {
+				alphat = alpha [t];
+				betart = betar [T1 - t];
+				sum = 0.0d;
+				for (int i = 0x00; i < N; i++) {
+					sum += alphat [i] * betart [i];
+				}
+				sumab [t] = sum;
+			}
+			return this.GetGammas (inoutputs, alpha, betar, sumab, initialState);
+		}
+		#endregion
+		#region implemented abstract members of Iohmm
+		/// <summary>
+		/// Train this hidden Markov model with the given sequence of input-output sequences.
+		/// </summary>
+		/// <param name="inoutputseq">The list of observation sequences.</param>
+		/// <param name="fitting">A parameter that expresses how much the data should be taken into
+		/// account compared with the old data stored in this Input-Output Hidden Markov Model.</param>
+		public override void Train (IEnumerable<IEnumerable<Tuple<TInput, TOutput>>> inoutputseq, double fitting = 1.0) {
+			throw new NotImplementedException ();
+		}
+		#endregion
 	}
 }

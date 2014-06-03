@@ -19,6 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
 
 namespace iohmma {
 	/// <summary>
@@ -35,5 +36,13 @@ namespace iohmma {
 		/// the distribution with respect to the input.</returns>
 		/// <param name="state">The given state for which the emission function must be returned.</param>
 		ITransitionDistribution<TInput,TOutput> GetEmission (int state);
+
+		/// <summary>
+		/// Gets a list of input-output values together with the (unscaled) probabilities that would be used to train the emission probabilities Hidden Markov model for the given initial state.
+		/// </summary>
+		/// <returns>A list of input-output values together with the (unscaled) probabilities.</returns>
+		/// <param name="inoutputs">A sequence of input-output values that would train the Hidden Markov model.</param>
+		/// <param name="initialState">The given initial state.</param>
+		IEnumerable<Tuple<Tuple<TInput,TOutput>,double>> CalculateNewEmission (IEnumerable<Tuple<TInput, TOutput>> inoutputs, int initialState);
 	}
 }

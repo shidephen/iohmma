@@ -1,18 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="test/MealyIohmmTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MealyIohmm.cs">
     <Files>
-      <File FileName="IIohmm.cs" Line="116" Column="3" />
-      <File FileName="test/MealyIohmmTest.cs" Line="32" Column="12" />
+      <File FileName="test/MealyIohmmTest.cs" Line="252" Column="1" />
+      <File FileName="MealyIohmm.cs" Line="548" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="iohmma" expanded="True" />
-          <Node name="NUtils" expanded="True" />
-          <Node name="testiohmm" expanded="True">
-            <Node name="MealyIohmmTest.cs" selected="True" />
+          <Node name="iohmma" expanded="True">
+            <Node name="MealyIohmm.cs" selected="True" />
           </Node>
+          <Node name="testiohmm" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
