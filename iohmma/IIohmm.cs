@@ -188,5 +188,13 @@ namespace iohmma {
 		/// <para>The output list is as long as the <paramref name="reversedinoutputs"/> list.</para>
 		/// </remarks>
 		IEnumerable<double[]> CalculateBetasReverse (params Tuple<TInput,TOutput>[] reversedinoutputs);
+
+		/// <summary>
+		/// Gets a list of input-state values together with the (unscaled) probabilities that would be used to train the transition probabilities Hidden Markov model for the given initial state.
+		/// </summary>
+		/// <returns>A list of input-state values together with the (unscaled) probabilities.</returns>
+		/// <param name="inoutputs">A sequence of input-output values that would train the Hidden Markov model.</param>
+		/// <param name="initialState">The given initial state.</param>
+		IEnumerable<Tuple<Tuple<TInput,int>,double>> CalculateNewTransition (IEnumerable<Tuple<TInput, TOutput>> inoutputs, int initialState);
 	}
 }

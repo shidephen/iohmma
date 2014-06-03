@@ -119,7 +119,7 @@ namespace IohmmTest {
 		public const double M1T_NP1 = M1TG01;
 		public const double M1T_NA00 = (M1TE000 + M1TE100 + M1TE200) / (M1TG00 + M1TG10 + M1TG20);
 		public const double M1T_NA01 = (M1TE001 + M1TE101 + M1TE201) / (M1TG00 + M1TG10 + M1TG20);
-		public const double M1T_NA10 = (M1TE010 + M1TE110 + M1TE210) / (M1TG00 + M1TG10 + M1TG20);
+		public const double M1T_NA10 = (M1TE010 + M1TE110 + M1TE210) / (M1TG01 + M1TG11 + M1TG21);
 		public const double M1T_NA11 = (M1TE011 + M1TE111 + M1TE211) / (M1TG01 + M1TG11 + M1TG21);
 		public const double M1T_NB00 = (M1TG00 + M1TG20) / (M1TG00 + M1TG10 + M1TG20 + M1TG30);
 		public const double M1T_NB01 = (M1TG10 + M1TG30) / (M1TG00 + M1TG10 + M1TG20 + M1TG30);
@@ -247,8 +247,13 @@ namespace IohmmTest {
 			Assert.AreEqual (M1TB30, beta [0x03] [0x00], TestConstants.Tolerance);
 			Assert.AreEqual (M1TB31, beta [0x03] [0x01], TestConstants.Tolerance);
 			mi.Train (observations);
-			Assert.AreEqual (M1T_NP0, mi.GetPi (0x00), TestConstants.Tolerance);
+			Assert.AreEqual (1.0d, M1T_NP0 + M1T_NP1, TestConstants.Tolerance);
+			Assert.AreEqual (1.0d, M1T_NA00 + M1T_NA01, TestConstants.Tolerance);
+			Assert.AreEqual (1.0d, M1T_NA10 + M1T_NA11, TestConstants.Tolerance);
+			Assert.AreEqual (1.0d, M1T_NB00 + M1T_NB01, TestConstants.Tolerance);
+			Assert.AreEqual (1.0d, M1T_NB10 + M1T_NB11, TestConstants.Tolerance);
 			Assert.AreEqual (M1T_NP1, mi.GetPi (0x01), TestConstants.Tolerance);
+			Assert.AreEqual (M1T_NP0, mi.GetPi (0x00), TestConstants.Tolerance);
 			Assert.AreEqual (M1T_NA00, mi.GetA (0x01, 0x00, 0x00), TestConstants.Tolerance);
 			Assert.AreEqual (M1T_NA01, mi.GetA (0x01, 0x00, 0x01), TestConstants.Tolerance);
 			Assert.AreEqual (M1T_NA10, mi.GetA (0x01, 0x01, 0x00), TestConstants.Tolerance);
