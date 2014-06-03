@@ -600,12 +600,11 @@ namespace iohmma {
 		#endregion
 		#region implemented abstract members of Iohmm
 		/// <summary>
-		/// Train this hidden Markov model with the given sequence of inputs and outputs.
+		/// Train this hidden Markov model with the given sequence of input-output sequences.
 		/// </summary>
-		/// <param name="inoutputs">The sequence of inputs and outputs.</param>
+		/// <param name="inoutputseq">The list of observation sequences.</param>
 		/// <param name="fitting">A parameter that expresses how much the data should be taken into
 		/// account compared with the old data stored in this Input-Output Hidden Markov Model.</param>
-		/// <param name="inoutputseq">Inoutputseq.</param>
 		public override void Train (IEnumerable<IEnumerable<Tuple<TInput, TOutput>>> inoutputseq, double fitting = 1.0) {
 			throw new NotImplementedException ();
 		}
