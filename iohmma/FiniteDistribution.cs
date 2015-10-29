@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUtils;
+using NUtils.Textual;
 
 namespace iohmma {
 	/// <summary>
@@ -32,6 +33,7 @@ namespace iohmma {
 	public abstract class FiniteDistribution<TData> : ScaledFittingDistribution<TData>, IInputIndexMapping<TData>, IEnumerable<double>, IFormatFormatProviderToString {
 
 		#region Protected properties
+
 		/// <summary>
 		/// An array of doubles listing the cumulative probabilities.
 		/// </summary>
@@ -41,8 +43,11 @@ namespace iohmma {
 		/// </para>
 		/// </remarks>
 		protected readonly double[] CumulativeProbabilities;
+
 		#endregion
+
 		#region IInputIndexMapping implementation
+
 		/// <summary>
 		/// A function that transforms input into their corresponding index. This is used by several methods
 		/// to translate the input such that the implementation remains generic.
@@ -60,8 +65,11 @@ namespace iohmma {
 		public abstract Func<int,TData> IndexMapper {
 			get;
 		}
+
 		#endregion
+
 		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:FiniteDistribution`1"/> class with the given number of elements
 		/// of the finite distribution.
@@ -110,8 +118,11 @@ namespace iohmma {
 			}
 			this.CumulativeProbabilities = cps.ToArray ();
 		}
+
 		#endregion
+
 		#region IDistribution implementation
+
 		/// <summary>
 		/// Gets the probability density of the given element.
 		/// </summary>
@@ -189,8 +200,11 @@ namespace iohmma {
 				}
 			}
 		}
+
 		#endregion
+
 		#region IEnumerable implementation
+
 		/// <summary>
 		/// Gets the enumerator that iterates over the probabilities of the several options.
 		/// </summary>
@@ -207,8 +221,11 @@ namespace iohmma {
 			}
 			yield return 1.0d - p;
 		}
+
 		#endregion
+
 		#region IEnumerable implementation
+
 		/// <summary>
 		/// Gets the enumerator for the <see cref="System.Collections.IEnumerable"/> interface.
 		/// </summary>
@@ -221,8 +238,11 @@ namespace iohmma {
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator () {
 			return this.GetEnumerator ();
 		}
+
 		#endregion
+
 		#region ToString method
+
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:FiniteDistribution`1"/>.
 		/// </summary>
@@ -233,8 +253,11 @@ namespace iohmma {
 		public override string ToString () {
 			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", this), this.IndexMapper (this.CumulativeProbabilities.Length));
 		}
+
 		#endregion
+
 		#region IFormatFormatProviderToString implementation
+
 		/// <summary>
 		/// Converts the numeric value of this instance to its equivalent string representation using the specified format and
 		/// culture-specific format information.
@@ -245,9 +268,12 @@ namespace iohmma {
 		/// <param name="format">A numeric format string.</param>
 		/// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information.</param>
 		public string ToString (string format, IFormatProvider provider) {
-			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", from x in this select x.ToString (format, provider)), this.IndexMapper (this.CumulativeProbabilities.Length));
+			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", from x in this
+			                                                                                select x.ToString (format, provider)), this.IndexMapper (this.CumulativeProbabilities.Length));
 		}
+
 		#endregion
+
 		/// <summary>
 		/// Converts the numeric value of this instance to its equivalent string representation using the specified culture-specific format information.
 		/// </summary>
@@ -257,10 +283,14 @@ namespace iohmma {
 		/// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information.</param>
 		#region IFormatProviderToString implementation
 		public string ToString (IFormatProvider provider) {
-			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", from x in this select x.ToString (provider)), this.IndexMapper (this.CumulativeProbabilities.Length));
+			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", from x in this
+			                                                                                select x.ToString (provider)), this.IndexMapper (this.CumulativeProbabilities.Length));
 		}
+
 		#endregion
+
 		#region IFormatToString implementation
+
 		/// <summary>
 		/// Converts the numeric value of this instance to its equivalent string representation, using the specified format.
 		/// </summary>
@@ -270,8 +300,10 @@ namespace iohmma {
 		/// <param name="format">A numeric format string.</param>
 		/// <exception cref="T:System.FormatException"><paramref name="format" /> is invalid.</exception>
 		public string ToString (string format) {
-			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", from x in this select x.ToString (format)), this.IndexMapper (this.CumulativeProbabilities.Length));
+			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", from x in this
+			                                                                                select x.ToString (format)), this.IndexMapper (this.CumulativeProbabilities.Length));
 		}
+
 		#endregion
 	}
 }

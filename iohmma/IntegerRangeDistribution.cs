@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using NUtils;
+using NUtils.Maths;
 
 namespace iohmma {
 	/// <summary>
@@ -33,6 +34,7 @@ namespace iohmma {
 	public class IntegerRangeDistribution : FiniteDistribution<int>, IIntegerRangeDistribution {
 
 		#region implemented abstract members of FiniteDistribution
+
 		/// <summary>
 		/// A function that transforms input into their corresponding index. This is used by several methods
 		/// to translate the input such that the implementation remains generic.
@@ -54,8 +56,11 @@ namespace iohmma {
 				return x => x + this.Lower;
 			}
 		}
+
 		#endregion
+
 		#region IRange implementation
+
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
 		/// </summary>
@@ -80,8 +85,11 @@ namespace iohmma {
 				return this.Lower + this.CumulativeProbabilities.Length;
 			}
 		}
+
 		#endregion
+
 		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iohmma.IntegerRangeDistribution"/> class with a given upper bound for the integer range.
 		/// </summary>
@@ -90,7 +98,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>The lower bound of the integer range is set to one (<c>1</c>).</para>
 		/// </remarks>
-		public IntegerRangeDistribution (int upper) : this(0x01,upper) {
+		public IntegerRangeDistribution (int upper) : this (0x01, upper) {
 		}
 
 		/// <summary>
@@ -100,7 +108,7 @@ namespace iohmma {
 		/// <param name="lower">The given lower bound for the integer range.</param>
 		/// <param name="upper">The given upper bound for the integer range.</param>
 		/// <exception cref="ArgumentException">If <paramref name="lower"/> is greater than <paramref name="upper"/>.</exception>
-		public IntegerRangeDistribution (int lower, int upper) : base(upper-lower+0x01) {
+		public IntegerRangeDistribution (int lower, int upper) : base (upper - lower + 0x01) {
 			this.Lower = lower;
 		}
 
@@ -116,7 +124,7 @@ namespace iohmma {
 		/// <para>The probabilities must sum up to one.</para>
 		/// <para>The lower bound is set to one (<c>1</c>).</para>
 		/// </remarks>
-		public IntegerRangeDistribution (params double[] initialProbabilities) : this((IEnumerable<double>) initialProbabilities) {
+		public IntegerRangeDistribution (params double[] initialProbabilities) : this ((IEnumerable<double>)initialProbabilities) {
 		}
 
 		/// <summary>
@@ -131,7 +139,7 @@ namespace iohmma {
 		/// <para>The probabilities must sum up to one.</para>
 		/// <para>The lower bound is set to one (<c>1</c>).</para>
 		/// </remarks>
-		public IntegerRangeDistribution (IEnumerable<double> initialProbabilities) : this(0x01,initialProbabilities) {
+		public IntegerRangeDistribution (IEnumerable<double> initialProbabilities) : this (0x01, initialProbabilities) {
 		}
 
 		/// <summary>
@@ -146,7 +154,7 @@ namespace iohmma {
 		/// <para>The list of initial probabilities must be finite.</para>
 		/// <para>The probabilities must sum up to one.</para>
 		/// </remarks>
-		public IntegerRangeDistribution (int lower, params double[] initialProbabilities) : this(lower,(IEnumerable<double>) initialProbabilities) {
+		public IntegerRangeDistribution (int lower, params double[] initialProbabilities) : this (lower, (IEnumerable<double>)initialProbabilities) {
 		}
 
 		/// <summary>
@@ -161,11 +169,14 @@ namespace iohmma {
 		/// <para>The list of initial probabilities must be finite.</para>
 		/// <para>The probabilities must sum up to one.</para>
 		/// </remarks>
-		public IntegerRangeDistribution (int lower, IEnumerable<double> initialProbabilities) : base(initialProbabilities) {
+		public IntegerRangeDistribution (int lower, IEnumerable<double> initialProbabilities) : base (initialProbabilities) {
 			this.Lower = lower;
 		}
+
 		#endregion
+
 		#region IFinite implementation
+
 		/// <summary>
 		/// Enumerates all the elements of this instance.
 		/// </summary>
@@ -178,8 +189,11 @@ namespace iohmma {
 				yield return x;
 			}
 		}
+
 		#endregion
+
 		#region Random generators
+
 		/// <summary>
 		/// Generates a random <see cref="IntegerRangeDistribution"/> with a given lower and upper bound. The probabilities
 		/// are random numbers between zero and one that sum up to one.
@@ -195,13 +209,13 @@ namespace iohmma {
 			}
 			double[] probs = new double[n];
 			double p, sum = 0.0d;
-			for (int i = 0x00; i <n; i++) {
+			for (int i = 0x00; i < n; i++) {
 				p = MathUtils.NextDouble ();
 				probs [i] = p;
 				sum += p;
 			}
 			sum = 1.0d / sum;
-			for (int i = 0x00; i <n; i++) {
+			for (int i = 0x00; i < n; i++) {
 				probs [i] *= sum;
 			}
 			return new IntegerRangeDistribution (lower, probs);
@@ -220,6 +234,7 @@ namespace iohmma {
 		public static IntegerRangeDistribution GenerateRandom (int upper) {
 			return GenerateRandom (0x01, upper);
 		}
+
 		#endregion
 	}
 }

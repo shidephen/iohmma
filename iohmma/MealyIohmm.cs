@@ -20,8 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NUtils;
+using NUtils.Functional;
+using NUtils.Textual;
 
 namespace iohmma {
 	/// <summary>
@@ -33,9 +33,13 @@ namespace iohmma {
 	public class MealyIohmm<TInput,TOutput> : Iohmm<TInput,TOutput>, IMealyIohmm<TInput,TOutput> {
 
 		#region Fields
+
 		private readonly ITransitionDistribution<TInput,TOutput>[] emissions;
+
 		#endregion
+
 		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
@@ -43,7 +47,7 @@ namespace iohmma {
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
 		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator has no parameters.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		public MealyIohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(numberOfHiddenStates,transitionDistributionGenerator,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		public MealyIohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this (numberOfHiddenStates, transitionDistributionGenerator, emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -53,7 +57,7 @@ namespace iohmma {
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
 		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator has no parameters.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		public MealyIohmm (int numberOfHiddenStates, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(numberOfHiddenStates,transitionDistributionGenerator,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		public MealyIohmm (int numberOfHiddenStates, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this (numberOfHiddenStates, transitionDistributionGenerator, emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -67,7 +71,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(numberOfHiddenStates,transitionDistributions,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this (numberOfHiddenStates, transitionDistributions, emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -77,7 +81,7 @@ namespace iohmma {
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
 		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator takes one parameter: the state that will emit.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		public MealyIohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(numberOfHiddenStates,transitionDistributionGenerator) {
+		public MealyIohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base (numberOfHiddenStates, transitionDistributionGenerator) {
 			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
 				em [i] = emissionDistributionGenerator (i);
@@ -92,7 +96,7 @@ namespace iohmma {
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
 		/// <param name="emissionDistributionGenerator">A generator that constructs emmission probabilities. The generator takes one parameter: the state that will emit.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		public MealyIohmm (int numberOfHiddenStates, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(numberOfHiddenStates,transitionDistributionGenerator) {
+		public MealyIohmm (int numberOfHiddenStates, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base (numberOfHiddenStates, transitionDistributionGenerator) {
 			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
 				em [i] = emissionDistributionGenerator (i);
@@ -111,7 +115,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(numberOfHiddenStates,transitionDistributions) {
+		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base (numberOfHiddenStates, transitionDistributions) {
 			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
 				em [i] = emissionDistributionGenerator (i);
@@ -130,8 +134,8 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(numberOfHiddenStates,transitionDistributionGenerator) {
-			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+		public MealyIohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base (numberOfHiddenStates, transitionDistributionGenerator) {
+			ITransitionDistribution<TInput,TOutput>[] em = System.Linq.Enumerable.ToArray (emissionDistributions.Take (numberOfHiddenStates));
 			if (em.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
 			}
@@ -149,8 +153,8 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (int numberOfHiddenStates, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(numberOfHiddenStates,transitionDistributionGenerator) {
-			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+		public MealyIohmm (int numberOfHiddenStates, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base (numberOfHiddenStates, transitionDistributionGenerator) {
+			ITransitionDistribution<TInput,TOutput>[] em = System.Linq.Enumerable.ToArray (emissionDistributions.Take (numberOfHiddenStates));
 			if (em.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
 			}
@@ -170,8 +174,8 @@ namespace iohmma {
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(numberOfHiddenStates,transitionDistributions) {
-			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+		public MealyIohmm (int numberOfHiddenStates, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base (numberOfHiddenStates, transitionDistributions) {
+			ITransitionDistribution<TInput,TOutput>[] em = System.Linq.Enumerable.ToArray (emissionDistributions.Take (numberOfHiddenStates));
 			if (em.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
 			}
@@ -187,7 +191,7 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
 		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
 		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
-		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(pi,transitionDistributionGenerator,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this (pi, transitionDistributionGenerator, emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -199,7 +203,7 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
 		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
 		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
-		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(pi,transitionDistributionGenerator,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this (pi, transitionDistributionGenerator, emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -215,7 +219,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this(pi,transitionDistributions,emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
+		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : this (pi, transitionDistributions, emissionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -227,7 +231,7 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
 		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
 		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
-		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(pi,transitionDistributionGenerator) {
+		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base (pi, transitionDistributionGenerator) {
 			int numberOfHiddenStates = this.NumberOfHiddenStates;
 			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
@@ -245,7 +249,7 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
 		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
 		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
-		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(pi,transitionDistributionGenerator) {
+		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base (pi, transitionDistributionGenerator) {
 			int numberOfHiddenStates = this.NumberOfHiddenStates;
 			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
@@ -267,7 +271,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base(pi,transitionDistributions) {
+		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, Func<int,ITransitionDistribution<TInput,TOutput>> emissionDistributionGenerator) : base (pi, transitionDistributions) {
 			int numberOfHiddenStates = this.NumberOfHiddenStates;
 			ITransitionDistribution<TInput,TOutput>[] em = new ITransitionDistribution<TInput,TOutput>[numberOfHiddenStates];
 			for (int i = 0x00; i < numberOfHiddenStates; i++) {
@@ -289,9 +293,9 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(pi,transitionDistributionGenerator) {
+		public MealyIohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base (pi, transitionDistributionGenerator) {
 			int numberOfHiddenStates = this.NumberOfHiddenStates;
-			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+			ITransitionDistribution<TInput,TOutput>[] em = System.Linq.Enumerable.ToArray (emissionDistributions.Take (numberOfHiddenStates));
 			if (em.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
 			}
@@ -311,9 +315,9 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(pi,transitionDistributionGenerator) {
+		public MealyIohmm (IEnumerable<double> pi, Func<int,ITransitionDistribution<TInput,int>> transitionDistributionGenerator, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base (pi, transitionDistributionGenerator) {
 			int numberOfHiddenStates = this.NumberOfHiddenStates;
-			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+			ITransitionDistribution<TInput,TOutput>[] em = System.Linq.Enumerable.ToArray (emissionDistributions.Take (numberOfHiddenStates));
 			if (em.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
 			}
@@ -335,16 +339,19 @@ namespace iohmma {
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// <para>Additional items in the <paramref name="emissionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base(pi,transitionDistributions) {
+		public MealyIohmm (IEnumerable<double> pi, IEnumerable<ITransitionDistribution<TInput,int>> transitionDistributions, IEnumerable<ITransitionDistribution<TInput,TOutput>> emissionDistributions) : base (pi, transitionDistributions) {
 			int numberOfHiddenStates = this.NumberOfHiddenStates;
-			ITransitionDistribution<TInput,TOutput>[] em = emissionDistributions.Take (numberOfHiddenStates).ToArray ();
+			ITransitionDistribution<TInput,TOutput>[] em = System.Linq.Enumerable.ToArray (emissionDistributions.Take (numberOfHiddenStates));
 			if (em.Length < numberOfHiddenStates) {
 				throw new ArgumentException ("The number of given initial emission distributions must be larger or equal to the number of hidden states.");
 			}
 			this.emissions = em;
 		}
+
 		#endregion
+
 		#region IMealyIohmm implementation
+
 		/// <summary>
 		/// Gets the transition function discribing the emission from the given <paramref name="state"/>.
 		/// </summary>
@@ -354,8 +361,11 @@ namespace iohmma {
 		public ITransitionDistribution<TInput,TOutput> GetEmission (int state) {
 			return this.emissions [state];
 		}
+
 		#endregion
+
 		#region implemented abstract members of Iohmm
+
 		/// <summary>
 		/// Gets the probability of exhaust of <paramref name="output"/> given <paramref name="input"/> and
 		/// current <paramref name="state"/>
@@ -440,7 +450,7 @@ namespace iohmma {
 			Tuple<TInput, TOutput> ct1;
 			TInput x1;
 			TOutput y1;
-			for (int t = 0x00; t < T && enumerator.MoveNext(); t++) {
+			for (int t = 0x00; t < T && enumerator.MoveNext (); t++) {
 				ct1 = enumerator.Current;
 				x1 = ct1.Item1;
 				y1 = ct1.Item2;
@@ -554,8 +564,11 @@ namespace iohmma {
 				}
 			}
 		}
+
 		#endregion
+
 		#region ToString method
+
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:MealyIohmm`2"/>.
 		/// </summary>
@@ -567,8 +580,11 @@ namespace iohmma {
 		public override string ToString () {
 			return TablePrinter.WriteTable (this.Pi.Cast<object> (), this.Transitions, this.emissions);
 		}
+
 		#endregion
+
 		#region IMealyIohmm implementation
+
 		/// <summary>
 		/// Gets a list of input-output values together with the (unscaled) probabilities that would be used to train the
 		/// emission probabilities Hidden Markov model for the given initial state.
@@ -595,8 +611,11 @@ namespace iohmma {
 			}
 			return this.GetGammas (inoutputs, alpha, betar, sumab, initialState);
 		}
+
 		#endregion
+
 		#region implemented abstract members of Iohmm
+
 		/// <summary>
 		/// Train this hidden Markov model with the given sequence of input-output sequences.
 		/// </summary>
@@ -606,6 +625,7 @@ namespace iohmma {
 		public override void Train (IEnumerable<IEnumerable<Tuple<TInput, TOutput>>> inoutputseq, double fitting = 1.0) {
 			throw new NotImplementedException ();
 		}
+
 		#endregion
 	}
 }

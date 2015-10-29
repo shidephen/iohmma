@@ -20,8 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NUtils;
+using NUtils.Functional;
 
 namespace iohmma {
 	/// <summary>
@@ -32,6 +31,7 @@ namespace iohmma {
 	public abstract class Iohmm<TInput,TOutput> : IIohmm<TInput,TOutput> {
 
 		#region protected Fields
+
 		/// <summary>
 		/// The initial distribution on the hidden states.
 		/// </summary>
@@ -40,8 +40,11 @@ namespace iohmma {
 		/// The transition distributions per hidden state.
 		/// </summary>
 		protected readonly ITransitionDistribution<TInput,int>[] Transitions;
+
 		#endregion
+
 		#region IIohmm implementation
+
 		/// <summary>
 		/// Gets the number of hidden states.
 		/// </summary>
@@ -54,8 +57,11 @@ namespace iohmma {
 				return this.Pi.Length;
 			}
 		}
+
 		#endregion
+
 		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:Iohmm`2"/> class with a given list of initial hidden
 		/// state probabilities and a generator function for a transition distribution.
@@ -65,7 +71,7 @@ namespace iohmma {
 		/// <exception cref="ArgumentException">If the length of <paramref name="pi"/> is smaller than or equal to zero.</exception>
 		/// <exception cref="ArgumentException">If one of the given initial probabilities is less than zero.</exception>
 		/// <exception cref="ArgumentException">If the list of initial probabilities do not sum up to one.</exception>
-		protected Iohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator) : this(pi,transitionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,int>> ()) {
+		protected Iohmm (IEnumerable<double> pi, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator) : this (pi, transitionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,int>> ()) {
 		}
 
 		/// <summary>
@@ -74,7 +80,7 @@ namespace iohmma {
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator function, that generates the transition functions, the function has no parameters.</param>
 		/// <exception cref="ArgumentException">If the number of hidden states is smaller than or equal to zero.</exception>
-		protected Iohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator) : this(numberOfHiddenStates,transitionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,int>> ()) {
+		protected Iohmm (int numberOfHiddenStates, Func<ITransitionDistribution<TInput,int>> transitionDistributionGenerator) : this (numberOfHiddenStates, transitionDistributionGenerator.ShiftRightParameter<int,ITransitionDistribution<TInput,int>> ()) {
 		}
 
 		/// <summary>
@@ -143,7 +149,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		protected Iohmm (IEnumerable<double> pi, params ITransitionDistribution<TInput,int>[] transitionDistributions) : this(pi,(IEnumerable<ITransitionDistribution<TInput,int>>) transitionDistributions) {
+		protected Iohmm (IEnumerable<double> pi, params ITransitionDistribution<TInput,int>[] transitionDistributions) : this (pi, (IEnumerable<ITransitionDistribution<TInput,int>>)transitionDistributions) {
 		}
 
 		/// <summary>
@@ -156,7 +162,7 @@ namespace iohmma {
 		/// <remarks>
 		/// <para>Additional items in the <paramref name="transitionDistributions"/> are simply ignored.</para>
 		/// </remarks>
-		protected Iohmm (int numberOfHiddenStates, params ITransitionDistribution<TInput,int>[] transitionDistributions) : this(numberOfHiddenStates,(IEnumerable<ITransitionDistribution<TInput,int>>) transitionDistributions) {
+		protected Iohmm (int numberOfHiddenStates, params ITransitionDistribution<TInput,int>[] transitionDistributions) : this (numberOfHiddenStates, (IEnumerable<ITransitionDistribution<TInput,int>>)transitionDistributions) {
 		}
 
 		/// <summary>
@@ -219,8 +225,11 @@ namespace iohmma {
 			}
 			this.Transitions = tr;
 		}
+
 		#endregion
+
 		#region IIohmm implementation
+
 		/// <summary>
 		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
 		/// </summary>
@@ -430,7 +439,7 @@ namespace iohmma {
 			Tuple<TInput, TOutput> ct1 = enumerator.Current;
 			TInput x0, x1 = ct1.Item1;
 			TOutput y1;
-			for (int t = 0x00; t < T1 && enumerator.MoveNext(); t++) {
+			for (int t = 0x00; t < T1 && enumerator.MoveNext (); t++) {
 				x0 = x1;
 				ct1 = enumerator.Current;
 				x1 = ct1.Item1;
@@ -471,6 +480,7 @@ namespace iohmma {
 			}
 			return this.GetEtas (inoutputs, alpha, betar, sumab, initialState);
 		}
+
 		#endregion
 	}
 }
