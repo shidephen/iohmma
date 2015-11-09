@@ -1,6 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../NUtils/NUtils/Automata/NondeterministicFiniteAutomaton.cs">
+    <Files>
+      <File FileName="IntegerRangeTransitionDistribution.cs" Line="24" Column="24" />
+      <File FileName="../NUtils/NUtils/Functional/FunctionUtils.cs" Line="20" Column="20" />
+      <File FileName="Distribution.cs" Line="1" Column="1" />
+      <File FileName="FiniteTransitionDistribution.cs" Line="156" Column="156" />
+      <File FileName="../NUtils/NUtils/Functional/EnumerableUtils.cs" Line="60" Column="60" />
+      <File FileName="../NUtils/NUtils/Automata/NondeterministicFiniteAutomaton.cs" Line="53" Column="53" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

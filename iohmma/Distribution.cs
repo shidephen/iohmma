@@ -20,7 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
-using NUtils;
+using NUtils.Functional;
 
 namespace iohmma {
 	/// <summary>
@@ -36,7 +36,9 @@ namespace iohmma {
 		/// </summary>
 		protected Distribution () {
 		}
+
 		#region IDistribution implementation
+
 		/// <summary>
 		/// Gets the probability density of the given element.
 		/// </summary>
@@ -83,6 +85,7 @@ namespace iohmma {
 		public virtual void FitUnnormalized (IEnumerable<Tuple<TData, double>> probabilities, double fitting = 1.0) {
 			this.Fit (probabilities.Normalize (), fitting);
 		}
+
 		#endregion
 	}
 }

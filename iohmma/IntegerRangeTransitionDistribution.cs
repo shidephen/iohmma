@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUtils;
+using NUtils.Functional;
 using System.Text;
 
 namespace iohmma {
@@ -31,6 +31,7 @@ namespace iohmma {
 	public class IntegerRangeTransitionDistribution<TOutput> : FiniteTransitionDistribution<int,TOutput>, IRange<int> {
 
 		#region implemented abstract members of FiniteTransitionDistribution
+
 		/// <summary>
 		/// A function that transforms input into their corresponding index. This is used by several methods
 		/// to translate the input such that the implementation remains generic.
@@ -52,8 +53,11 @@ namespace iohmma {
 				return x => x + this.Lower;
 			}
 		}
+
 		#endregion
+
 		#region IRange implementation
+
 		/// <summary>
 		/// Gets the lower value of the <see cref="T:IRange`1"/>.
 		/// </summary>
@@ -78,8 +82,11 @@ namespace iohmma {
 				return this.Lower + this.Subdistributions.Length - 0x01;
 			}
 		}
+
 		#endregion
+
 		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
 		/// list of distributions for every discrete input.
@@ -90,7 +97,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (params IDistribution<TOutput>[] distributions) : this(0x01,distributions) {
+		public IntegerRangeTransitionDistribution (params IDistribution<TOutput>[] distributions) : this (0x01, distributions) {
 		}
 
 		/// <summary>
@@ -103,7 +110,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (IEnumerable<IDistribution<TOutput>> distributions) : this(0x01,distributions) {
+		public IntegerRangeTransitionDistribution (IEnumerable<IDistribution<TOutput>> distributions) : this (0x01, distributions) {
 		}
 
 		/// <summary>
@@ -117,7 +124,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, params IDistribution<TOutput>[] distributions) : this(lower,(IEnumerable<IDistribution<TOutput>>) distributions) {
+		public IntegerRangeTransitionDistribution (int lower, params IDistribution<TOutput>[] distributions) : this (lower, (IEnumerable<IDistribution<TOutput>>)distributions) {
 		}
 
 		/// <summary>
@@ -131,7 +138,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) : base(distributions) {
+		public IntegerRangeTransitionDistribution (int lower, IEnumerable<IDistribution<TOutput>> distributions) : base (distributions) {
 			this.Lower = lower;
 		}
 
@@ -147,7 +154,7 @@ namespace iohmma {
 		/// in this transitional distribution.</para>
 		/// <para>The lower bound is set to one (<c>1</c>).</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int upper, Func<IDistribution<TOutput>> subdistributionGenerator) : this(0x01,upper,subdistributionGenerator) {
+		public IntegerRangeTransitionDistribution (int upper, Func<IDistribution<TOutput>> subdistributionGenerator) : this (0x01, upper, subdistributionGenerator) {
 		}
 
 		/// <summary>
@@ -162,7 +169,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, int upper, Func<IDistribution<TOutput>> subdistributionGenerator) : this(lower,upper,subdistributionGenerator.ShiftRightParameter<int,IDistribution<TOutput>> ()) {
+		public IntegerRangeTransitionDistribution (int lower, int upper, Func<IDistribution<TOutput>> subdistributionGenerator) : this (lower, upper, subdistributionGenerator.ShiftRightParameter<int,IDistribution<TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -178,7 +185,7 @@ namespace iohmma {
 		/// in this transitional distribution.</para>
 		/// <para>The lower bound is set to one (<c>1</c>).</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : this(0x01,upper,subdistributionGenerator) {
+		public IntegerRangeTransitionDistribution (int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : this (0x01, upper, subdistributionGenerator) {
 		}
 
 		/// <summary>
@@ -194,11 +201,14 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		public IntegerRangeTransitionDistribution (int lower, int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : base(upper-lower+0x01,subdistributionGenerator) {
+		public IntegerRangeTransitionDistribution (int lower, int upper, Func<int,IDistribution<TOutput>> subdistributionGenerator) : base (upper - lower + 0x01, subdistributionGenerator) {
 			this.Lower = lower;
 		}
+
 		#endregion
+
 		#region Structure constructors
+
 		/// <summary>
 		/// Creates a <see cref="T:IntegerRangeTransitionDistribution`1"/> that works as a transition function for a specific hidden state to another hidden
 		/// state given an input. The probabilites are given.
@@ -243,6 +253,7 @@ namespace iohmma {
 			}
 			return new IntegerRangeTransitionDistribution<int> (lower, subprobs);
 		}
+
 		#endregion
 	}
 }

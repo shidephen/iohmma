@@ -20,9 +20,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using NUtils;
+using NUtils.Functional;
 
 namespace iohmma {
 	/// <summary>
@@ -33,12 +32,16 @@ namespace iohmma {
 	public abstract class FiniteTransitionDistribution<TInput,TOutput> : ScaledFittingTransitionDistribution<TInput,TOutput>, IInputIndexMapping<TInput> {
 
 		#region Protected fields
+
 		/// <summary>
 		/// The list of distributions that depend on the input.
 		/// </summary>
 		protected readonly IDistribution<TOutput>[] Subdistributions;
+
 		#endregion
+
 		#region IInputIndexMapping implementation
+
 		/// <summary>
 		/// A function that transforms input into their corresponding index. This is used by several methods
 		/// to translate the input such that the implementation remains generic.
@@ -56,8 +59,11 @@ namespace iohmma {
 		public abstract Func<int,TInput> IndexMapper {
 			get;
 		}
+
 		#endregion
+
 		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:IntegerRangeTransitionDistribution`1"/> class with a given
 		/// lower bound and a list of distributions for every discrete input.
@@ -68,7 +74,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		protected FiniteTransitionDistribution (params IDistribution<TOutput>[] distributions) : this((IEnumerable<IDistribution<TOutput>>) distributions) {
+		protected FiniteTransitionDistribution (params IDistribution<TOutput>[] distributions) : this ((IEnumerable<IDistribution<TOutput>>)distributions) {
 		}
 
 		/// <summary>
@@ -99,7 +105,7 @@ namespace iohmma {
 		/// <para>The distributions are not cloned: modifications to the given distributions will have an impact
 		/// in this transitional distribution.</para>
 		/// </remarks>
-		protected FiniteTransitionDistribution (int size, Func<IDistribution<TOutput>> subdistributionGenerator) : this(size,subdistributionGenerator.ShiftRightParameter<TInput,IDistribution<TOutput>> ()) {
+		protected FiniteTransitionDistribution (int size, Func<IDistribution<TOutput>> subdistributionGenerator) : this (size, subdistributionGenerator.ShiftRightParameter<TInput,IDistribution<TOutput>> ()) {
 		}
 
 		/// <summary>
@@ -124,8 +130,11 @@ namespace iohmma {
 				this.Subdistributions [i] = subdistributionGenerator (im (i));
 			}
 		}
+
 		#endregion
+
 		#region implemented abstract members of TransitionDistribution
+
 		/// <summary>
 		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
 		/// </summary>
@@ -187,11 +196,14 @@ namespace iohmma {
 			TInput input;
 			for (int i = 0x00; i < n; i++) {
 				input = im (i);
-				pc [i].Fit (from p in probabilities where Object.Equals (p.Item1.Item1, input) select new Tuple<TOutput,double> (p.Item1.Item2, p.Item2), fitting);
+				pc [i].Fit (probabilities.Where (x => Object.Equals (input, x.Item1.Item1)).Select (x => new Tuple<TOutput,double> (x.Item1.Item2, x.Item2)), fitting);
 			}
 		}
+
 		#endregion
+
 		#region ToString method
+
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:FiniteTransitionDistribution`2"/>.
 		/// </summary>
@@ -210,6 +222,7 @@ namespace iohmma {
 			}
 			return sb.ToString ();
 		}
+
 		#endregion
 	}
 }
