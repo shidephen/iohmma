@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F0D80F9A-AFB6-4676-8451-E43D62E81353}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -19,7 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <DocumentationFile>bin\Debug\iohmma.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -61,6 +61,10 @@
     <Compile Include="FiniteDistribution.cs" />
     <Compile Include="IInputIndexMapping.cs" />
     <Compile Include="ScaledFittingTransitionDistribution.cs" />
+    <Compile Include="IInputHiddenMarkovSaw.cs" />
+    <Compile Include="InputHiddenMarkovSaw.cs" />
+    <Compile Include="IDiscreteDistribution.cs" />
+    <Compile Include="DiscreteDistribution.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

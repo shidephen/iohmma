@@ -151,10 +151,16 @@ namespace iohmma {
 		/// <summary>
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
+		/// <param name="rand">The random generator that is used to sample. In case <c>null</c> is given, the <see cref="T:iohmma.StaticRandom"/> is used.</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public override TData Sample () {
+		public override TData Sample (Random rand = null) {
 			double[] cp = this.CumulativeProbabilities;
-			double x = StaticRandom.NextDouble ();
+			double x = ((rand != null) ? rand : StaticRandom.GetInstance ()).NextDouble ();
+			if (rand != null) {
+				x = rand.NextDouble ();
+			} else {
+				x = StaticRandom.NextDouble ();
+			}
 			int value = Array.BinarySearch (cp, x);
 			if (value < 0x00) {
 				value = ~value;

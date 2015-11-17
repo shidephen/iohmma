@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using NUtils.Maths;
 
 namespace iohmma {
 	/// <summary>
@@ -28,20 +29,22 @@ namespace iohmma {
 	public class NormalDistribution : ScaledFittingDistribution<double>, INormalDistribution<double> {
 
 		private double sigma = 1.0d;
+
 		#region INormalDistribution implementation
+
 		/// <summary>
-		/// Gets or sets the mean of the <see cref="T:INormalDistribution`1"/>.
+		/// Gets or sets the mean of the <see cref="T:iohmma.INormalDistribution`1"/>.
 		/// </summary>
-		/// <value>The mean of the <see cref="T:INormalDistribution`1"/>.</value>
+		/// <value>The mean of the <see cref="T:iohmma.INormalDistribution`1"/>.</value>
 		public double Mean {
 			get;
 			set;
 		}
 
 		/// <summary>
-		/// Gets or sets the standard deviation of the <see cref="T:INormalDistribution`1"/>.
+		/// Gets or sets the standard deviation of the <see cref="T:iohmma.INormalDistribution`1"/>.
 		/// </summary>
-		/// <value>The standard deviation of the <see cref="T:INormalDistribution`1"/>.</value>
+		/// <value>The standard deviation of the <see cref="T:iohmma.INormalDistribution`1"/>.</value>
 		/// <exception cref="ArgumentException">If the given value for sigma is smaller than zero.</exception>
 		/// <remarks>
 		/// <para>The value is always larger than zero.</para>
@@ -57,7 +60,9 @@ namespace iohmma {
 				this.sigma = value;
 			}
 		}
+
 		#endregion
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iohmma.NormalDistribution"/> class with a given mean and standard
 		/// devation.
@@ -69,7 +74,9 @@ namespace iohmma {
 			this.Mean = mean;
 			this.Sigma = sigma;
 		}
+
 		#region IDistribution implementation
+
 		/// <summary>
 		/// Gets the probability density of the given element.
 		/// </summary>
@@ -77,15 +84,23 @@ namespace iohmma {
 		/// <param name="x">The given element to compute the probability density from.</param>
 		/// <exception cref="ArgumentException">If the given element is not within bounds.</exception>
 		public override double GetPdf (double x) {
-			throw new NotImplementedException ();
+			double si = 1 / this.sigma;
+			double z = (x - this.Mean);
+			z *= z;
+			z *= -0.5d * si * si;
+			return Math.Exp (z) * si * MathUtils.InvSqrt2Pi;
 		}
 
 		/// <summary>
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
+		/// <param name="rand">The random generator that is used to sample. In case <c>null</c> is given, the <see cref="T:iohmma.StaticRandom"/> generator is used.</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		public override double Sample () {
-			throw new NotImplementedException ();
+		public override double Sample (Random rand = null) {
+			rand = ((rand != null) ? rand : StaticRandom.GetInstance ());
+			double u1 = rand.NextDouble ();
+			double u2 = rand.NextDouble ();
+			return this.Mean + this.sigma * Math.Sqrt (-2.0 * Math.Log (u1)) * Math.Sin (2.0 * Math.PI * u2);
 		}
 
 		/// <summary>
@@ -119,8 +134,11 @@ namespace iohmma {
 				this.Sigma = fitting * stdv + fittinh * this.Sigma;
 			}
 		}
+
 		#endregion
+
 		#region ToString method
+
 		/// <summary>
 		/// Returns a <see cref="String"/> that represents the current <see cref="NormalDistribution"/>.
 		/// </summary>
@@ -130,8 +148,9 @@ namespace iohmma {
 		/// the actual mean and <c>1</c> by the actual standard deviation.</para>
 		/// </remarks>
 		public override string ToString () {
-			return string.Format ("N({0};{1})", this.Mean, this.Sigma);
+			return string.Format ("~N({0};{1})", this.Mean, this.Sigma);
 		}
+
 		#endregion
 	}
 }

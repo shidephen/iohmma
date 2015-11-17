@@ -1,10 +1,10 @@
-//
-//  StaticRandom.cs
+﻿//
+//  IDiscreteDistribution.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
 //
-//  Copyright (c) 2014 Willem Van Onsem
+//  Copyright (c) 2015 Willem Van Onsem
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,31 +22,9 @@ using System;
 
 namespace iohmma {
 	/// <summary>
-	/// A utility class to generate random numbers.
+	/// A distribution that works over an index of integers.
 	/// </summary>
-	public static class StaticRandom {
-
-		/// <summary>
-		/// Internal random generator.
-		/// </summary>
-		private static readonly Random random = new Random ();
-
-		/// <summary>
-		/// Generate a next random value between zero (inclusive) and one (exclusive).
-		/// </summary>
-		/// <returns>The next random value.</returns>
-		public static double NextDouble () {
-			return random.NextDouble ();
-		}
-
-		/// <summary>
-		/// Get the instance of the random number generator.
-		/// </summary>
-		/// <returns>A <see cref="T:System.Random"/> instance that generates the random numbers statically.</returns>
-		public static Random GetInstance () {
-			return random;
-		}
-
+	public interface IDiscreteDistribution : IDistribution<int> {
 	}
 }
 

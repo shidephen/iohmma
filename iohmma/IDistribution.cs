@@ -50,8 +50,9 @@ namespace iohmma {
 		/// <summary>
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
+		/// <param name="rand">The random generator that is used to sample. In case <c>null</c> is given, the <see cref="T:iohmma.StaticRandom"/> generator is used.</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
-		TData Sample ();
+		TData Sample (Random rand = null);
 
 		/// <summary>
 		/// Fit the distribution using the data and their frequency.
