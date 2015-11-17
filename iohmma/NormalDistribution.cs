@@ -97,7 +97,7 @@ namespace iohmma {
 		/// <param name="rand">The random generator that is used to sample. In case <c>null</c> is given, the <see cref="T:iohmma.StaticRandom"/> generator is used.</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
 		public override double Sample (Random rand = null) {
-			rand = ((rand != null) ? rand : StaticRandom.GetInstance ());
+			rand = (rand ?? StaticRandom.GetInstance ());
 			double u1 = rand.NextDouble ();
 			double u2 = rand.NextDouble ();
 			return this.Mean + this.sigma * Math.Sqrt (-2.0 * Math.Log (u1)) * Math.Sin (2.0 * Math.PI * u2);

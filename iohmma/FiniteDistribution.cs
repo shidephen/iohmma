@@ -155,12 +155,7 @@ namespace iohmma {
 		/// <returns>A randomly chosen element in the set according to the probability density function.</returns>
 		public override TData Sample (Random rand = null) {
 			double[] cp = this.CumulativeProbabilities;
-			double x = ((rand != null) ? rand : StaticRandom.GetInstance ()).NextDouble ();
-			if (rand != null) {
-				x = rand.NextDouble ();
-			} else {
-				x = StaticRandom.NextDouble ();
-			}
+			double x = (rand ?? StaticRandom.GetInstance ()).NextDouble ();
 			int value = Array.BinarySearch (cp, x);
 			if (value < 0x00) {
 				value = ~value;

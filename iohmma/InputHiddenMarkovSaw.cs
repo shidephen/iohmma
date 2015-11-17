@@ -30,10 +30,17 @@ namespace iohmma {
 	/// </remarks>
 	public class InputHiddenMarkovSaw : IInputHiddenMarkovSaw {
 
-		int nstates;
+		/// <summary>
+		/// The number of hidden states (to be replaced with a probability vector).
+		/// </summary>
+		private readonly int nstates;
 
 		#region IHiddenStates implementation
 
+		/// <summary>
+		/// Get the number of hidden states for this given Input-Output Hidden Markov Saw.
+		/// </summary>
+		/// <value>The number of hidden states considered by the Input-Output hidden Markov Saw.</value>
 		public int NumberOfHiddenStates {
 			get {
 				return this.nstates;
@@ -42,7 +49,8 @@ namespace iohmma {
 
 		#endregion
 
-		public InputHiddenMarkovSaw () {
+		public InputHiddenMarkovSaw (int nhidden) {
+			this.nstates = nhidden;
 		}
 	}
 }

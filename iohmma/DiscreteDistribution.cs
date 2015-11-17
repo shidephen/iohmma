@@ -36,16 +36,26 @@ namespace iohmma {
 		private readonly double[] ps;
 
 		/// <summary>
+		/// Get the probability of the given <paramref name="index"/>.
+		/// </summary>
+		/// <param name="index">The index of the element to calculate the probability from.</param>
+		public double this [int index] {
+			get {
+				return this.ps [index];
+			}
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="iohmma.DiscreteDistribution"/> class with a given number of items.
 		/// </summary>
 		/// <param name="n">N.</param>
 		public DiscreteDistribution (int n) {
-			double[] ps = new double[n];
+			double[] pst = new double[n];
 			double pi = 1.0d / n;
 			for (int i = 0x00; i < n; i++) {
-				ps [i] = pi;
+				pst [i] = pi;
 			}
-			this.ps = ps;
+			this.ps = pst;
 		}
 
 		#region IDistribution implementation
@@ -67,7 +77,7 @@ namespace iohmma {
 		/// <returns>An element according to the probability density function described by this probability.<returns>
 		/// <remarks>The amortized time complexity of this method is constant time.</remarks>
 		public int Sample (Random rand = null) {
-			rand = ((rand != null) ? rand : StaticRandom.GetInstance ());
+			rand = (rand ?? StaticRandom.GetInstance ());
 			double[] ps = this.ps;
 			int n = ps.Length, i;
 			double p;

@@ -34,6 +34,9 @@ namespace iohmma {
 
 		#region Fields
 
+		/// <summary>
+		/// The list of emission probabilities, used to generate output tokens.
+		/// </summary>
 		private readonly ITransitionDistribution<TInput,TOutput>[] emissions;
 
 		#endregion
@@ -41,7 +44,7 @@ namespace iohmma {
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
@@ -51,7 +54,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
@@ -61,7 +64,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
@@ -75,7 +78,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
@@ -90,7 +93,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
@@ -105,7 +108,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
@@ -124,7 +127,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
@@ -143,7 +146,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
@@ -162,7 +165,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="numberOfHiddenStates">Number of hidden states.</param>
 		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
@@ -183,7 +186,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
@@ -195,7 +198,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
@@ -207,7 +210,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
@@ -223,7 +226,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
@@ -241,7 +244,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
@@ -259,7 +262,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
@@ -281,7 +284,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has no parameters.</param>
@@ -303,7 +306,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributionGenerator">A generator that constructs input-dependent transition probabilities. The generator has an input parameter: the initial state of the transition.</param>
@@ -325,7 +328,7 @@ namespace iohmma {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
+		/// Initializes a new instance of the <see cref="T:iohmma.MealyIohmm`2"/> class, an Input-output Hidden Markov model with Mealy flavor.
 		/// </summary>
 		/// <param name="pi">The given list of initial hidden state probabilities.</param>
 		/// <param name="transitionDistributions">A list of initial distributions for the hidden states transitions.</param>
@@ -355,7 +358,7 @@ namespace iohmma {
 		/// <summary>
 		/// Gets the transition function discribing the emission from the given <paramref name="state"/>.
 		/// </summary>
-		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state that describes
+		/// <returns>The <see cref="T:iohmma.ITransitionDistribution`2"/> function for the given state that describes
 		/// the distribution with respect to the input.</returns>
 		/// <param name="state">The given state for which the emission function must be returned.</param>
 		public ITransitionDistribution<TInput,TOutput> GetEmission (int state) {
@@ -434,7 +437,7 @@ namespace iohmma {
 		/// <summary>
 		/// Calculates a stream of gamma-values, these are used for fitting the emmission probabilities (the so-called B-values).
 		/// </summary>
-		/// <returns>A list of <see cref="T:Tuple`2"/> instances where the first item is a <see cref="T:Tuple`2"/> that contains
+		/// <returns>A list of <see cref="T:System.Tuple`2"/> instances where the first item is a <see cref="T:Tuple`2"/> that contains
 		/// the input and output pair and the probability as a second item.</returns>
 		/// <param name="inoutputs">The original list of inputs- and outputs used to train the Hidden Markov Model.</param>
 		/// <param name="alpha">The calculated alpha values.</param>
@@ -474,7 +477,7 @@ namespace iohmma {
 		/// Generate a sequence of observations based on the given sequence of <paramref name="inputs"/> and the <see cref="T:IIohm`2"/>.
 		/// </summary>
 		/// <returns>A sequence of observations based on the given input.</returns>
-		/// <param name="inputs">A <see cref="T:IEnumerable`1"/> of inputs.</param>
+		/// <param name="inputs">A <see cref="T:System.Collections.Generic.IEnumerable`1"/> of inputs.</param>
 		public override IEnumerable<TOutput> GenerateObservationSequence (IEnumerable<TInput> inputs) {
 			throw new NotImplementedException ();
 		}
@@ -570,9 +573,9 @@ namespace iohmma {
 		#region ToString method
 
 		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:MealyIohmm`2"/>.
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="T:iohmma.MealyIohmm`2"/>.
 		/// </summary>
-		/// <returns>A <see cref="System.String"/> that represents the current <see cref="T:MealyIohmm`2"/>.</returns>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="T:iohmma.MealyIohmm`2"/>.</returns>
 		/// <remarks>
 		/// <para>The Hidden Markov Model is formatted as a two-dimensional table with in the x-direction the hidden states
 		/// and in the y-direction the initial probability, the transition probabilities and the emission probabilities.</para>
