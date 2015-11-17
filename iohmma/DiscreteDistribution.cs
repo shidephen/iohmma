@@ -84,7 +84,19 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		public void Fit (IEnumerable<Tuple<int, double>> probabilities, double fitting = 1.0) {
-			throw new NotImplementedException ();
+			double[] ps = this.ps;
+			int n = ps.Length;
+			double[] psn = new double[n];
+			double sum = 0.0d;
+			foreach (Tuple<int,double> pi in probabilities) {
+				psn [pi.Item1] += pi.Item2;
+				sum += pi.Item2;
+			}
+			sum = 1.0d / sum;
+			double cof = 1.0d - fitting;
+			for (int i = 0x00; i < n; i++) {
+				ps [i] = cof * ps [i] + sum * fitting * psn [i];
+			}
 		}
 
 		/// <summary>
@@ -94,7 +106,7 @@ namespace iohmma {
 		/// <param name="probabilities">A list of data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		public void FitUnnormalized (IEnumerable<Tuple<int, double>> probabilities, double fitting = 1.0) {
-			throw new NotImplementedException ();
+			this.Fit (probabilities, fitting);
 		}
 
 		#endregion
