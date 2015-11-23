@@ -41,8 +41,9 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution for the given input.
 		/// </summary>
 		/// <param name="input">The given input</param>
+		/// <param name="rand">The given random generator to sample from. If <c>null</c>, <see cref="T:iohmma.StaticRandom"/> will be used.</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
-		TOutput Sample (TInput input);
+		TOutput Sample (TInput input, Random rand = null);
 
 		/// <summary>
 		/// Fit the distribution using the input-output data and their frequency.

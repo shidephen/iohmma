@@ -30,6 +30,7 @@ namespace iohmma {
 	public abstract class TransitionDistribution<TInput,TOutput> : Distribution<Tuple<TInput,TOutput>>, ITransitionDistribution<TInput,TOutput> {
 
 		#region ITransitionDistribution implementation
+
 		/// <summary>
 		/// Gets the probability density function for the given <paramref name="input"/> and the given output <paramref name="state"/>.
 		/// </summary>
@@ -41,8 +42,11 @@ namespace iohmma {
 		/// output is discrete. If the output is continu, the integral of the probabilities of the outputs must sum up to one.</para>
 		/// </remarks>
 		public abstract double GetPdf (TInput input, TOutput output);
+
 		#endregion
+
 		#region IDistribution implementation
+
 		/// <summary>
 		/// Gets the probability density of the given element.
 		/// </summary>
@@ -56,22 +60,26 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution for the given input.
 		/// </summary>
 		/// <param name="input">The given input</param>
+		/// <param name="rand">The random generator to sample from, if <c>null</c>, <see cref="T:iohmma.StaticRandom"/> will be used.</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		/// <exception cref="ArgumentException">If the given input is not within the specified bounds.</exception>
-		public abstract TOutput Sample (TInput input);
+		public abstract TOutput Sample (TInput input, Random rand = null);
+
 		#endregion
+
 		#region ITransitionDistribution implementation
+
 		/// <summary>
 		/// Fit the distribution using the input-output data and their frequency.
 		/// </summary>
 		/// <param name="probabilities">A list of input-output data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		/// <remarks>
-		/// <para>This method is a more convenient way to fit an <see cref="T:ITransitionDistribution`2"/> instance, but does nothing else
-		/// than the <see cref="M:IDistribution`2.Fit"/> method.</para>
+		/// <para>This method is a more convenient way to fit an <see cref="T:iohmma.ITransitionDistribution`2"/> instance, but does nothing else
+		/// than the <see cref="M:iohmma.IDistribution`2.Fit"/> method.</para>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
-		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="M:ITransitionDistribution`2.FitUnnormalized"/> method.</para>
+		/// <para>The given list of probabilities must sum up to one, if this is not the case, one should use the <see cref="M:iohmma.ITransitionDistribution`2.FitUnnormalized"/> method.</para>
 		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
 		/// </remarks>
 		public void Fit (IEnumerable<Tuple<TInput, TOutput, double>> probabilities, double fitting = 1.0) {
@@ -85,8 +93,8 @@ namespace iohmma {
 		/// <param name="probabilities">A list of input-output data together with the observed probabilities.</param>
 		/// <param name="fitting">The fitting coefficient.</param>
 		/// <remarks>
-		/// <para>This method is a more convenient way to fit an <see cref="T:ITransitionDistribution`2"/> instance, but does nothing else
-		/// than the <see cref="M:IDistribution`2.FitUnnormalized"/> method.</para>
+		/// <para>This method is a more convenient way to fit an <see cref="T:iohmma.ITransitionDistribution`2"/> instance, but does nothing else
+		/// than the <see cref="M:iohmma.IDistribution`2.FitUnnormalized"/> method.</para>
 		/// <para>If the <paramref name="fitting"/> coefficient is one, only the new data is taken into account.
 		/// If zero, only the old data.</para>
 		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
@@ -94,6 +102,7 @@ namespace iohmma {
 		public void FitUnnormalized (IEnumerable<Tuple<TInput, TOutput, double>> probabilities, double fitting = 1.0) {
 			this.FitUnnormalized (probabilities.Select (x => new Tuple<Tuple<TInput,TOutput>,double> (new Tuple <TInput,TOutput> (x.Item1, x.Item2), x.Item3)), fitting);
 		}
+
 		#endregion
 	}
 }

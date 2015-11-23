@@ -172,7 +172,7 @@ namespace iohmma {
 		/// <param name="input">The given input</param>
 		/// <returns>A randomly chosen element in the set according to the probability density function and the input.</returns>
 		/// <exception cref="ArgumentException">If the given input is not within bounds.</exception>
-		public override TOutput Sample (TInput input) {
+		public TOutput Sample (TInput input) {
 			int index = this.InputMapper (input);
 			IDistribution<TOutput>[] ps = this.Subdistributions;
 			if (index >= 0x00 && index < ps.Length) {

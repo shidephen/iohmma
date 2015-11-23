@@ -65,6 +65,8 @@
     <Compile Include="InputHiddenMarkovSaw.cs" />
     <Compile Include="IDiscreteDistribution.cs" />
     <Compile Include="DiscreteDistribution.cs" />
+    <Compile Include="IDiscreteTransitionDistribution.cs" />
+    <Compile Include="DiscreteTransitionDistribution.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

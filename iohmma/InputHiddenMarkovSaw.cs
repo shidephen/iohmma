@@ -33,7 +33,7 @@ namespace iohmma {
 		/// <summary>
 		/// The number of hidden states (to be replaced with a probability vector).
 		/// </summary>
-		private readonly int nstates;
+		private readonly DiscreteDistribution dd;
 
 		#region IHiddenStates implementation
 
@@ -43,14 +43,18 @@ namespace iohmma {
 		/// <value>The number of hidden states considered by the Input-Output hidden Markov Saw.</value>
 		public int NumberOfHiddenStates {
 			get {
-				return this.nstates;
+				return this.dd.NumberOfHiddenStates;
 			}
 		}
 
 		#endregion
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="iohmma.InputHiddenMarkovSaw"/> class with the given number of hidden states.
+		/// </summary>
+		/// <param name="nhidden">The number of hidden states for the initialized hidden Markov saw.</param>
 		public InputHiddenMarkovSaw (int nhidden) {
-			this.nstates = nhidden;
+			this.dd = new DiscreteDistribution (nhidden);
 		}
 	}
 }

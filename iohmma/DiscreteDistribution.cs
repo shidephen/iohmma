@@ -28,12 +28,26 @@ namespace iohmma {
 	/// An implementation of the <see cref="IDiscreteDistribution"/> interface: a distribution with discrete
 	/// probabilities. The items are called with indices.
 	/// </summary>
-	public class DiscreteDistribution : IDiscreteDistribution, IFinite<int> {
+	public class DiscreteDistribution : IDiscreteDistribution, IFinite<int>, IHiddenStates {
 
 		/// <summary>
 		/// The array of probabilities, represented internally.
 		/// </summary>
 		private readonly double[] ps;
+
+		#region IHiddenStates implementation
+
+		/// <summary>
+		/// Get the number of elements of the discrete distribution.
+		/// </summary>
+		/// <value>The number of hidden states of the discrete distribution.</value>
+		public int NumberOfHiddenStates {
+			get {
+				return this.ps.Length;
+			}
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Get the probability of the given <paramref name="index"/>.
@@ -48,11 +62,11 @@ namespace iohmma {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iohmma.DiscreteDistribution"/> class with a given number of items.
 		/// </summary>
-		/// <param name="n">N.</param>
-		public DiscreteDistribution (int n) {
-			double[] pst = new double[n];
-			double pi = 1.0d / n;
-			for (int i = 0x00; i < n; i++) {
+		/// <param name="nstates">The number of items over which the discrete distribution is working.</param>
+		public DiscreteDistribution (int nstates) {
+			double[] pst = new double[nstates];
+			double pi = 1.0d / nstates;
+			for (int i = 0x00; i < nstates; i++) {
 				pst [i] = pi;
 			}
 			this.ps = pst;
@@ -74,7 +88,7 @@ namespace iohmma {
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <param name="rand">The random generator that is used to sample. In case <c>null</c> is given, the <see cref="T:iohmma.StaticRandom"/> generator is used.</param>
-		/// <returns>An element according to the probability density function described by this probability.<returns>
+		/// <returns>An element according to the probability density function described by this probability.</returns>
 		/// <remarks>The amortized time complexity of this method is constant time.</remarks>
 		public int Sample (Random rand = null) {
 			rand = (rand ?? StaticRandom.GetInstance ());
