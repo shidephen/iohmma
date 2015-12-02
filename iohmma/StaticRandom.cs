@@ -29,14 +29,14 @@ namespace iohmma {
 		/// <summary>
 		/// Internal random generator.
 		/// </summary>
-		private static readonly Random random = new Random ();
+		public static readonly Random Random = new Random ();
 
 		/// <summary>
 		/// Generate a next random value between zero (inclusive) and one (exclusive).
 		/// </summary>
 		/// <returns>The next random value.</returns>
 		public static double NextDouble () {
-			return random.NextDouble ();
+			return Random.NextDouble ();
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace iohmma {
 		/// </summary>
 		/// <returns>A <see cref="T:System.Random"/> instance that generates the random numbers statically.</returns>
 		public static Random GetInstance () {
-			return random;
+			return Random;
 		}
 
 	}

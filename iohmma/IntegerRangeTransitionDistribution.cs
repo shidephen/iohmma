@@ -255,5 +255,18 @@ namespace iohmma {
 		}
 
 		#endregion
+
+		#region implemented abstract members of TransitionDistribution
+
+		/// <summary>
+		/// Generate a random element based on the density of the distribution for the given input.
+		/// </summary>
+		/// <param name="input">The given input token to generate a distribution for.</param>
+		/// <param name="rand">The random number generator to generate the sample from, if <c>null</c>, <see cref="T:iohmma.StaticRandom"/> is used.</param>
+		public override TOutput Sample (int input, Random rand = null) {
+			return this.Subdistributions [input - this.Lower].Sample (rand);
+		}
+
+		#endregion
 	}
 }
