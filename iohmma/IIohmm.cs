@@ -27,7 +27,7 @@ namespace iohmma {
 	/// </summary>
 	/// <typeparam name='TInput'>The type of the input handled by the IOHMM.</typeparam>
 	/// <typeparam name='TOutput'>The type of the output handled by the IOHMM.</typeparam>
-	public interface IIohmm<TInput,TOutput> : IHiddenStates {
+	public interface IIohmm<TInput,TOutput> : IMarkovProcess {
 
 		/// <summary>
 		/// Gets the transition function describing the transition from the given <paramref name="state"/>.
@@ -35,20 +35,6 @@ namespace iohmma {
 		/// <returns>The <see cref="T:ITransitionDistribution`2"/> function for the given state.</returns>
 		/// <param name="state">The given state for which the transition function must be returned.</param>
 		ITransitionDistribution<TInput,int> GetTransition (int state);
-
-		/// <summary>
-		/// Gets the initial state distribution of the given state index.
-		/// </summary>
-		/// <returns>The initial distribution for the given index of the hidden states.</returns>
-		/// <param name="index">The given state index.</param>
-		/// <exception cref="IndexOutOfRangeException">If the given index is smaller than zero (<c>0</c>).</exception>
-		/// <exception cref="IndexOutOfRangeException">If the given index is larger than or equal to the number of hidden states (<see cref="NumberOfHiddenStates"/>).</exception>
-		double GetPi (int index);
-
-		/// <summary>
-		/// Resets the probability of being in a certain state at the first time stamp.
-		/// </summary>
-		void ResetPi ();
 
 		/// <summary>
 		/// Gets the probability of migrating from state <paramref name="statei"/> to <paramref name="statej"/> given

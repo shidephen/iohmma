@@ -90,5 +90,11 @@ namespace iohmma {
 		/// If <c>null</c>, <see cref="T:iohmma.StaticRandom"/> is used.</param>
 		void Randomize (Random rand = null);
 
+		/// <summary>
+		/// Resets the distribution to its original state.
+		/// </summary>
+		void Reset ();
+
+
 	}
 }

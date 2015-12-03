@@ -81,14 +81,7 @@ namespace iohmma {
 			if (n < 0x00) {
 				throw new ArgumentException ("The number of elements of the finite distribution must be larger than zero.");
 			}
-			double[] cp = new double[n];
-			double pi = 1.0d / (n + 0x01);
-			double p = pi;
-			for (int i = 0x00; i < n; i++) {
-				cp [i] = p;
-				p += pi;
-			}
-			this.CumulativeProbabilities = cp;
+			this.CumulativeProbabilities = new double[n];
 		}
 
 		/// <summary>
@@ -303,6 +296,24 @@ namespace iohmma {
 		public string ToString (string format) {
 			return string.Format ("{0}:{1}:{2}", this.IndexMapper (0x00), string.Join (";", from x in this
 			                                                                                select x.ToString (format)), this.IndexMapper (this.CumulativeProbabilities.Length));
+		}
+
+		#endregion
+
+		#region IDistribution implementation
+
+		/// <summary>
+		/// Resets the distribution to its original state.
+		/// </summary>
+		public void Reset () {
+			double[] cp = this.CumulativeProbabilities;
+			int n = cp.Length;
+			double pi = 1.0d / (n + 0x01);
+			double p = pi;
+			for (int i = 0x00; i < n; i++) {
+				cp [i] = p;
+				p += pi;
+			}
 		}
 
 		#endregion

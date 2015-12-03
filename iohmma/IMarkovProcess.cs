@@ -22,6 +22,21 @@ using System;
 
 namespace iohmma {
 	public interface IMarkovProcess : IHiddenStates {
+
+		/// <summary>
+		/// Gets the initial state distribution of the given state index.
+		/// </summary>
+		/// <returns>The initial distribution for the given index of the hidden states.</returns>
+		/// <param name="index">The given state index.</param>
+		/// <exception cref="IndexOutOfRangeException">If the given index is smaller than zero (<c>0</c>).</exception>
+		/// <exception cref="IndexOutOfRangeException">If the given index is larger than or equal to the number of hidden states (<see cref="NumberOfHiddenStates"/>).</exception>
+		double GetPi (int index);
+
+		/// <summary>
+		/// Resets the probability of being in a certain state at the first time stamp.
+		/// </summary>
+		void ResetPi ();
+
 	}
 }
 
