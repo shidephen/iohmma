@@ -1,5 +1,5 @@
 ﻿//
-//  InputHiddenMarkovSaw.cs
+//  MarkovProcessBase.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -23,19 +23,37 @@ using System;
 namespace iohmma {
 
 	/// <summary>
-	/// An implementation of a hidden Markov model with saw structure. The learning is done approximately.
+	/// A basic implementation of a Markov process. This contains the commonalities most Markov processes share.
 	/// </summary>
-	/// <remarks>
-	/// <para>The learning is done approximately. No guarantees are given that the obtained model is effective.</para>
-	/// </remarks>
-	public class InputHiddenMarkovSaw : MarkovProcessBase, IInputHiddenMarkovSaw {
+	public class MarkovProcessBase : IMarkovProcess {
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="iohmma.InputHiddenMarkovSaw"/> class with the given number of hidden states.
+		/// The internal discrete distribution for the first state (sometimes referred to as pi).
+		/// </summary>
+		protected readonly DiscreteDistribution Pi;
+
+		#region IHiddenStates implementation
+
+		/// <summary>
+		/// Get the number of hidden states for this given Input-Output Hidden Markov Saw.
+		/// </summary>
+		/// <value>The number of hidden states considered by the Input-Output hidden Markov Saw.</value>
+		public int NumberOfHiddenStates {
+			get {
+				return this.Pi.NumberOfHiddenStates;
+			}
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="iohmma.MarkovProcessBase"/> class with the given number of hidden states.
 		/// </summary>
 		/// <param name="nhidden">The number of hidden states for the initialized hidden Markov saw.</param>
-		public InputHiddenMarkovSaw (int nhidden) : base (nhidden) {
+		public MarkovProcessBase (int nhidden) {
+			this.Pi = new DiscreteDistribution (nhidden);
 		}
+
 	}
 }
 

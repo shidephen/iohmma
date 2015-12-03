@@ -37,6 +37,15 @@ namespace iohmma {
 		protected Distribution () {
 		}
 
+		/// <summary>
+		/// A utility method for the <see cref="M:iohmma.Distribution`1.Randomize"/> method where <paramref name="rand"/> is guaranteed to be effective.
+		/// Randomize this distribution. This can be used if the given model does not make much sense, but it
+		/// is somehow computationally expensive or impossible to improve the situation using fitting.
+		/// </summary>
+		/// <param name="rand">The random number generator to be used to randomize the distribution.
+		/// This parameter is always effective.</param>
+		protected abstract void RandomizeEffective (Random rand);
+
 		#region IDistribution implementation
 
 		/// <summary>
@@ -85,6 +94,16 @@ namespace iohmma {
 		/// </remarks>
 		public virtual void FitUnnormalized (IEnumerable<Tuple<TData, double>> probabilities, double fitting = 1.0) {
 			this.Fit (probabilities.Normalize (), fitting);
+		}
+
+		/// <summary>
+		/// Randomize this distribution. This can be used if the given model does not make much sense, but it
+		/// is somehow computationally expensive or impossible to improve the situation using fitting.
+		/// </summary>
+		/// <param name="rand">The random number generator to be used to randomize the distribution.
+		/// If <c>null</c>, <see cref="T:iohmma.StaticRandom"/> is used.</param>
+		public virtual void Randomize (Random rand = null) {
+			this.Randomize (rand ?? StaticRandom.Random);
 		}
 
 		#endregion

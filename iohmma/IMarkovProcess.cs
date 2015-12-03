@@ -1,5 +1,5 @@
 ﻿//
-//  IDiscreteTransitionDistribution.cs
+//  IMarkovProcess.cs
 //
 //  Author:
 //       Willem Van Onsem <vanonsem.willem@gmail.com>
@@ -21,12 +21,7 @@
 using System;
 
 namespace iohmma {
-
-	/// <summary>
-	/// A discrete transition distribution that maps indices of a finite input alphabet to indices
-	/// of a finite output alphabet. Internally this can be represented as a probability matrix.
-	/// </summary>
-	public interface IDiscreteTransitionDistribution : ITransitionDistribution<int,int> {
+	public interface IMarkovProcess : IHiddenStates {
 	}
 }
 

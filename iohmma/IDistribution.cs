@@ -81,5 +81,14 @@ namespace iohmma {
 		/// <para>When implementing this method, please be aware that the same input may occur multiple times.</para>
 		/// </remarks>
 		void FitUnnormalized (IEnumerable<Tuple<TData,double>> probabilities, double fitting = 1.0d);
+
+		/// <summary>
+		/// Randomize this distribution. This can be used if the given model does not make much sense, but it
+		/// is somehow computationally expensive or impossible to improve the situation using fitting.
+		/// </summary>
+		/// <param name="rand">The random number generator to be used to randomize the distribution.
+		/// If <c>null</c>, <see cref="T:iohmma.StaticRandom"/> is used.</param>
+		void Randomize (Random rand = null);
+
 	}
 }

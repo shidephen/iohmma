@@ -67,6 +67,8 @@
     <Compile Include="DiscreteDistribution.cs" />
     <Compile Include="IDiscreteTransitionDistribution.cs" />
     <Compile Include="DiscreteTransitionDistribution.cs" />
+    <Compile Include="MarkovProcessBase.cs" />
+    <Compile Include="IMarkovProcess.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
