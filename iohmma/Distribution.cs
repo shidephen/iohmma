@@ -106,7 +106,12 @@ namespace iohmma {
 			this.Randomize (rand ?? StaticRandom.Random);
 		}
 
-		#endregion
+	    public void Reset()
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    #endregion
 	}
 }
 

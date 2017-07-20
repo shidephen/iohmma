@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using NUtils.Functional;
+using System.Linq;
 
 namespace iohmma {
 
@@ -77,7 +78,12 @@ namespace iohmma {
 
 		#region implemented abstract members of Distribution
 
-		/// <summary>
+	    protected override void RandomizeEffective(Random rand)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    /// <summary>
 		/// Generate a random element based on the density of the distribution.
 		/// </summary>
 		/// <returns></returns>

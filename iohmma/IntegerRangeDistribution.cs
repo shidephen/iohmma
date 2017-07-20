@@ -237,6 +237,10 @@ namespace iohmma {
 
 		#endregion
 
+	    protected override void RandomizeEffective(Random rand)
+	    {
+	        throw new NotImplementedException();
+	    }
 	}
 
 }

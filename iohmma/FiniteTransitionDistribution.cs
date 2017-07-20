@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUtils.Functional;
+using System.Linq;
 
 namespace iohmma {
 	/// <summary>

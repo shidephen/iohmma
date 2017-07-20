@@ -133,7 +133,17 @@ namespace iohmma {
 			this.Fit (probabilities, fitting);
 		}
 
-		#endregion
+	    public void Randomize(Random rand = null)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public void Reset()
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    #endregion
 
 
 		#region IFinite implementation

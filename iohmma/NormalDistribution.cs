@@ -77,7 +77,12 @@ namespace iohmma {
 
 		#region IDistribution implementation
 
-		/// <summary>
+	    protected override void RandomizeEffective(Random rand)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    /// <summary>
 		/// Gets the probability density of the given element.
 		/// </summary>
 		/// <returns>The probability density of the given element.</returns>
@@ -88,7 +93,7 @@ namespace iohmma {
 			double z = (x - this.Mean);
 			z *= z;
 			z *= -0.5d * si * si;
-			return Math.Exp (z) * si * MathUtils.InvSqrt2Pi;
+			return Math.Exp (z) * si / MathUtils.Sqrt2Pi;
 		}
 
 		/// <summary>
